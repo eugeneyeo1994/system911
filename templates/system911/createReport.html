@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Report</title>
+
+
+<style>
+
+input{
+width:99%;
+}
+
+td{
+  padding:0 0 0 0;
+}
+</style>
+
+<script>
+function getDateTime(){
+   var todaydate = new Date();
+   var day = todaydate.getDate();
+   var month = todaydate.getMonth() + 1;
+   var year = todaydate.getFullYear();
+   var datestring = year + "-" + month + "-" + day;
+   var timestring = todaydate.getHours()+":"+todaydate.getMinutes();
+   document.getElementById("date").value = datestring;
+   document.getElementById("cTurrentTime").value = timestring
+  } 
+
+  function back(){
+    event.preventDefault(); 
+    window.location = "opmenu.html";
+
+  }
+getDateTime(); 
+</script> 
+
+</head>
+<body onload="getDateTime()">
+
+<form id="csv_form" action="createReport/" method="POST">
+
+  <div class="container">
+    
+   <table  border="1" style="border-collapse: collapse;" cellspacing="0">
+    <caption>Report</caption>
+      <tr>
+        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input type="text"  placeholder="Type of Incident" name="incident" required></td>
+      </tr>
+       <tr>
+        <td>Date Of Call: </td> <td><input style="width:98%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
+        <td>Time of Call: </td><td> <input style="width:94%" type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
+      </tr>
+
+      <tr><td colspan="4">Caller Information:</td></tr>
+
+      <tr><td>Caller's Name:</td><td colspan="3"><input type="text" name="callerName" required></td>
+      </tr>
+
+      <tr><td>Caller's Contact:</td><td colspan="3"><input type="text" name="callerContact" required></td>
+      </tr>
+
+      <tr><td>Location/Address:</td><td colspan="3"><input type="text" name="location" required></td>
+      </tr>
+
+      <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      </tr>
+
+      <tr><td>Casualties:</td><td colspan="3"><input type="text" name="casualties" required></td>
+      </tr>
+
+      <tr><td>Hazards/Dangers:</td><td colspan="3"><input type="text" name="danger" required></td>
+      </tr>
+
+      <tr><td>Caller’s involvement:</td><td colspan="3"><input type="text" name="involve" required></td>
+      </tr>
+
+      <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" required></td>
+      </tr>
+
+       <tr>
+        <td><button type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button style="float:right;">Submit</button></td>
+      </tr>
+
+    </table>
+<!--     <label for="uname"><b>Username {% csrf_token %}</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+
+    {% if fail %}
+      <h2> Incorrect password or username {{result}}</h2>
+    {% endif %} -->
+  </div>
+
+
+
+</form>
+
+
+<!-- {% if result %}
+  {% for r in result %}
+    <h2> test: {{r.username}}, {{r.password}}, {{r.role}}</h2>
+    {% endfor %}
+{% else %}
+  <h2> none </h2>
+{% endif %} -->
+
+</body>
+</html>

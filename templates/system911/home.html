@@ -1,0 +1,70 @@
+<!-- <form id="csv_form" action="login/" method="POST">
+
+  <div class="container">
+    <label for="uname"><b>Username {% csrf_token %}</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+
+    {% if fail %}
+      <h2> Incorrect password or username {{result}}</h2>
+    {% endif %}
+  </div>
+
+
+
+</form> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+<head>
+<title>cyberdyne911</title>
+  
+<style>
+.centralise{
+  font-family:avenida-w01,avenida-w02,fantasy;
+  background-color: white;
+  position:absolute;
+  top:20%;
+  width:100%;
+  height:40%;
+  text-align:center;
+}
+
+input{
+  border-style: solid;
+}
+
+</style>
+  
+</head>
+  
+<body  style="background-color:black">
+
+<div class="centralise">
+<form action="login/" method="POST">
+<ul style="list-style-type:none;text-align:left;margin-left:35%;">
+  <li><span style="font-size:70px;">Cyberdyne 911</span></li>
+  <li><span  style="color:#292929;">USERNAME:&nbsp; {% csrf_token %}</span> <span style="margin-left:1%;"><input type="text" placeholder="Enter Username" name="username" required> </span></li>
+  <li><span  style="color:#292929;">PASSWORD:&nbsp; </span> <span style="margin-left:0.5%;"><input type="password" placeholder="Enter Password" name="password" required></span></li>
+  <li style="color:#292929;"><button style="border-color:black;background-color:white;color:black;width:25.7%">LOGIN </button></li>
+</ul>
+
+</form>
+
+
+</div>
+
+
+
+
+</body>
+</html>
