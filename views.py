@@ -1,7 +1,9 @@
-from django.shortcuts import render
+
 import pymysql
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from .server_config import s_config
+
 
 # Create your views here.
 
@@ -32,18 +34,10 @@ def post_list(request):
 
 
 def home(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
-	a=connection.cursor()
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT username, password,role FROM user")
-	result_set = cursor.fetchall()
-	connection.close()
-	# for row in result_set:
-	#     print(row["username"], row["password"], row["role"])
-	return render(request, 'system911/home.html', {'result' : result_set})
+	return render(request, 'system911/home.html',s_config)
 
 def login(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	connection= pymysql.connect(s_config["host"],s_config["user"], s_config["password"], s_config["database"])
 	a=connection.cursor()
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -72,7 +66,7 @@ def createReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def insertReport(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	connection= pymysql.connect(s_config["host"],s_config["user"], s_config["password"], s_config["database"])
 	a=connection.cursor()
 	if request.method == 'POST':
 		incident = request.POST.get('incident')
