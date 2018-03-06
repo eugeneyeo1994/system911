@@ -1,3 +1,26 @@
+<!-- <form id="csv_form" action="login/" method="POST">
+
+  <div class="container">
+    <label for="uname"><b>Username {% csrf_token %}</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+
+    {% if fail %}
+      <h2> Incorrect password or username {{result}}</h2>
+    {% endif %}
+  </div>
+
+
+
+</form> -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="en" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -29,30 +52,6 @@
 		<form action="login/" method="POST">
 		<ul style="list-style-type:none;text-align:left;margin-left:35%;">
 		  <li><span style="font-size:70px;">Cyberdyne 911</span></li>
-		  
-  <li><span  style="color:#292929;">
-			Server host:&nbsp; {{host}} {% csrf_token %}
-			</span> 
-		<span style="margin-left:1%;">
-	</span></li>
-  
-  <li><span  style="color:#292929;">
-			Server database:&nbsp; {{database}} {% csrf_token %}
-		</span> 
-		<span style="margin-left:1%;">
-	</span></li>
-  
-  <li><span  style="color:#292929;">
-			Server username:&nbsp; {{user}}{% csrf_token %}
-		</span> 
-		<span style="margin-left:1%;">
-	</span></li>
-	
-  <li><span  style="color:#292929;">
-			Server Password:&nbsp; {{password}}
-		</span> <span style="margin-left:0.5%;">
-	</span></li>
-	
 		  
 		  <li><span  style="color:#292929;">USERNAME:&nbsp; {% csrf_token %}
 			</span> 
