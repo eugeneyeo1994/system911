@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  
+<head>
+<title>cyberdyne911</title>
+  
+<style>
+.centralise{
+  font-family:avenida-w01,avenida-w02,fantasy;
+  background-color: white;
+  position:absolute;
+  top:20%;
+  width:100%;
+  height:40%;
+  text-align:center;
+}
+
+input{
+  border-style: solid;
+}
+
+</style>
+  
+<script>
+	function show_input(id1, id2) {
+		document.getElementById(id1).style.display='block';
+		document.getElementById(id2).style.display='none';
+	}
+</script>
+  
+</head>
+  
+<body  style="background-color:black">
+	<div class="centralise">
+		
+		<ul style="list-style-type:none;text-align:left;margin-left:35%;">
+		  <li><span style="font-size:70px;">Cyberdyne 911</span></li>
+		  
+		<form action="update_server_settings" method="POST">
+  <li><span  style="color:#292929;">
+			Server host:&nbsp; {{host}} {% csrf_token %}
+			</span> 
+		<span style="margin-left:1%;">
+	</span>
+	
+	<span style="margin-left:0.5%;">
+		<input id="host_in"
+			name= "host" style="display:none" 
+			type="text" placeholder="Enter new host"  >
+	</span>
+		<button id = "host" 
+				type = "button"
+				onclick='show_input("host_in", "host")'
+				style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT
+			</button></li>
+			
+	<li><span  style="color:#292929;">
+			Server port:&nbsp; {{port}} {% csrf_token %}
+			</span> 
+		<span style="margin-left:1%;">
+	</span>
+	
+	<span style="margin-left:0.5%;">
+		<input id="port_in"
+			name= "port" style="display:none" 
+			type="text" placeholder="Enter new host"  >
+	</span>
+		<button id = "port" 
+				type = "button"
+				onclick='show_input("port_in", "port")'
+				style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT
+			</button></li>		
+  
+  <li><span  style="color:#292929;">
+			Server database:&nbsp; {{database}} {% csrf_token %}
+		</span> 
+		<span style="margin-left:1%;">
+	</span>
+	
+	<span style="margin-left:0.5%;">
+		<input id= "database_in" style="display:none" 
+			type="text" placeholder="Enter new database name" name="database" >
+	</span>
+		<button id = "database" 
+				type = "button"
+				onclick='show_input("database_in", "database")'
+				style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT
+			</button></li>
+  
+  <li><span  style="color:#292929;">
+			Server username:&nbsp; {{user}}{% csrf_token %}
+		</span> 
+		<span style="margin-left:1%;">
+	</span>
+	
+	<span style="margin-left:0.5%;">
+		<input id= "user_in" style="display:none" 
+			type="text" placeholder="Enter new username" name="user" >
+	</span>
+		<button id = "user" 
+				type = "button"
+				onclick='show_input("user_in", "user")'
+				style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT
+			</button></li>
+	
+  <li><span  style="color:#292929;">
+			Server Password:&nbsp; {{password}}
+		</span> 
+		
+	<span style="margin-left:0.5%;">
+		<input id= "password_in" style="display:none" 
+			type="password" placeholder="Enter new Password" name="password" >
+	</span>
+		<button id = "password" 
+				type = "button"
+				onclick="show_input('password_in','password')"
+				style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT
+			</button></li>
+			
+	<button 
+		onclick="show_input()"
+		style="border-color:black;background-color:white;color:black;width:25.7%">
+		Submit
+	</button></li>
+		</form>
+		
+		<form action = "home.html">
+		<button 
+		style="border-color:black;background-color:white;color:black;width:25.7%">
+		Return to Main Menu
+	</button>
+	</form>
+	
+	</li>
+		</ul>
+	</div>
+
+</body>
+</html>

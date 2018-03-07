@@ -1,9 +1,8 @@
 
 import pymysql
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
-from .server_config import s_config
-
+from django.shortcuts import get_object_or_404, render, redirect
+from .control import load_s_config
 
 # Create your views here.
 
@@ -34,10 +33,12 @@ def post_list(request):
 
 
 def home(request):
+	s_config = load_s_config()
 	return render(request, 'system911/home.html',s_config)
 
 def login(request):
-	connection= pymysql.connect(s_config["host"],s_config["user"], s_config["password"], s_config["database"])
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"],s_config["port"],s_config["user"], s_config["password"], s_config["database"])
 	a=connection.cursor()
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -49,24 +50,25 @@ def login(request):
 		if result_set :
 			#request.session['role'] = "asd"
 			if result_set["role"] =='CallOp' :
-				return render(request,'system911/opmenu.html', {'result' : username,"password" : password})
+				#return render(request,'system911/opmenu.html', {'result' : username,"password" : password})
 				connection.close()
+				return redirect('../opmenu.html');
 			else :
-				return render(request,'system911/tst.html', {'result' : username,"password" : password})
 				connection.close()
+				return render(request,'system911/tst.html', {'result' : username,"password" : password})
 		else :
-			return render(request,'system911/home.html',{'fail' : "fail"})
 			connection.close()
+			return render(request,'system911/home.html',{'fail' : "fail"})
 
-
+def server_config(request):
+	return render(request, 'system911/server_config.html',s_config)
+			
 def createReport(request):
-
-
-
 	return render(request, 'system911/createReport.html', {})
 
 def insertReport(request):
-	connection= pymysql.connect(s_config["host"],s_config["user"], s_config["password"], s_config["database"])
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	a=connection.cursor()
 	if request.method == 'POST':
 		incident = request.POST.get('incident')

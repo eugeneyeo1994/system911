@@ -26,12 +26,18 @@
   
 <body  style="background-color:black">
 	<div class="centralise">
-		<form action="login/" method="POST">
+		
 		<ul style="list-style-type:none;text-align:left;margin-left:35%;">
 		  <li><span style="font-size:70px;">Cyberdyne 911</span></li>
 		  
   <li><span  style="color:#292929;">
 			Server host:&nbsp; {{host}} {% csrf_token %}
+			</span> 
+		<span style="margin-left:1%;">
+	</span></li>
+	
+	<li><span  style="color:#292929;">
+			Server port:&nbsp; {{port}} {% csrf_token %}
 			</span> 
 		<span style="margin-left:1%;">
 	</span></li>
@@ -53,7 +59,7 @@
 		</span> <span style="margin-left:0.5%;">
 	</span></li>
 	
-		  
+		<form action="login/" method="POST">
 		  <li><span  style="color:#292929;">USERNAME:&nbsp; {% csrf_token %}
 			</span> 
 				<span style="margin-left:1%;">
@@ -70,8 +76,14 @@
 			<button style="border-color:black;background-color:white;color:black;width:25.7%">
 				LOGIN 
 			</button></li>
-		</ul>
+			
 		</form>
+		<form action="server_config.html'" method="get">
+			<button style="border-color:black;background-color:white;color:black;width:25.7%">
+				EDIT SERVER SETTINGS
+			</button></li>
+		</form>
+		</ul>
 	</div>
 
 </body>
