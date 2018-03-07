@@ -126,7 +126,8 @@ def ctmenu(request):
 	return render(request, 'system911/ctmenu.html', {})
 
 def viewReports(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config
+	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	#a=connection.cursor()
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report")
@@ -139,7 +140,8 @@ def viewReport2(request):
 	return render(request, 'system911/viewReport2.html')
 
 def updateReport(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config
+	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	if request.method == 'POST':
 		caseId = request.POST.get('cid')
 		severity = request.POST.get('severity')
@@ -160,7 +162,8 @@ def supmenu(request):
 	return render(request, 'system911/supmenu.html')
 
 def createCases(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config
+	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	#a=connection.cursor()
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report where addToCase ='n'")
@@ -187,7 +190,8 @@ def data(request):
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+			s_config = load_s_config
+			connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 			cursor = connection.cursor(pymysql.cursors.DictCursor)
 			reportid=""
 			data = json.loads(request.body)
