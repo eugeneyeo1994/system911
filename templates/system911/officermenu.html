@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Report</title>
+
+<script>
+	function viewCase(){
+		window.location = "http://127.0.0.1:8000/system911/viewCases.html";
+	}
+
+	function viewCaseSummary(){
+		window.location = "http://127.0.0.1:8000/system911/createCases.html";
+	}
+
+	function logOut(){
+		window.location = "http://127.0.0.1:8000/system911/home.html";
+	}
+</script>
+
+</head>
+<body>
+
+<button onclick="viewCase()">View Cases</button>
+<button onclick="viewCaseSummary()">View Cases Summary</button>
+<button onclick="logOut()">LogOut</button>
+
+</body>
+</html>
