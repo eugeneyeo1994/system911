@@ -40,15 +40,7 @@ def home(request):
 
 def login(request):
 	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"],s_config["port"],s_config["user"], s_config["password"], s_config["database"])
-	#a=connection.cursor()
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT username, password,role FROM user")
-	result_set = cursor.fetchall()
-	connection.close()
-	# for row in result_set:
-	#     print(row["username"], row["password"], row["role"])
-	return render(request, 'system911/home.html', {'result' : result_set})
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -58,11 +50,9 @@ def login(request):
 		result_set = cursor.fetchone()
 		
 		if result_set :
-			request.session['role'] = "asd"
 			if result_set["role"] =='CallOp' :
-				#return render(request,'system911/opmenu.html', {'result' : username,"password" : password})
-				connection.close()
 
+				connection.close()
 				return redirect('../opmenu.html');
 
 			elif result_set["role"] =='CallCT':
@@ -72,6 +62,9 @@ def login(request):
 			elif result_set["role"] =='sup':
 				connection.close()
 				return redirect('../supmenu.html')
+			elif result_set["role"] =='officer':
+				connection.close()
+				return redirect('../officermenu.html')
 				
 			else :
 				connection.close()
@@ -88,8 +81,8 @@ def createReport(request):
 
 def insertReport(request):
 	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
-	#a=connection.cursor()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+
 	if request.method == 'POST':
 		incident = request.POST.get('incident')
 		cno = request.POST.get('cno')
