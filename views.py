@@ -118,9 +118,9 @@ def menu(request):
 	    if role == "sup":
 		    return render(request, 'system911/supmenu.html')
 	    if role == "911officer" :
-		    return render(request, 'system911/officermenu.html')
+		    return render(request, 'system911/911officermenu.html')
 	    if role == "CMOofficer" :
-		    return render(request, 'system911/officermenu.html')
+		    return render(request, 'system911/CMOofficermenu.html')
 	    
 	    return render(request, 'system911/home.html')
 	else :
@@ -238,6 +238,8 @@ def updateCase(request):
 		connection.close()
 	return render(request, 'system911/home.html')
 
+def rejectCase(request):
+	return render(request, 'system911/rejectCases.html', {})
 
 def logout(request):
 	del request.session['role']
