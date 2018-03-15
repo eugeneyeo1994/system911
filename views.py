@@ -48,26 +48,7 @@ def login(request):
 		cursor.execute("SELECT username, password,role FROM user where username='"+username+"' AND password ='"+password+"'")
 		result_set = cursor.fetchone()
 		if result_set :
-<<<<<<< HEAD
 			
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-			
-			request.session['role'] = "asd"
->>>>>>> parent of 55e0e6a... latest update
-=======
-			request.session['role'] = "asd"
->>>>>>> parent of 55e0e6a... latest update
-=======
-			request.session['role'] = "asd"
->>>>>>> parent of 55e0e6a... latest update
-			request.session['role'] = "asd"
-=======
-			request.session['role'] = "asd"
->>>>>>> parent of 55e0e6a... latest update
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 			if result_set["role"] =='CallOp' :
 				request.session['role'] = "CallOp"
 				connection.close()
@@ -82,30 +63,12 @@ def login(request):
 				request.session['role'] = "sup"
 				connection.close()
 				return redirect('../supmenu.html')
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 
 			elif result_set["role"] =='officer':
 				request.session['role'] = "officer"
 				connection.close()
 				return redirect('../officermenu.html')
 
-<<<<<<< HEAD
-=======
-=======
-				
->>>>>>> parent of 55e0e6a... latest update
-=======
-				
->>>>>>> parent of 55e0e6a... latest update
-=======
-				
->>>>>>> parent of 55e0e6a... latest update
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 			else :
 				connection.close()
 				return render(request,'system911/tst.html', {'result' : username,"password" : password})
@@ -123,7 +86,6 @@ def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
 			
 def createReport(request):
-<<<<<<< HEAD
 	return render(request, 'system911/createReport.html')
 
 def insertReport(request):
@@ -131,41 +93,6 @@ def insertReport(request):
 	#connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	return render(request, 'system911/createReport.html')
-
-def insertReport(request):
-	#s_config = load_s_config()
-	#connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
-
-	return render(request, 'system911/createReport.html', {})
-
-def insertReport(request):
-=======
-	return render(request, 'system911/createReport.html', {})
-
-def insertReport(request):
->>>>>>> parent of 55e0e6a... latest update
-=======
-	return render(request, 'system911/createReport.html', {})
-
-def insertReport(request):
->>>>>>> parent of 55e0e6a... latest update
-=======
-	return render(request, 'system911/createReport.html', {})
-
-def insertReport(request):
-	return render(request, 'system911/createReport.html', {})
-def insertReport(request):
->>>>>>> parent of 55e0e6a... latest update
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
-	#a=connection.cursor()
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 	if request.method == 'POST':
 		incident = request.POST.get('incident')
 		cno = request.POST.get('cno')
@@ -192,12 +119,6 @@ def insertReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def opmenu(request):
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -214,26 +135,6 @@ def opmenu(request):
 	    	return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-<<<<<<< HEAD
-
-def ctmenu(request):
-	if 'role' in request.session:
-	    role = request.session['role']
-	    print(role);
-	    if role == "CallOp" :
-	    	return render(request, 'system911/opmenu.html')
-	    elif role == "CallCT":
-	    	return render(request, 'system911/ctmenu.html')
-	    elif role == "sup":
-	    	return render(request, 'system911/supmenu.html')
-	    elif role == "officer":
-	    	print("reached officer")
-	    	return render(request, 'system911/officermenu.html')
-	    else:
-	    	return render(request, 'system911/home.html')
-	else :
-		return render(request, 'system911/home.html')
-=======
 
 def ctmenu(request):
 	if 'role' in request.session:
@@ -252,39 +153,6 @@ def ctmenu(request):
 	    	return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-	return render(request, 'system911/opmenu.html', {})
-
-def ctmenu(request):
-=======
-
-
-	return render(request, 'system911/opmenu.html', {})
-
-def ctmenu(request):
->>>>>>> parent of 55e0e6a... latest update
-=======
-
-
-	return render(request, 'system911/opmenu.html', {})
-
-def ctmenu(request):
->>>>>>> parent of 55e0e6a... latest update
-=======
-
-
-	return render(request, 'system911/opmenu.html', {})
-
-def ctmenu(request):
-
-
-	return render(request, 'system911/opmenu.html', {})
-
-def ctmenu(request):
->>>>>>> parent of 55e0e6a... latest update
-
-
-	return render(request, 'system911/ctmenu.html', {})
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 
 def viewReports(request):
 	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
@@ -313,12 +181,6 @@ def updateReport(request):
 
 	
 def supmenu(request):
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -335,25 +197,6 @@ def supmenu(request):
 	    	return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-<<<<<<< HEAD
-=======
-	return render(request, 'system911/supmenu.html')
->>>>>>> parent of 55e0e6a... latest update
-=======
-
-	return render(request, 'system911/supmenu.html')
->>>>>>> parent of 55e0e6a... latest update
-=======
-
-	return render(request, 'system911/supmenu.html')
->>>>>>> parent of 55e0e6a... latest update
-=======
-
-	return render(request, 'system911/supmenu.html')
->>>>>>> parent of 55e0e6a... latest update
-
-	return render(request, 'system911/supmenu.html')
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
 
 def createCases(request):
 	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
@@ -450,28 +293,7 @@ def updateCase(request):
 	return render(request, 'system911/home.html')
 
 
-<<<<<<< HEAD
 def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-def logout(request):
-	del request.session['role']
-	request.session.modified = True
-	return render(request, 'system911/home.html')
-	return render(request, 'system911/officermenu.html')
-=======
-	return render(request, 'system911/officermenu.html')
->>>>>>> parent of 55e0e6a... latest update
-=======
-	return render(request, 'system911/officermenu.html')
->>>>>>> parent of 55e0e6a... latest update
-=======
-	return render(request, 'system911/officermenu.html')
->>>>>>> parent of 55e0e6a... latest update
-	return render(request, 'system911/officermenu.html')
->>>>>>> b7cdec47c24a109c60bb2453fe15363cf0669cce
