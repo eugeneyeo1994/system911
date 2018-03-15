@@ -62,6 +62,7 @@ def login(request):
 =======
 			request.session['role'] = "asd"
 >>>>>>> parent of 55e0e6a... latest update
+			request.session['role'] = "asd"
 =======
 			request.session['role'] = "asd"
 >>>>>>> parent of 55e0e6a... latest update
@@ -133,6 +134,8 @@ def insertReport(request):
 =======
 	return render(request, 'system911/createReport.html', {})
 
+def insertReport(request):
+	return render(request, 'system911/createReport.html', {})
 def insertReport(request):
 >>>>>>> parent of 55e0e6a... latest update
 	s_config = load_s_config()
@@ -224,6 +227,11 @@ def ctmenu(request):
 	return render(request, 'system911/opmenu.html', {})
 
 def ctmenu(request):
+
+
+	return render(request, 'system911/opmenu.html', {})
+
+def ctmenu(request):
 >>>>>>> parent of 55e0e6a... latest update
 
 
@@ -294,6 +302,8 @@ def supmenu(request):
 	return render(request, 'system911/supmenu.html')
 >>>>>>> parent of 55e0e6a... latest update
 
+	return render(request, 'system911/supmenu.html')
+
 def createCases(request):
 	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 	#a=connection.cursor()
@@ -363,3 +373,4 @@ def logout(request):
 =======
 	return render(request, 'system911/officermenu.html')
 >>>>>>> parent of 55e0e6a... latest update
+	return render(request, 'system911/officermenu.html')
