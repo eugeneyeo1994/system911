@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
   <title>Create Report</title>
 
 <script>
-	function direct(){
+	function viewCase(){
+		window.location = "http://127.0.0.1:8000/system911/viewCases.html";
+	}
+
+	function viewCaseSummary(){
 		window.location = "http://127.0.0.1:8000/system911/createCases.html";
 	}
 
@@ -17,7 +20,8 @@
 </head>
 <body>
 
-<button onclick="direct()">Create Cases</button>
+<button onclick="viewCase()">View Cases</button>
+<button onclick="viewCaseSummary()">View Cases Summary</button>
 <button onclick="logOut()">LogOut</button>
 
 </body>

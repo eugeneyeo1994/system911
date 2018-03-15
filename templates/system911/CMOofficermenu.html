@@ -13,7 +13,14 @@
 	}
 
 	function logOut(){
-		window.location = "http://127.0.0.1:8000/system911/home.html";
+		window.location = "http://127.0.0.1:8000/system911/logout";
+	}
+	function rejectCase(){
+		window.location = "http://127.0.0.1:8000/system911/rejectCases.html";
+	}
+	
+	function sendtoCMO(){
+	
 	}
 </script>
 
@@ -22,6 +29,8 @@
 
 <button onclick="viewCase()">View Cases</button>
 <button onclick="viewCaseSummary()">View Cases Summary</button>
+<button onclick="rejectCase()">Reject Cases</button>
+<button onclick="sendtoCMO()">Send to CMO</button>
 <button onclick="logOut()">LogOut</button>
 
 </body>
