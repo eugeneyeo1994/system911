@@ -52,7 +52,11 @@ def login(request):
 		if result_set :
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			
+			request.session['role'] = "asd"
+>>>>>>> parent of 55e0e6a... latest update
+=======
 			request.session['role'] = "asd"
 >>>>>>> parent of 55e0e6a... latest update
 =======
