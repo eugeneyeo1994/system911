@@ -1,245 +1,306 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Selectable - Serialize</title>
+  <title>View Cases</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
- 
   <style>
-  #feedback { font-size: 1.4em; }
+
   #selectable .ui-selecting { background: #FECA40; }
   #selectable .ui-selected { background: #F39814; color: white; }
   #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
   #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
   input{width:99.2%;}
   td{padding:0 0 0 0;}
+   .ui-tabs-vertical { width: 55em; }
+  .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+  .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+  .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+  .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
+  .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+.ui-selectmenu-button.ui-button {
+    width: 6em;
+}
 
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
-/*
-  $( function() {
-    $( "#selectable" ).selectable({
-      stop: function() {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-          dialog.dialog("open");
-          var index = $( "#selectable li" ).index( this );
-          result.append( " #" + ( index + 1 ) );
-          alert("selected: "+ index);
-        });
-      }
-    });
-  });
-*/
+
+{% block content %}
+
+{% if result %}
+var reportArr = [
+  {% for row in result %}
+    ["{{row.caseNumber}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+  {% endfor %}
+  ];
+{% endif %}
+
+{% if cases %}
+
+var caseArr = [
+  {% for c in cases %}
+  ["{{c.caseId}}", "{{c.summary}}", "{{c.reportId}}", "{{c.caseName}}"],
+  {% endfor %}
+];
+
+{% endif %}
+
+{% endblock %}
 
 
  $( function() {
     var dialog, form,
  
-      // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+       emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
       name = $( "#name" ),
       email = $( "#email" ),
       password = $( "#password" ),
       allFields = $( [] ).add( name ).add( email ).add( password ),
       tips = $( ".validateTips" );
- 
-    function updateTips( t ) {
-      tips
-        .text( t )
-        .addClass( "ui-state-highlight" );
-      setTimeout(function() {
-        tips.removeClass( "ui-state-highlight", 1500 );
-      }, 500 );
-    }
- 
-    function checkLength( o, n, min, max ) {
-      if ( o.val().length > max || o.val().length < min ) {
-        o.addClass( "ui-state-error" );
-        updateTips( "Length of " + n + " must be between " +
-          min + " and " + max + "." );
-        return false;
-      } else {
-        return true;
-      }
-    }
- 
-    function checkRegexp( o, regexp, n ) {
-      if ( !( regexp.test( o.val() ) ) ) {
-        o.addClass( "ui-state-error" );
-        updateTips( n );
-        return false;
-      } else {
-        return true;
-      }
-    }
 
     function addUser() {
-      var valid = true;
-      allFields.removeClass( "ui-state-error" );
- 
-      valid = valid && checkLength( name, "username", 3, 16 );
-      valid = valid && checkLength( email, "email", 6, 80 );
-      valid = valid && checkLength( password, "password", 5, 16 );
- 
-      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-      valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-      valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
- 
-      /*if ( valid ) {
-        $( "#users tbody" ).append( "<tr>" +
-          "<td>" + name.val() + "</td>" +
-          "<td>" + email.val() + "</td>" +
-          "<td>" + password.val() + "</td>" +
-        "</tr>" );
-        dialog.dialog( "close" );
-      }*/
-      return valid;
+      document.getElementById("csv_form").submit();
+      location.reload();
+    }
+
+    function load(caseInfo){
+      if(caseInfo[3])
+        document.getElementById('summary').value = caseInfo[1];
+      else
+        document.getElementById('summary').value = "None";
+
+      document.getElementById('cid').value = caseInfo[0];
+
+      if(caseInfo[3])
+        document.getElementById('cname').value = caseInfo[3];
+      else
+        document.getElementById('cname').value = "None";
     }
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
       height: 700,
-      width:600,
+      width: 650,
       modal: true,
       buttons: {
-        "Update": addUser,
+        "Save": addUser,
         Cancel: function() {
           dialog.dialog( "close" );
         }
       },
       close: function() {
-        form[ 0 ].reset();
+        //form[ 0 ].reset();
         allFields.removeClass( "ui-state-error" );
       }
     });
- 
-    form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      addUser();
-    });
 
-
-     $( function() {
+$( function() {
     $( "#selectable" ).selectable({
       stop: function() {
         var result = $( "#select-result" ).empty();
         $( ".ui-selected", this ).each(function() {
           dialog.dialog("open");
           var index = $( "#selectable li" ).index( this );
-          result.append( " #" + ( index + 1 ) );
+/*        document.getElementById("caseId").value = reportArr[index][0];
+          document.getElementById("inc").value = reportArr[index][1];
+          document.getElementById("date").value = reportArr[index][2];
+          document.getElementById("currentTime").value = reportArr[index][3];
+          document.getElementById("cname").value = reportArr[index][4];
+          document.getElementById("cContact").value = reportArr[index][5];
+          document.getElementById("address").value = reportArr[index][6];
+          document.getElementById("happen").value = reportArr[index][7];
+          document.getElementById("cas").value = reportArr[index][8];
+          document.getElementById("danger").value = reportArr[index][9];
+          document.getElementById("involve").value = reportArr[index][10];
+          document.getElementById("eType").value = reportArr[index][11];
+          document.getElementById("level").value = reportArr[index][12];*/
+
         });
-      }
+      },
+      selected: function( event, ui ) {//here
+        for (i = 0; i < caseArr.length; i++) {
+          if(caseArr[i][0] == ui.selected.id){
+/*            var top = document.getElementById("dialog-form");
+            var div = document.createElement("div");
+            div.innerHTML = "this is a test";
+            top.appendChild(div);*/
+            load(caseArr[i]);
+            var reportList = caseArr[i][2].split(",");
+            var tabsContainer = document.getElementById("tabs");
+            tabsContainer.innerHTML = "";
+            var uList = document.createElement("ul"); 
+
+            for(k = 0; k< reportList.length; k++){
+              var li = document.createElement("li");
+              li.innerHTML = '<a href="#tabs-'+(k+1)+'">One</a>';
+              uList.appendChild(li);
+            }
+            tabsContainer.appendChild(uList);
+            for(j = 0; j< reportList.length; j++){
+              var t1 = document.createElement("div");
+              t1.id = "tabs-"+(j+1);
+              
+
+              t1.innerHTML ='<table border="1" style="border-collapse: collapse;" cellspacing="0">'+
+      '<tr><input id="caseId" type="hidden"  name="cid" readonly="readonly">'+
+        '<td>Incident:</td> <td colspan="3"> '+ reportArr[j][1]+'</td></tr>'+
+
+       '<tr><td>Date Of Call: </td> <td>'+ reportArr[j][2]+' </td>'+
+        '<td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime" value='+ reportArr[j][3]+'  readonly="readonly"></td></td></tr>'+
+
+      '<tr><td colspan="4">Caller: Information:</td></tr><tr><td>Caller Name:</td><td colspan="3">'+ reportArr[j][4]+'</td></tr>'+
+
+      '<tr><td>Caller Contact:</td><td colspan="3">'+ reportArr[j][5]+'</td></tr>'+
+
+      '<tr><td>Location/Address:</td><td colspan="3">'+ reportArr[j][6]+'</td></tr>'+
+
+      '<tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" value='+ reportArr[j][7] +' readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50">'+ reportArr[j][7]+'</textarea></td></tr>'+
+
+      '<tr><td>Casualties:</td><td colspan="3">'+ reportArr[j][8]+'</td></tr>'+
+
+      '<tr><td>Hazards/Dangers:</td><td colspan="3">'+ reportArr[j][9]+'</td></tr>'+
+
+      '<tr><td>Caller’s involvement:</td><td colspan="3">'+ reportArr[j][10]+'</td></tr>'+
+
+      '<tr><td>Type of Emergency:</td><td colspan="3">'+ reportArr[j][11]+'</td></tr>'+
+      '<tr><td>Severity Level:</td><td colspan="3">' + reportArr[j][12]+
+        '</td></tr></table>';
+
+              tabsContainer.appendChild(t1);
+
+            }
+
+            $( "#tabs" ).tabs();
+            break;
+
+
+          }
+        }
+
+      }//here
+
     });
   });
-
- 
-/*    $( "#create-user" ).button().on( "click", function() {
-      dialog.dialog( "open" );
-       var index = $( "#selectable li" ).index( this );
-          result.append( " #" + ( index + 1 ) );
-          alert("selected: "+ index);
-    });*/
-  });
+});
 
 
 
+  function back(){
+    window.location = "http://127.0.0.1:8000/system911/officermenu.html";
+  }
 
+  function writeSummary(){
+    document.getElementById('summary').readOnly = false;
+  }
 
+  function writeCaseName(){
+
+    document.getElementById('cname').readOnly = false;
+  }
 
   </script>
 </head>
-<body>
- 
-<p id="feedback">
-<span>You've selected:</span> <span id="select-result">none</span>.
-</p>
+<body style=" background-image: url('{% static 'test/red.png' %}')">
+
+<button onclick="back()">Exit to Menu</button>
+
  
 <ol id="selectable">
-  <li class="ui-widget-content">Item 1</li>
-  <li class="ui-widget-content">Item 2</li>
-  <li class="ui-widget-content">Item 3</li>
-  <li class="ui-widget-content">Item 4</li>
-  <li class="ui-widget-content">Item 5</li>
-  <li class="ui-widget-content">Item 6</li>
+
+{% if cases %}
+
+  {% for row in cases %}
+    <li id="{{row.caseId}}" class="ui-widget-content">{{row.caseId}}</li>
+  {% endfor %}
+  
+{% endif %}
+
 </ol>
  
- 
+<div id="dialog-form" title="View Cases">
 
+<div id="tabs">
 
+</div>
+<form id="csv_form" action="updateCase/" method="POST">
+  <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
+    <tr>
+      <td>Case Id: {% csrf_token %}</td><td colspan="3"><input  id="cid" type="text" name="caseId" readonly="readonly"></td>
+    </tr>
 
+    <tr>
+      <td>Case Summary (<u><a href="#" onclick="writeSummary()">edit</a></u>)</td><td colspan="3"><textarea id="summary" name="caseSum" rows="5" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+    </tr>
 
- <div id="dialog-form" title="Set Severity">
-  <p class="validateTips">All form fields are required.</p>
- 
-<!--   <form>
-    <fieldset>
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
-      <label for="email">Email</label>
-      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
- 
-      <!-- Allow form submission with keyboard without duplicating the dialog button
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
-  </form> -->
+     <tr>
+      <td>Case Name (<u><a href="#" onclick="writeCaseName()">edit</a></u>)</td><td colspan="3"><input id="cname" type="text" name="caseName" readonly="readonly"></td>
+    </tr>
+  </table>
+</form>
+</div>
+</div>
 
-
-
-
-
-
-
-
-
-
-<form id="csv_form" action="createReport/" method="POST">
+<!-- <form id="csv_form" action="updateReport/" method="POST">
   <div class="container">
     
-   <table  border="1" style="border-collapse: collapse;" cellspacing="0">
+   <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
       <tr>
-        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
+        <input id="caseId" type="hidden"  name="cid" readonly="readonly">
+        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
       </tr>
        <tr>
         <td>Date Of Call: </td> <td><input style="width:98.5%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
+        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime"  readonly="readonly"></td></td>
       </tr>
 
       <tr><td colspan="4">Caller Information:</td></tr>
 
-      <tr><td>Caller's Name:</td><td colspan="3"><input type="text" name="callerName" readonly="readonly"></td>
+      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Caller's Contact:</td><td colspan="3"><input type="text" name="callerContact" readonly="readonly"></td>
+      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Location/Address:</td><td colspan="3"><input type="text" name="location" readonly="readonly"></td>
+      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
       </tr>
 
-      <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
       </tr>
 
-      <tr><td>Casualties:</td><td colspan="3"><input type="text" name="casualties" readonly="readonly"></td>
+      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input type="text" name="danger" readonly="readonly"></td>
+      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input type="text" name="involve" readonly="readonly"></td>
+      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" readonly="readonly"></td>
+      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
       </tr>
 
     </table>
+
+      <fieldset>
+    <label for="people">Severity Level:</label>
+
+      <select id="level" name="severity">
+        <option value="1" >Level 1</option>
+        <option value="2" ">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+        <option value="5">Level 5</option> 
+      </select>
+
+  </fieldset>
+
   </div>
-</form>
+</form> -->
 
 </div>
 
