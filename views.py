@@ -38,17 +38,9 @@ def home(request):
 	return render(request, 'system911/home.html',s_config)
 
 def login(request):
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"],s_config["port"],s_config["user"], s_config["password"], s_config["database"])
+	#s_config = load_s_config()
+	connection= pymysql.connect(host='35.224.24.23',user='root', password='P@ssw0rd', db='cnberdynedb')
 	#a=connection.cursor()
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT username, password,role FROM user")
-	result_set = cursor.fetchall()
-	connection.close()
-	# for row in result_set:
-	#     print(row["username"], row["password"], row["role"])
-	return render(request, 'system911/home.html', {'result' : result_set})
-
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -56,7 +48,6 @@ def login(request):
 		cursor.execute("SELECT username, password,role FROM user where username='"+username+"' AND password ='"+password+"'")
 		result_set = cursor.fetchone()
 		if result_set :
-			request.session['role'] = "asd"
 			
 			if result_set["role"] =='CallOp' :
 				request.session['role'] = "CallOp"
@@ -73,6 +64,7 @@ def login(request):
 				connection.close()
 				return redirect('../supmenu.html')
 
+			elif result_set["role"] =='officer':
 				request.session['role'] = "officer"
 				connection.close()
 				return redirect('../officermenu.html')
@@ -94,10 +86,13 @@ def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
 			
 def createReport(request):
-	return render(request, 'system911/createReport.html', {})
 	return render(request, 'system911/createReport.html')
 
 def insertReport(request):
+	#s_config = load_s_config()
+	#connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
+	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+
 	if request.method == 'POST':
 		incident = request.POST.get('incident')
 		cno = request.POST.get('cno')
@@ -124,9 +119,6 @@ def insertReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def opmenu(request):
-
-
-	return render(request, 'system911/opmenu.html', {})
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -145,9 +137,6 @@ def opmenu(request):
 		return render(request, 'system911/home.html')
 
 def ctmenu(request):
-
-
-	return render(request, 'system911/ctmenu.html', {})
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -174,9 +163,6 @@ def viewReports(request):
 	connection.close()
 	return render(request, 'system911/viewReports.html', {'result' : result})
 
-def viewReport2(request):
-
-
 def updateReport(request):
 	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 	if request.method == 'POST':
@@ -195,8 +181,6 @@ def updateReport(request):
 
 	
 def supmenu(request):
-
-	return render(request, 'system911/supmenu.html')
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -309,7 +293,7 @@ def updateCase(request):
 	return render(request, 'system911/home.html')
 
 
-	return render(request, 'system911/officermenu.html')def logout(request):
+def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
