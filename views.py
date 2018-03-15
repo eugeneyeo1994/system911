@@ -279,6 +279,18 @@ def viewReport2(request):
 	connection.close()
 	return render(request, 'system911/viewReport2.html', {'result' : result,"cases" : cases})
 
+def viewCases(request):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * from report")
+	result = cursor.fetchall()
+	cursor.execute("SELECT * FROM caseTable");
+	cases = cursor.fetchall()
+	print(cases[0]['summary'])
+	connection.close()
+	return render(request, 'system911/viewCases.html', {'result' : result,"cases" : cases})
+
 
 def updateCase(request):
 	if request.method == 'POST' :

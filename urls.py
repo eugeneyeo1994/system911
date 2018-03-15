@@ -28,6 +28,7 @@ urlpatterns = [
 
     #officer setup
         url(r'system911/officermenu.html', views.officermenu, name='officermenu'),
+        url(r'system911/viewCases.html', views.viewCases, name='viewCases'),
         url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing
         url(r'system911/updateCase', views.updateCase, name='updateCase'),
 
