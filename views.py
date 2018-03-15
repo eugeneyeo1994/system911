@@ -50,7 +50,11 @@ def login(request):
 		result_set = cursor.fetchone()
 		
 		if result_set :
+<<<<<<< HEAD
 			
+			request.session['role'] = "asd"
+>>>>>>> parent of 55e0e6a... latest update
+=======
 			request.session['role'] = "asd"
 >>>>>>> parent of 55e0e6a... latest update
 			if result_set["role"] =='CallOp' :
@@ -66,12 +70,16 @@ def login(request):
 			elif result_set["role"] =='sup':
 				connection.close()
 				return redirect('../supmenu.html')
+<<<<<<< HEAD
 
 			elif result_set["role"] =='officer':
 				request.session['role'] = "officer"
 				connection.close()
 				return redirect('../officermenu.html')
 
+=======
+				
+>>>>>>> parent of 55e0e6a... latest update
 			else :
 				connection.close()
 				return render(request,'system911/tst.html', {'result' : username,"password" : password})
@@ -83,6 +91,7 @@ def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
 			
 def createReport(request):
+<<<<<<< HEAD
 	return render(request, 'system911/createReport.html')
 
 def insertReport(request):
@@ -93,6 +102,11 @@ def insertReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def insertReport(request):
+=======
+	return render(request, 'system911/createReport.html', {})
+
+def insertReport(request):
+>>>>>>> parent of 55e0e6a... latest update
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
 	#a=connection.cursor()
@@ -122,6 +136,7 @@ def insertReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def opmenu(request):
+<<<<<<< HEAD
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -159,6 +174,13 @@ def ctmenu(request):
 	return render(request, 'system911/opmenu.html', {})
 
 def ctmenu(request):
+=======
+
+
+	return render(request, 'system911/opmenu.html', {})
+
+def ctmenu(request):
+>>>>>>> parent of 55e0e6a... latest update
 
 
 	return render(request, 'system911/ctmenu.html', {})
@@ -194,6 +216,7 @@ def updateReport(request):
 
 	
 def supmenu(request):
+<<<<<<< HEAD
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -210,6 +233,10 @@ def supmenu(request):
 	    	return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
+	return render(request, 'system911/supmenu.html')
+>>>>>>> parent of 55e0e6a... latest update
+=======
+
 	return render(request, 'system911/supmenu.html')
 >>>>>>> parent of 55e0e6a... latest update
 
@@ -265,8 +292,12 @@ def makecase(request):
 
 def officermenu(request):
 
+<<<<<<< HEAD
 def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
 	return render(request, 'system911/officermenu.html')
+=======
+	return render(request, 'system911/officermenu.html')
+>>>>>>> parent of 55e0e6a... latest update
