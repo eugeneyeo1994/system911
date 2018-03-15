@@ -78,12 +78,6 @@ def login(request):
 		else :
 			connection.close()
 			return render(request,'system911/home.html',{'fail' : "fail"})
-		
-
-		
-
-
-
 
 def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
