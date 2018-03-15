@@ -17,6 +17,7 @@ urlpatterns = [
     #Call TeaLead setup
     url(r'system911/ctmenu.html', views.ctmenu, name='ctmenu'),
     url(r'system911/viewReports.html', views.viewReports, name='viewReports'),
+    url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'),
     url(r'system911/updateReport/', views.updateReport, name='updateReport'),
 
     #supervisor setup
@@ -28,9 +29,5 @@ urlpatterns = [
 
     #officer setup
         url(r'system911/officermenu.html', views.officermenu, name='officermenu'),
-        url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing
-        url(r'system911/updateCase', views.updateCase, name='updateCase'),
 
-    #logout
-         url(r'system911/logout', views.logout, name='logout'),
 ]
