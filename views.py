@@ -76,12 +76,16 @@ def login(request):
 				return redirect('../supmenu.html')
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 			elif result_set["role"] =='officer':
 				request.session['role'] = "officer"
 				connection.close()
 				return redirect('../officermenu.html')
 
+=======
+				
+>>>>>>> parent of 55e0e6a... latest update
 =======
 				
 >>>>>>> parent of 55e0e6a... latest update
@@ -101,6 +105,7 @@ def server_config(request):
 def createReport(request):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return render(request, 'system911/createReport.html')
 
 def insertReport(request):
@@ -111,6 +116,11 @@ def insertReport(request):
 	return render(request, 'system911/createReport.html', {})
 
 def insertReport(request):
+=======
+	return render(request, 'system911/createReport.html', {})
+
+def insertReport(request):
+>>>>>>> parent of 55e0e6a... latest update
 =======
 	return render(request, 'system911/createReport.html', {})
 
@@ -152,6 +162,7 @@ def insertReport(request):
 def opmenu(request):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -189,6 +200,13 @@ def ctmenu(request):
 	return render(request, 'system911/opmenu.html', {})
 
 def ctmenu(request):
+=======
+
+
+	return render(request, 'system911/opmenu.html', {})
+
+def ctmenu(request):
+>>>>>>> parent of 55e0e6a... latest update
 =======
 
 
@@ -240,6 +258,7 @@ def updateReport(request):
 def supmenu(request):
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
@@ -256,6 +275,10 @@ def supmenu(request):
 	    	return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
+	return render(request, 'system911/supmenu.html')
+>>>>>>> parent of 55e0e6a... latest update
+=======
+
 	return render(request, 'system911/supmenu.html')
 >>>>>>> parent of 55e0e6a... latest update
 =======
@@ -321,11 +344,15 @@ def officermenu(request):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
 	return render(request, 'system911/officermenu.html')
+=======
+	return render(request, 'system911/officermenu.html')
+>>>>>>> parent of 55e0e6a... latest update
 =======
 	return render(request, 'system911/officermenu.html')
 >>>>>>> parent of 55e0e6a... latest update
