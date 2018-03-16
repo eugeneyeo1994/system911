@@ -38,8 +38,8 @@ def home(request):
 	return render(request, 'system911/home.html',s_config)
 
 def login(request):
-	#s_config = load_s_config()
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	#a=connection.cursor()
 	if request.method == 'POST':
 		username = request.POST.get('username')
@@ -47,40 +47,30 @@ def login(request):
 		cursor = connection.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT username, password,role FROM user where username='"+username+"' AND password ='"+password+"'")
 		result_set = cursor.fetchone()
+
+		connection.close()
 		if result_set :
 			
 			if result_set["role"] =='CallOp' :
 				request.session['role'] = "CallOp"
-				connection.close()
-				return redirect('../opmenu.html');
 
-			elif result_set["role"] =='CallCT':
+			if result_set["role"] =='CallCT':
 				request.session['role'] = "CallCT"
-				connection.close()
-				return redirect('../ctmenu.html')
 				
-			elif result_set["role"] =='sup':
+			if result_set["role"] =='sup':
 				request.session['role'] = "sup"
-				connection.close()
-				return redirect('../supmenu.html')
 
-			elif result_set["role"] =='officer':
-				request.session['role'] = "officer"
-				connection.close()
-				return redirect('../officermenu.html')
-
-			else :
-				connection.close()
-				return render(request,'system911/tst.html', {'result' : username,"password" : password})
+			if result_set["role"] =='911officer':
+				request.session['role'] = "911officer"
+				
+			if result_set["role"] =='CMOofficer':
+				request.session['role'] = "CMOofficer"
+	
+			return redirect('../menu.html');
 		else :
 			connection.close()
 			return render(request,'system911/home.html',{'fail' : "fail"})
 		
-
-		
-
-
-
 
 def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
@@ -89,9 +79,10 @@ def createReport(request):
 	return render(request, 'system911/createReport.html')
 
 def insertReport(request):
-	#s_config = load_s_config()
-	#connection= pymysql.connect(s_config["host"], s_config["port"], s_config["user"], s_config["password"], s_config["database"])
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	#connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 
 	if request.method == 'POST':
 		incident = request.POST.get('incident')
@@ -118,45 +109,30 @@ def insertReport(request):
 
 	return render(request, 'system911/createReport.html', {})
 
-def opmenu(request):
+
+def menu(request):
 	if 'role' in request.session:
 	    role = request.session['role']
 	    print(role);
 	    if role == "CallOp" :
-	    	return render(request, 'system911/opmenu.html')
-	    elif role == "CallCT":
-	    	return render(request, 'system911/ctmenu.html')
-	    elif role == "sup":
-	    	return render(request, 'system911/supmenu.html')
-	    elif role == "officer":
-	    	print("reached officer")
-	    	return render(request, 'system911/officermenu.html')
-	    else:
-	    	return render(request, 'system911/home.html')
+		    return render(request, 'system911/opmenu.html')
+	    if role == "CallCT":
+		    return render(request, 'system911/ctmenu.html')
+	    if role == "sup":
+		    return render(request, 'system911/supmenu.html')
+	    if role == "911officer" :
+		    return render(request, 'system911/911officermenu.html')
+	    if role == "CMOofficer" :
+		    return render(request, 'system911/CMOofficermenu.html')
+	    
+	    return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-
-def ctmenu(request):
-	if 'role' in request.session:
-	    role = request.session['role']
-	    print(role);
-	    if role == "CallOp" :
-	    	return render(request, 'system911/opmenu.html')
-	    elif role == "CallCT":
-	    	return render(request, 'system911/ctmenu.html')
-	    elif role == "sup":
-	    	return render(request, 'system911/supmenu.html')
-	    elif role == "officer":
-	    	print("reached officer")
-	    	return render(request, 'system911/officermenu.html')
-	    else:
-	    	return render(request, 'system911/home.html')
-	else :
-		return render(request, 'system911/home.html')
-
+	
 def viewReports(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
-	#a=connection.cursor()
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report")
 	result = cursor.fetchall()
@@ -164,7 +140,9 @@ def viewReports(request):
 	return render(request, 'system911/viewReports.html', {'result' : result})
 
 def updateReport(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	#connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	if request.method == 'POST':
 		caseId = request.POST.get('cid')
 		severity = request.POST.get('severity')
@@ -179,28 +157,11 @@ def updateReport(request):
 		print(severity)
 	return render(request, 'system911/viewReports.html')
 
-	
-def supmenu(request):
-	if 'role' in request.session:
-	    role = request.session['role']
-	    print(role);
-	    if role == "CallOp" :
-	    	return render(request, 'system911/opmenu.html')
-	    elif role == "CallCT":
-	    	return render(request, 'system911/ctmenu.html')
-	    elif role == "sup":
-	    	return render(request, 'system911/supmenu.html')
-	    elif role == "officer":
-	    	print("reached officer")
-	    	return render(request, 'system911/officermenu.html')
-	    else:
-	    	return render(request, 'system911/home.html')
-	else :
-		return render(request, 'system911/home.html')
-
 def createCases(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	#connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 	#a=connection.cursor()
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report where addToCase ='n'")
 	result = cursor.fetchall()
@@ -226,7 +187,8 @@ def data(request):
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+			s_config = load_s_config()
+			connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 			cursor = connection.cursor(pymysql.cursors.DictCursor)
 			reportid=""
 			data = json.loads(request.body)
@@ -248,26 +210,13 @@ def makecase(request):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def officermenu(request):
-	if 'role' in request.session:
-	    role = request.session['role']
-	    print(role);
-	    if role == "CallOp" :
-	    	return render(request, 'system911/opmenu.html')
-	    elif role == "CallCT":
-	    	return render(request, 'system911/ctmenu.html')
-	    elif role == "sup":
-	    	return render(request, 'system911/supmenu.html')
-	    elif role == "officer":
-	    	print("reached officer")
-	    	return render(request, 'system911/officermenu.html')
-	    else:
-	    	return render(request, 'system911/home.html')
-	else :
-		return render(request, 'system911/home.html')
-
+def viewCases(request):
+	return render(request, 'system911/viewCases.html', {})
+		
 def viewReport2(request):
-	connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report")
 	result = cursor.fetchall()
@@ -278,9 +227,23 @@ def viewReport2(request):
 	return render(request, 'system911/viewReport2.html', {'result' : result,"cases" : cases})
 
 
+def viewCases(request):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * from report")
+	result = cursor.fetchall()
+	cursor.execute("SELECT * FROM caseTable");
+	cases = cursor.fetchall()
+	print(cases[0]['summary'])
+	connection.close()
+	return render(request, 'system911/viewCases.html', {'result' : result,"cases" : cases})
+
+
 def updateCase(request):
 	if request.method == 'POST' :
-		connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
+		s_config = load_s_config()
+		connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 		cursor = connection.cursor(pymysql.cursors.DictCursor)
 		cid = request.POST.get('caseId')
 		caseSum = request.POST.get('caseSum')
@@ -291,6 +254,11 @@ def updateCase(request):
 		connection.commit()
 		connection.close()
 	return render(request, 'system911/home.html')
+
+
+
+def rejectCase(request):
+	return render(request, 'system911/rejectCases.html', {})
 
 
 def logout(request):
