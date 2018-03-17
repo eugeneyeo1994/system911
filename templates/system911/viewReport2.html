@@ -21,10 +21,61 @@
   .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
   .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
   .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
-.ui-selectmenu-button.ui-button {
-    width: 6em;
+  .ui-selectmenu-button.ui-button {
+      width: 6em;
+  }
+
+  .left{
+    width:20%;
+    height:100%;
+    border-style:solid;
+    float:left;
+    border-collapse: collapse;
+    border-color: blue;
+  }
+  .right{
+    height:100%;
+    width:79%;
+    float:right;
+    border-style:solid;
+    border-collapse: collapse;
+    border-color: red;
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.main {
+    margin-left: 160px; /* Same as the width of the sidenav */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -53,196 +104,135 @@ var caseArr = [
 {% endblock %}
 
 
- $( function() {
-    var dialog, form,
- 
-       emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
-      email = $( "#email" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
-      tips = $( ".validateTips" );
+function back(){
+  window.location = "http://127.0.0.1:8000/system911/officermenu.html";
+}
 
-    function addUser() {
-      document.getElementById("csv_form").submit();
-      location.reload();
-    }
+function writeSummary(){
+  document.getElementById('summary').readOnly = false;
+}
 
-    function load(caseInfo){
-      if(caseInfo[3])
-        document.getElementById('summary').value = caseInfo[1];
-      else
-        document.getElementById('summary').value = "None";
+function writeCaseName(){
 
-      document.getElementById('cid').value = caseInfo[0];
+  document.getElementById('cname').readOnly = false;
+}
 
-      if(caseInfo[3])
-        document.getElementById('cname').value = caseInfo[3];
-      else
-        document.getElementById('cname').value = "None";
-    }
 
-    dialog = $( "#dialog-form" ).dialog({
-      autoOpen: false,
-      height: 700,
-      width: 650,
-      modal: true,
-      buttons: {
-        "Save": addUser,
-        Cancel: function() {
-          dialog.dialog( "close" );
-        }
-      },
-      close: function() {
-        //form[ 0 ].reset();
-        allFields.removeClass( "ui-state-error" );
-      }
-    });
+function display(id){
 
-$( function() {
-    $( "#selectable" ).selectable({
-      stop: function() {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-          dialog.dialog("open");
-          var index = $( "#selectable li" ).index( this );
-/*        document.getElementById("caseId").value = reportArr[index][0];
-          document.getElementById("inc").value = reportArr[index][1];
-          document.getElementById("date").value = reportArr[index][2];
-          document.getElementById("currentTime").value = reportArr[index][3];
-          document.getElementById("cname").value = reportArr[index][4];
-          document.getElementById("cContact").value = reportArr[index][5];
-          document.getElementById("address").value = reportArr[index][6];
-          document.getElementById("happen").value = reportArr[index][7];
-          document.getElementById("cas").value = reportArr[index][8];
-          document.getElementById("danger").value = reportArr[index][9];
-          document.getElementById("involve").value = reportArr[index][10];
-          document.getElementById("eType").value = reportArr[index][11];
-          document.getElementById("level").value = reportArr[index][12];*/
+  for (i = 0; i < caseArr.length; i++) {
+        if(caseArr[i][0] == id){
 
-        });
-      },
-      selected: function( event, ui ) {//here
-        for (i = 0; i < caseArr.length; i++) {
-          if(caseArr[i][0] == ui.selected.id){
-/*            var top = document.getElementById("dialog-form");
-            var div = document.createElement("div");
-            div.innerHTML = "this is a test";
-            top.appendChild(div);*/
-            load(caseArr[i]);
-            var reportList = caseArr[i][2].split(",");
-            var tabsContainer = document.getElementById("tabs");
-            tabsContainer.innerHTML = "";
-            var uList = document.createElement("ul"); 
+          var reportList = caseArr[i][2].split(",");
+          var tabsContainer = document.getElementById("tabs");
+          tabsContainer.innerHTML = "";
+          var uList = document.createElement("ul"); 
 
-            for(k = 0; k< reportList.length; k++){
-              var li = document.createElement("li");
-              li.innerHTML = '<a href="#tabs-'+(k+1)+'">One</a>';
-              uList.appendChild(li);
-            }
-            tabsContainer.appendChild(uList);
-            for(j = 0; j< reportList.length; j++){
-              var t1 = document.createElement("div");
-              t1.id = "tabs-"+(j+1);
-              
+          for(k = 0; k< reportList.length; k++){
+             var li = document.createElement("li");
+            li.innerHTML = '<a href="#tabs-'+(k+1)+'">'+reportArr[k][1]+'</a>';
+            uList.appendChild(li);
+         }
+          tabsContainer.appendChild(uList);
+          for(j = 0; j< reportList.length; j++){
+            var t1 = document.createElement("div");
+            t1.id = "tabs-"+(j+1);
+            
 
-              t1.innerHTML ='<table border="1" style="border-collapse: collapse;" cellspacing="0">'+
-      '<tr><input id="caseId" type="hidden"  name="cid" readonly="readonly">'+
-        '<td>Incident:</td> <td colspan="3"> '+ reportArr[j][1]+'</td></tr>'+
+            t1.innerHTML ='<table border="1" style="border-collapse: collapse;" cellspacing="0">'+
+    '<tr><input id="caseId" type="hidden"  name="cid" readonly="readonly">'+
+      '<td>Incident:</td> <td colspan="3"> '+ reportArr[j][1]+'</td></tr>'+
 
-       '<tr><td>Date Of Call: </td> <td>'+ reportArr[j][2]+' </td>'+
-        '<td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime" value='+ reportArr[j][3]+'  readonly="readonly"></td></td></tr>'+
+     '<tr><td>Date Of Call: </td> <td>'+ reportArr[j][2]+' </td>'+
+      '<td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime" value='+ reportArr[j][3]+'  readonly="readonly"></td></td></tr>'+
 
-      '<tr><td colspan="4">Caller: Information:</td></tr><tr><td>Caller Name:</td><td colspan="3">'+ reportArr[j][4]+'</td></tr>'+
+    '<tr><td colspan="4">Caller: Information:</td></tr><tr><td>Caller Name:</td><td colspan="3">'+ reportArr[j][4]+'</td></tr>'+
 
-      '<tr><td>Caller Contact:</td><td colspan="3">'+ reportArr[j][5]+'</td></tr>'+
+    '<tr><td>Caller Contact:</td><td colspan="3">'+ reportArr[j][5]+'</td></tr>'+
 
-      '<tr><td>Location/Address:</td><td colspan="3">'+ reportArr[j][6]+'</td></tr>'+
+    '<tr><td>Location/Address:</td><td colspan="3">'+ reportArr[j][6]+'</td></tr>'+
 
-      '<tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" value='+ reportArr[j][7] +' readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50">'+ reportArr[j][7]+'</textarea></td></tr>'+
+    '<tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" value='+ reportArr[j][7] +' readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50">'+ reportArr[j][7]+'</textarea></td></tr>'+
 
-      '<tr><td>Casualties:</td><td colspan="3">'+ reportArr[j][8]+'</td></tr>'+
+    '<tr><td>Casualties:</td><td colspan="3">'+ reportArr[j][8]+'</td></tr>'+
 
-      '<tr><td>Hazards/Dangers:</td><td colspan="3">'+ reportArr[j][9]+'</td></tr>'+
+    '<tr><td>Hazards/Dangers:</td><td colspan="3">'+ reportArr[j][9]+'</td></tr>'+
 
-      '<tr><td>Caller’s involvement:</td><td colspan="3">'+ reportArr[j][10]+'</td></tr>'+
+    '<tr><td>Caller’s involvement:</td><td colspan="3">'+ reportArr[j][10]+'</td></tr>'+
 
-      '<tr><td>Type of Emergency:</td><td colspan="3">'+ reportArr[j][11]+'</td></tr>'+
-      '<tr><td>Severity Level:</td><td colspan="3">' + reportArr[j][12]+
-        '</td></tr></table>';
+    '<tr><td>Type of Emergency:</td><td colspan="3">'+ reportArr[j][11]+'</td></tr>'+
+    '<tr><td>Severity Level:</td><td colspan="3">' + reportArr[j][12]+
+      '</td></tr></table>';
 
-              tabsContainer.appendChild(t1);
-
-            }
-
-            $( "#tabs" ).tabs();
-            break;
-
+            tabsContainer.appendChild(t1);
 
           }
+
+          
+          break;
+
+
         }
-
-      }//here
-
-    });
-  });
-});
-
-
-
-  function back(){
-    window.location = "http://127.0.0.1:8000/system911/officermenu.html";
-  }
-
-  function writeSummary(){
-    document.getElementById('summary').readOnly = false;
-  }
-
-  function writeCaseName(){
-
-    document.getElementById('cname').readOnly = false;
-  }
+      }
+      $("#tabs").tabs().tabs("destroy");
+      $( "#tabs" ).tabs();
+      document.getElementById("caseDetail").style.display = "block";
+}
 
   </script>
 </head>
-<body style=" background-image: url('{% static 'test/red.png' %}')">
+<body ><!-- style=" background-image: url('{% static 'test/red.png' %}')"> -->
 
-<button onclick="back()">Exit to Menu</button>
 
- 
-<ol id="selectable">
+
+<div class="left">
+  <div class="sidenav">
+  
 
 {% if cases %}
-
-  {% for row in cases %}
-    <li id="{{row.caseId}}" class="ui-widget-content">{{row.caseId}}</li>
+  {% for c in cases %}
+    <a href="#about" onclick="display('{{c.caseId}}')">
+    <h3 style="margin:0 0 0 0;">{{c.caseName}}</h3>
+    <p style="font-size:15px;margin:0 0 0 0;">{{c.summary}}</p>
+    </a>
   {% endfor %}
-  
 {% endif %}
 
-</ol>
+    
+  
+  <!-- <a href="#services">Services</a>
+  <a href="#clients">Clients</a>
+  <a href="#contact">Contact</a> -->
+</div>
+ <button onclick="back()">Exit to Menu</button>
  
-<div id="dialog-form" title="View Cases">
+</div>
+
+<div class="right">
+  <button>Add/Remove Reports</button>
 
 <div id="tabs">
 
 </div>
-<form id="csv_form" action="updateCase/" method="POST">
-  <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
-    <tr>
-      <td>Case Id: {% csrf_token %}</td><td colspan="3"><input  id="cid" type="text" name="caseId" readonly="readonly"></td>
-    </tr>
 
-    <tr>
-      <td>Case Summary (<u><a href="#" onclick="writeSummary()">edit</a></u>)</td><td colspan="3"><textarea id="summary" name="caseSum" rows="5" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
-    </tr>
+<div id="caseDetail" style="display: none;">
+  <form id="csv_form" action="updateCase/" method="POST">
+    <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
+      <tr>
+        <td>Case Id: {% csrf_token %}</td><td colspan="3"><input  id="cid" type="text" name="caseId" readonly="readonly"></td>
+      </tr>
 
-     <tr>
-      <td>Case Name (<u><a href="#" onclick="writeCaseName()">edit</a></u>)</td><td colspan="3"><input id="cname" type="text" name="caseName" readonly="readonly"></td>
-    </tr>
-  </table>
-</form>
+      <tr>
+        <td>Case Summary (<u><a href="#" onclick="writeSummary()">edit</a></u>)</td><td colspan="3"><textarea id="summary" name="caseSum" rows="5" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      </tr>
+
+       <tr>
+        <td>Case Name (<u><a href="#" onclick="writeCaseName()">edit</a></u>)</td><td colspan="3"><input id="cname" type="text" name="caseName" readonly="readonly"></td>
+      </tr>
+    </table>
+  </form>
 </div>
+
 </div>
 
 <!-- <form id="csv_form" action="updateReport/" method="POST">
