@@ -41,13 +41,14 @@ def login(request):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	#a=connection.cursor()
+	#connection= pymysql.connect(host='127.0.0.1',user='root', password='password', db='cnberdynedb')
 	if request.method == 'POST':
 		username = request.POST.get('username')
 		password = request.POST.get('password')
 		cursor = connection.cursor(pymysql.cursors.DictCursor)
 		cursor.execute("SELECT username, password,role FROM user where username='"+username+"' AND password ='"+password+"'")
+		print("SELECT username, password,role FROM user where username='"+username+"' AND password ='"+password+"'")
 		result_set = cursor.fetchone()
-		connection.close()
 		if result_set :
 			
 			if result_set["role"] =='CallOp' :
@@ -64,12 +65,14 @@ def login(request):
 				
 			if result_set["role"] =='CMOofficer':
 				request.session['role'] = "CMOofficer"
-	
+			connection.close()
+			print("here1")
 			return redirect('../menu.html');
 		else :
 			connection.close()
+			print("here2")
 			return render(request,'system911/home.html',{'fail' : "fail"})
-
+		
 
 def server_config(request):
 	return render(request, 'system911/server_config.html',s_config)
@@ -87,6 +90,7 @@ def insertReport(request):
 		cno = request.POST.get('cno')
 		rdate = request.POST.get('rdate')
 		rtime = request.POST.get('rtime')
+		coords = request.POST.get('coords')
 		print("Date: " + rdate + " Time: "+ rtime)	
 		callerName = request.POST.get('callerName')
 		callerContact = request.POST.get('callerContact')	
@@ -97,15 +101,14 @@ def insertReport(request):
 		involve = request.POST.get('involve')
 		emergencyType = request.POST.get('emergencyType')
 		cursor = connection.cursor(pymysql.cursors.DictCursor)
-		sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','"+emergencyType+"','0')"
-		#print(sql)
+		sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`,`coords`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+coords+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','"+emergencyType+"','0')"
+		print(sql)
 		cursor.execute(sql)
 		#INSERT INTO `cnberdynedb`.`report` (`incident`, `caseNumber`, `date`, `time`, `callerInfo`, `callerName`, `callerContact`, `location`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`) VALUES ('traffic accident', '1', '2018-03-04', '14:14', 'asd', 'asd', '12345678', 'asd', 'd', 'asd', 'asd', 'asd', 'ad');
 		connection.commit()
 		connection.close()
+	return render(request, 'system911/createReport.html')
 
-
-	return render(request, 'system911/createReport.html', {})
 
 def menu(request):
 	if 'role' in request.session:
@@ -213,6 +216,7 @@ def viewCases(request):
 def viewReport2(request):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report")
 	result = cursor.fetchall()
@@ -221,6 +225,7 @@ def viewReport2(request):
 	print(cases[0]['summary'])
 	connection.close()
 	return render(request, 'system911/viewReport2.html', {'result' : result,"cases" : cases})
+
 
 def viewCases(request):
 	s_config = load_s_config()
@@ -250,8 +255,11 @@ def updateCase(request):
 		connection.close()
 	return render(request, 'system911/home.html')
 
+
+
 def rejectCase(request):
 	return render(request, 'system911/rejectCases.html', {})
+
 
 def logout(request):
 	del request.session['role']

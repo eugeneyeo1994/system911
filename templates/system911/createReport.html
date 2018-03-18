@@ -4,6 +4,8 @@
   <title>Create Report</title>
 
 
+
+
 <style>
 
 input{
@@ -13,92 +15,123 @@ width:99%;
 td{
   padding:0 0 0 0;
 }
+
+#map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 </style>
 
 <script>
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+}
+    
+
 function getDateTime(){
    var todaydate = new Date();
    var day = todaydate.getDate();
    var month = todaydate.getMonth() + 1;
    var year = todaydate.getFullYear();
    var datestring = year + "-" + month + "-" + day;
-   var timestring = todaydate.getHours()+":"+todaydate.getMinutes();
+   var mins = todaydate.getMinutes();
+   var minString ="";
+   if(mins <10)
+      minString = "0"+mins;
+    else
+      minString = mins;
+   var timestring = todaydate.getHours()+":"+minString;
    document.getElementById("date").value = datestring;
    document.getElementById("cTurrentTime").value = timestring
   } 
 
   function back(){
     event.preventDefault(); 
-    window.location = "opmenu.html";
+    window.location = "http://127.0.0.1:8000/system911/menu.html";
 
   }
-getDateTime(); 
+
 </script> 
 
 </head>
 <body onload="getDateTime()">
 
-<form id="csv_form" action="createReport/" method="POST">
 
-  <div class="container">
-    
-   <table  border="1" style="border-collapse: collapse;" cellspacing="0">
-    <caption>Report</caption>
-      <tr>
-        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input type="text"  placeholder="Type of Incident" name="incident" required></td>
-      </tr>
-       <tr>
-        <td>Date Of Call: </td> <td><input style="width:98%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-        <td>Time of Call: </td><td> <input style="width:94%" type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
-      </tr>
 
-      <tr><td colspan="4">Caller Information:</td></tr>
+<div class="container" style="padding-left:30%">
+<form id="csv_form" action="http://127.0.0.1:8000/system911/createReport/" method="POST"> 
+ <table  border="1" style="border-collapse: collapse;width:70%;" cellspacing="0">
+  <caption>Report</caption>
+    <tr>
+      <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input type="text"  placeholder="Type of Incident" name="incident" required></td>
+    </tr>
+     <tr>
+      <td>Date Of Call: </td> <td><input style="width:98%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
+      <td>Time of Call: </td><td> <input style="width:94%" type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
+    </tr>
 
-      <tr><td>Caller's Name:</td><td colspan="3"><input type="text" name="callerName" required></td>
-      </tr>
+    <tr><td colspan="4">Caller Information:</td></tr>
 
-      <tr><td>Caller's Contact:</td><td colspan="3"><input type="text" name="callerContact" required></td>
-      </tr>
+    <tr><td>Caller's Name:</td><td colspan="3"><input type="text" name="callerName" required></td>
+    </tr>
 
-      <tr><td>Location/Address:</td><td colspan="3"><input type="text" name="location" required></td>
-      </tr>
+    <tr><td>Caller's Contact:</td><td colspan="3"><input type="text" name="callerContact" required></td>
+    </tr>
 
-      <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
-      </tr>
+    <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" required></td>
+    </tr>
 
-      <tr><td>Casualties:</td><td colspan="3"><input type="text" name="casualties" required></td>
-      </tr>
+    <tr><td>Map:</td><td colspan="3" style=" height: 300px;"> <div id="map"></div></td>
+    </tr>
+    <input id="coords" type="hidden" name="coords" value=""></input>
+    <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="84"></textarea></td>
+    </tr>
 
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input type="text" name="danger" required></td>
-      </tr>
+    <tr><td>Casualties:</td><td colspan="3"><input type="text" name="casualties" required></td>
+    </tr>
 
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input type="text" name="involve" required></td>
-      </tr>
+    <tr><td>Hazards/Dangers:</td><td colspan="3"><input type="text" name="danger" required></td>
+    </tr>
 
-      <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" required></td>
-      </tr>
+    <tr><td>Caller involvement:</td><td colspan="3"><input type="text" name="involve" required></td>
+    </tr>
 
-       <tr>
-        <td><button type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button style="float:right;">Submit</button></td>
-      </tr>
+    <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" required></td>
+    </tr>
 
-    </table>
+     <tr>
+      <td><button type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button style="float:right;">Submit</button></td>
+    </tr>
+
+  </table>
 <!--     <label for="uname"><b>Username {% csrf_token %}</b></label>
-    <input type="text" placeholder="Enter Username" name="username" required>
+  <input type="text" placeholder="Enter Username" name="username" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="password" required>
+  <label for="psw"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" name="password" required>
 
-    <button type="submit">Login</button>
+  <button type="submit">Login</button>
 
-    {% if fail %}
-      <h2> Incorrect password or username {{result}}</h2>
-    {% endif %} -->
-  </div>
+  {% if fail %}
+    <h2> Incorrect password or username {{result}}</h2>
+  {% endif %} -->
+  </form>
+</div>
 
 
 
-</form>
+
 
 
 <!-- {% if result %}
@@ -108,6 +141,84 @@ getDateTime();
 {% else %}
   <h2> none </h2>
 {% endif %} -->
+
+
+
+
+<script>
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 1.3521, lng: 103.8198},
+    zoom: 11,
+    mapTypeId: 'roadmap'
+  });
+
+        var input = document.getElementById('address');
+        var searchBox = new google.maps.places.SearchBox(input);
+        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+            document.getElementById("coords").value = place.geometry.location.lat()+"," + place.geometry.location.lng();
+            //alert(document.getElementById("coords").value);
+          });
+          map.fitBounds(bounds);
+        });
+        
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_ADskZBc9NMuWK0aztW5TYFc-jOzWoQ&libraries=places&callback=initMap"
+    async defer></script>
 
 </body>
 </html>

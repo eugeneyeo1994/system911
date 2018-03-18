@@ -19,17 +19,6 @@ urlpatterns = [
     url(r'system911/updateReport/', views.updateReport, name='updateReport'),
 
     url(r'system911/createCases.html', views.createCases, name='createCases'),
-<<<<<<< HEAD
-    url(r'system911/data.html', views.data, name='data'),
-    url(r'system911/makecase', views.makecase, name='makecase'),
-
-
-    #officer setup
-        url(r'system911/officermenu.html', views.officermenu, name='officermenu'),
-        url(r'system911/viewCases.html', views.viewCases, name='viewCases'),
-        url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing
-        url(r'system911/updateCase', views.updateCase, name='updateCase'),
-=======
 	url(r'system911/viewCases.html', views.viewCases, name='viewCases'),
     url(r'system911/updateCase', views.updateCase, name='updateCase'),
     url(r'system911/rejectCases.html', views.rejectCase, name='rejectCase'),
@@ -37,7 +26,6 @@ urlpatterns = [
 	url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing
 	url(r'system911/data.html', views.data, name='data'),
     url(r'system911/makecase', views.makecase, name='makecase'),	
->>>>>>> 0f5b19f550acb4e6863710451eb476850aa35068
 
     #logout
          url(r'system911/logout', views.logout, name='logout'),

@@ -88,14 +88,14 @@ you know who to call
 			Server Password:&nbsp; {{password}}
 		</span> <span>
 	</span></p>
-	<form action="server_config.html'" method="get">
+		<form action="server_config.html'" method="get">
 			<button class="btn btn-warning">
 				EDIT SERVER SETTINGS
-			</button></p>
+			</button>
 		</form>
 	<br />
 	</div>
-		<form>
+		<form action="system911/login/" method="POST">
 		  <p><span>USERNAME:&nbsp; {% csrf_token %}
 			</span> 
 				<span>
