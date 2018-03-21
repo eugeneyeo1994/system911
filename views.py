@@ -38,10 +38,8 @@ def login(request):
 				
 			if result_set["role"] =='CMOofficer':
 				request.session['role'] = "CMOofficer"
-			#connection.close()
 			return redirect('../menu.html');
 		else :
-			#connection.close()
 			return render(request,'system911/home.html',{'fail' : "fail"})
 		
 
@@ -127,7 +125,13 @@ def makecase(request):
 
 
 def viewCases(request):
+
 	return render(request, 'system911/viewCases.html')
+
+	
+def	viewCaseDetails(request):
+	return render(request, 'system911/caseDetails.html')
+
 		
 def viewReport2(request):
 	reports = dbgetReport()

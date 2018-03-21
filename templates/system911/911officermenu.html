@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Create Report</title>
+  <title>911 Officer Menu</title>
 
 <script>
 	function viewCase(){
-		window.location = "http://127.0.0.1:8000/system911/viewCases.html";
+		includeCasesHTML();
 	}
 
 	function viewCaseSummary(){
@@ -15,6 +15,69 @@
 	function logOut(){
 		window.location = "http://127.0.0.1:8000/system911/logout";
 	}
+	
+	
+function includeCasesHTML() {
+  var z, i, elmnt, file, xhttp;
+  /*loop through a collection of all HTML elements:*/
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("viewCases-include-html");
+    if (file) {
+      /*make an HTTP request using the attribute value as the file name:*/
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /*remove the attribute, and call this function once more:*/
+          elmnt.removeAttribute("viewCases-include-html");
+          includeCasesHTML()
+        }
+      }      
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /*exit the function:*/
+      return;
+    }
+  }
+};
+
+
+function includeHTML() {
+  var z, i, elmnt, file, xhttp;
+  /*loop through a collection of all HTML elements:*/
+  z = document.getElementsByTagName("*");
+  for (i = 0; i < z.length; i++) {
+    elmnt = z[i];
+    /*search for elements with a certain atrribute:*/
+    file = elmnt.getAttribute("viewCase-include-html");
+    if (file) {
+      /*make an HTTP request using the attribute value as the file name:*/
+      xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+          /*remove the attribute, and call this function once more:*/
+          elmnt.removeAttribute("viewCase-include-html");
+          includeHTML();
+        }
+      }      
+      xhttp.open("GET", file, true);
+      xhttp.send();
+      /*exit the function:*/
+      return;
+    }
+  }
+};
+
+  function caseDetail() {
+	includeHTML();
+  }
+
 </script>
 
 </head>
@@ -23,6 +86,9 @@
 <button onclick="viewCase()">View Cases</button>
 <button onclick="viewCaseSummary()">View Cases Summary</button>
 <button onclick="logOut()">LogOut</button>
+
+
+<div viewCases-include-html="viewCases.html"></div> 
 
 </body>
 </html>

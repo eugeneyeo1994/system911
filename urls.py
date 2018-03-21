@@ -20,6 +20,7 @@ urlpatterns = [
 
     url(r'system911/createCases.html', views.createCases, name='createCases'),
 	url(r'system911/viewCases.html', views.viewCases, name='viewCases'),
+	url(r'system911/caseDetails.html', views.viewCaseDetails, name='viewCaseDetails'),
     url(r'system911/updateCase', views.updateCase, name='updateCase'),
     url(r'system911/rejectCases.html', views.rejectCase, name='rejectCase'),
 	
