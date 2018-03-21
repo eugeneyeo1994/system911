@@ -46,12 +46,20 @@ function getDateTime(){
    var year = todaydate.getFullYear();
    var datestring = year + "-" + month + "-" + day;
    var mins = todaydate.getMinutes();
+   var hr = todaydate.getHours();
    var minString ="";
+   var hrString ="";
    if(mins <10)
       minString = "0"+mins;
     else
       minString = mins;
-   var timestring = todaydate.getHours()+":"+minString;
+
+  if(hr <10)
+      hrString = "0"+hr;
+    else
+      hrString = hr;
+
+   var timestring = hrString+":"+minString;
    document.getElementById("date").value = datestring;
    document.getElementById("cTurrentTime").value = timestring
   } 
