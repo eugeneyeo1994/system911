@@ -67,11 +67,11 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			connection.close()
 			print("here1")
-			return redirect('../menu.html');
+			return redirect('../../menu.html');
 		else :
 			connection.close()
 			print("here2")
-			return render(request,'system911/home.html',{'fail' : "fail"})
+			return redirect('../../home.html')
 		
 
 def server_config(request):
@@ -212,6 +212,9 @@ def makecase(request):
 
 def viewCases(request):
 	return render(request, 'system911/viewCases.html', {})
+	
+def	viewCaseDetails(request):
+	return render(request, 'system911/caseDetails.html',{})
 		
 def viewReport2(request):
 	s_config = load_s_config()
