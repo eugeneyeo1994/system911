@@ -188,37 +188,6 @@ $( function() {
   });
 });
 
-function includeHTML() {
-  var z, i, elmnt, file, xhttp;
-  /*loop through a collection of all HTML elements:*/
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    file = elmnt.getAttribute("viewCase-include-html");
-    if (file) {
-      /*make an HTTP request using the attribute value as the file name:*/
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-          /*remove the attribute, and call this function once more:*/
-          elmnt.removeAttribute("viewCase-include-html");
-          includeHTML();
-        }
-      }      
-      xhttp.open("GET", file, true);
-      xhttp.send();
-      /*exit the function:*/
-      return;
-    }
-  }
-};
-
-  function caseDetail() {
-	includeHTML();
-  }
 
   function back(){
     window.location = "http://127.0.0.1:8000/system911/officermenu.html";
@@ -276,102 +245,7 @@ function includeHTML() {
 </div>
 </div>
 
-<!-- <form id="csv_form" action="updateReport/" method="POST">
-  <div class="container">
-    
-   <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
-      <tr>
-        <input id="caseId" type="hidden"  name="cid" readonly="readonly">
-        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
-      </tr>
-       <tr>
-        <td>Date Of Call: </td> <td><input style="width:98.5%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime"  readonly="readonly"></td></td>
-      </tr>
-
-      <tr><td colspan="4">Caller Information:</td></tr>
-
-      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
-      </tr>
-
-      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
-      </tr>
-
-    </table>
-
-      <fieldset>
-    <label for="people">Severity Level:</label>
-
-      <select id="level" name="severity">
-        <option value="1" >Level 1</option>
-        <option value="2" ">Level 2</option>
-        <option value="3">Level 3</option>
-        <option value="4">Level 4</option>
-        <option value="5">Level 5</option> 
-      </select>
-
-  </fieldset>
-
-  </div>
-</form> -->
-
 </div>
 <div viewCase-include-html="caseDetails.html"></div>
 </body>
 </html>
-<!-- =======
-<!DOCTYPE html>
-<html lang="en" class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  
-<head>
-	<title>cyberdyne911</title>
-	  
-	<style>
-	.centralise{
-	  font-family:avenida-w01,avenida-w02,fantasy;
-	  background-color: white;
-	  position:absolute;
-	  top:20%;
-	  width:100%;
-	  height:40%;
-	  text-align:center;
-	}
-
-	input{
-	  border-style: solid;
-	}
-
-	</style>
-  
-</head>
-  
-<body  style="background-color:black">
-	<div class="centralise">
-		
-		<ul style="list-style-type:none;text-align:left;margin-left:35%;">
-		  <li><span style="font-size:70px;">Cyberdyne 911</span></li>
-			<li><span style="font-size:70px;">Under Construction</span></li>
-		</ul>
-	<div>
-</body>
-</html>
->>>>>>> 0f5b19f550acb4e6863710451eb476850aa35068 -->

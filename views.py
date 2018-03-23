@@ -142,7 +142,7 @@ def viewReport2(request):
 def viewCases(request):
 	reports = dbgetReport()
 	cases = dbgetCases()
-	return render(request, 'system911/viewCases.html', {'result' : result,"cases" : cases})
+	return render(request, 'system911/viewCases.html', {'result' : reports,"cases" : cases})
 
 
 def updateCase(request):
