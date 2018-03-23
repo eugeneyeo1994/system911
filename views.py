@@ -9,7 +9,7 @@ from .dao import *
 
 
 def post_list(request):
-    return render(request, 'system911/post_list.html', {})
+    return render(request, 'system911/home_public.html', {})
 
 def home(request):
 	s_config = load_s_config()
@@ -124,11 +124,7 @@ def makecase(request):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def viewCases(request):
 
-	return render(request, 'system911/viewCases.html')
-
-	
 def	viewCaseDetails(request):
 	return render(request, 'system911/caseDetails.html')
 
