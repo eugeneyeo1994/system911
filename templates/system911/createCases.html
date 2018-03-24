@@ -102,16 +102,16 @@
     <script>
         $(document).ready(function () { 
             var customerTemplate = '<span class=" k-state-default" style="background-image: url(\'/static/test/#:data.Severity#.png\')"></span>' +
-                '<span class=" k-state-default"><h3>#: data.incident #</h3><p>#: data.Severity #</p></span><span style="float:right" class=" k-state-default"><button class="view k-primary" onclick="openDialog(\' #:data.CaseNumber#\')">view</button></span> ';
+                '<span class=" k-state-default"><h3>#: data.incident #</h3><p>#: data.Severity #</p></span><span style="float:right" class=" k-state-default"><button class="view k-primary" onclick="openDialog(\' #:data.reportId#\')">view</button></span> ';
             $("#optional").kendoListBox({
                 dataTextField: "incident",
-                dataValueField: "CaseNumber",
+                dataValueField: "reportId",
                 template: customerTemplate,
                 dataSource: [
                 {% block content %}
                   {% if result %}
                     {% for row in result %}
-                      {"CaseNumber":"{{row.caseNumber}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
+                      {"reportId":"{{row.reportId}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
                     {% endfor %}
                   {% endif %}
                 {% endblock %}
@@ -127,7 +127,7 @@
 
             $("#selected").kendoListBox({
                 dataTextField: "incident",
-                dataValueField: "CaseNumber",
+                dataValueField: "reportId",
                 template: customerTemplate,
                 draggable: { placeholder: customPlaceholder },
                 dropSources: ["optional"],

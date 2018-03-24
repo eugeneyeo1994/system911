@@ -109,16 +109,20 @@ def data(request):
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			reportid=""
+			string=""
 			data = json.loads(request.body)
+			print(data)
+			dbcreateCase()
+			createdCaseId = dbgetNewCaseId()
 			for d in data["selectedItems"] : 
-				if reportid =="" :
-					reportid = ""+d["CaseNumber"]
-				else :
-					reportid = reportid+","+d["CaseNumber"]
-				dbupdateAddToCase(d["CaseNumber"])
+				 if d["reportId"] :
+				 	dbupdateAddToCase(d["reportId"], createdCaseId)
+				# 	reportid = ""+d["reportId"]
+				# else :
+				# 	reportid = reportid+","+d["reportId"]
+					
 			
-			dbcreateCase(reportid)
+			#dbcreateCase(reportid)
 			response_data = {}
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
