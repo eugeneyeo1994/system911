@@ -9,7 +9,7 @@ from .dao import *
 
 
 def post_list(request):
-    return render(request, 'system911/post_list.html', {})
+    return render(request, 'system911/home_public.html', {})
 
 def home(request):
 	s_config = load_s_config()
@@ -85,10 +85,16 @@ def menu(request):
 	    return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-	
+	#=============================REPORTS==========================
 def viewReports(request):
 	result = dbgetReport()
 	return render(request, 'system911/viewReports.html', {'result' : result})
+	
+def viewReportDetails(request):
+	if request.method == 'GET':
+		reportid = request.GET.get('reportid')
+		report = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
 
 def updateReport(request):
 	if request.method == 'POST':
@@ -105,6 +111,7 @@ def data(request):
 
 	return render(request, 'system911/data.html')
 
+	#=============================CASES==========================
 #@csrf_exempt
 def makecase(request):
 	if request.is_ajax() : 
@@ -127,14 +134,16 @@ def makecase(request):
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-
 def viewCases(request):
+	cases = dbgetCases()
+	return render(request, 'system911/viewCases.html', {"cases" : cases})
 
-	return render(request, 'system911/viewCases.html')
 
-	
 def	viewCaseDetails(request):
-	return render(request, 'system911/caseDetails.html')
+	if request.method == 'GET':
+		caseid = request.GET.get('caseid')
+		reports = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
 
 		
 def viewReport2(request):
@@ -143,10 +152,6 @@ def viewReport2(request):
 	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases})
 
 
-def viewCases(request):
-	reports = dbgetReport()
-	cases = dbgetCases()
-	return render(request, 'system911/viewCases.html', {'result' : result,"cases" : cases})
 
 
 def updateCase(request):
