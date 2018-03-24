@@ -89,6 +89,12 @@ def menu(request):
 def viewReports(request):
 	result = dbgetReport()
 	return render(request, 'system911/viewReports.html', {'result' : result})
+	
+def viewReportDetails(request):
+	if request.method == 'GET':
+		reportid = request.GET.get('reportid')
+		report = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
 
 def updateReport(request):
 	if request.method == 'POST':
@@ -132,8 +138,8 @@ def viewCases(request):
 def	viewCaseDetails(request):
 	if request.method == 'GET':
 		caseid = request.GET.get('caseid')
-		reports = dbgetReport() #add id to argument later, {"reports":reports}
-	return render(request, 'system911/caseDetails.html', {'testcase':caseid})
+		reports = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
 
 		
 def viewReport2(request):

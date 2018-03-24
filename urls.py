@@ -15,6 +15,7 @@ urlpatterns = [
 	#911 Functions(Create,update,read,etc)
     url(r'system911/createReport.html', views.createReport, name='createReport'),
     url(r'system911/createReport/', views.insertReport, name='insertReport'),
+	url(r'system911/reportDetails.html', views.viewReportDetails, name='viewReportDetails'),
     url(r'system911/viewReports.html', views.viewReports, name='viewReports'),
     url(r'system911/updateReport/', views.updateReport, name='updateReport'),
 
