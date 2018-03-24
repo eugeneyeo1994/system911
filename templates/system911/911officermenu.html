@@ -23,79 +23,86 @@
 		rightincludeHTML("reportDetails.html", id);
 	}
 	
+	function createReport() {
+		allincludeHTML("createReport.html");
+	}
+	
 function leftincludeHTML(file) {
   var z, i, elmnt, file, xhttp;
-  /*loop through a collection of all HTML elements:*/
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    bool = elmnt.getAttribute("left-include-html");
-    if (bool) {
-      /*make an HTTP request using the attribute value as the file name:*/
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
+  document.getElementById("all-include-html").innerHTML ="";
+  elmnt = document.getElementById("left-include-html");
+  
+  /*make an HTTP request using the attribute value as the file name:*/
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4) {
           if (this.status == 200) {elmnt.innerHTML = this.responseText;}
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
-      xhttp.open("GET", file, true);
-      xhttp.send();
-      /*exit the function:*/
-      return;
-    }
-  }
+  xhttp.open("GET", file, true);
+  xhttp.send();
+  /*exit the function:*/
+  return;
 };
 
 function middleincludeHTML(file, id) {
   var z, i, elmnt, file, xhttp;
-  /*loop through a collection of all HTML elements:*/
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    bool = elmnt.getAttribute("middle-include-html");
-    if (bool) {
-      /*make an HTTP request using the attribute value as the file name:*/
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
+  elmnt = document.getElementById("middle-include-html");
+  
+  /*make an HTTP request using the attribute value as the file name:*/
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4) {
           if (this.status == 200) {elmnt.innerHTML = this.responseText;}
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
-      xhttp.open("GET", file+"?caseid="+id, true);
-      xhttp.send();
-      /*exit the function:*/
-      return;
-    }
-  }
+  xhttp.open("GET", file+"?caseid="+id, true);
+  xhttp.send();
+  /*exit the function:*/
+  return;
 };
 
 function rightincludeHTML(file, id) {
   var z, i, elmnt, file, xhttp;
-  /*loop through a collection of all HTML elements:*/
-  z = document.getElementsByTagName("*");
-  for (i = 0; i < z.length; i++) {
-    elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
-    bool = elmnt.getAttribute("right-include-html");
-    if (bool) {
-      /*make an HTTP request using the attribute value as the file name:*/
-      xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4) {
+  elmnt = document.getElementById("right-include-html");
+  
+  /*make an HTTP request using the attribute value as the file name:*/
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4) {
           if (this.status == 200) {elmnt.innerHTML = this.responseText;}
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
-      xhttp.open("GET", file+"?reportid="+id, true);
-      xhttp.send();
-      /*exit the function:*/
-      return;
-    }
-  }
+  xhttp.open("GET", file+"?reportid="+id, true);
+  xhttp.send();
+  /*exit the function:*/
+  return;
+};
+
+function allincludeHTML(file) {
+  var z, i, elmnt, file, xhttp;
+  document.getElementById("left-include-html").innerHTML ="";
+  document.getElementById("middle-include-html").innerHTML ="";
+  document.getElementById("right-include-html").innerHTML ="";
+  
+  elmnt = document.getElementById("all-include-html");
+  
+  /*make an HTTP request using the attribute value as the file name:*/
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+	  if (this.readyState == 4) {
+          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+        }
+      }      
+  xhttp.open("GET", file, true);
+  xhttp.send();
+  /*exit the function:*/
+  return;
+  
 };
 
 </script>
@@ -105,29 +112,32 @@ function rightincludeHTML(file, id) {
 
 <button onclick="viewCase()">View Cases</button>
 <button onclick="viewCaseSummary()">View Cases Summary</button>
+<button onclick="createCase()">Create Case</button>
+<button onclick="createReport()">Create Report</button>
 <button onclick="logOut()">LogOut</button>
 
 <div id="container" style=" overflow:hidden">
-	<div left-include-html=" "
+	<!-- tags need to have space so not NULL -->
+	<div id = "left-include-html"  
 		style="
 		overflow:auto;
 		display: inline-block;
 		vertical-align:top;
 		width: 30%">left</div> 
-	<div middle-include-html="viewCases.html"
+	<div id = "middle-include-html"  
 		style="
 		overflow:auto;
 		display: inline-block;
 		vertical-align:top;
 		width: 34%">middle</div> 
-	<div right-include-html="viewCases.html"
+	<div id = "right-include-html"  
 		style="
 		overflow:auto;
 		display: inline-block;
 		vertical-align:top;
 		width: 34%">right</div> 
 </div> 
-<div all-include-html="">all</div> 
+<div id = "all-include-html">all</div> 
 
 </body>
 </html>
