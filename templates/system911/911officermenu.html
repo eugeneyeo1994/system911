@@ -15,8 +15,8 @@
 	function logOut(){
 		window.location = "http://127.0.0.1:8000/system911/logout";
 	}
-	function caseDetail() {
-		middleincludeHTML("caseDetails.html");
+	function caseDetail(id) {
+		middleincludeHTML("caseDetails.html", id);
 	}
 	
 function leftincludeHTML(file) {
@@ -45,7 +45,7 @@ function leftincludeHTML(file) {
   }
 };
 
-function middleincludeHTML(file) {
+function middleincludeHTML(file, id) {
   var z, i, elmnt, file, xhttp;
   /*loop through a collection of all HTML elements:*/
   z = document.getElementsByTagName("*");
@@ -63,7 +63,7 @@ function middleincludeHTML(file) {
           /*remove the attribute, and call this function once more:*/
         }
       }      
-      xhttp.open("GET", file, true);
+      xhttp.open("GET", file+"?caseid="+id, true);
       xhttp.send();
       /*exit the function:*/
       return;
@@ -108,17 +108,17 @@ function rightincludeHTML(file) {
 
 <div id="container" >
 	<div left-include-html=" "
-		style="background-color: #555;
+		style="
 		overflow:scroll;
 		display: inline-block;
 		width: 30%">test</div> 
 	<div middle-include-html="viewCases.html"
-		style="background-color: #151;
+		style="
 		overflow:scroll;
 		display: inline-block;
 		width: 34%">test</div> 
 	<div right-include-html="viewCases.html"
-		style="background-color: #115;
+		style="
 		overflow:scroll;
 		display: inline-block;
 		width: 34%">test

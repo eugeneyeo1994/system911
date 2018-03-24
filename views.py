@@ -85,7 +85,7 @@ def menu(request):
 	    return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-	
+	#=============================REPORTS==========================
 def viewReports(request):
 	result = dbgetReport()
 	return render(request, 'system911/viewReports.html', {'result' : result})
@@ -105,6 +105,7 @@ def data(request):
 
 	return render(request, 'system911/data.html')
 
+	#=============================CASES==========================
 #@csrf_exempt
 def makecase(request):
 	if request.is_ajax() : 
@@ -123,10 +124,16 @@ def makecase(request):
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+def viewCases(request):
+	cases = dbgetCases()
+	return render(request, 'system911/viewCases.html', {"cases" : cases})
 
 
 def	viewCaseDetails(request):
-	return render(request, 'system911/caseDetails.html')
+	if request.method == 'GET':
+		caseid = request.GET.get('caseid')
+		reports = dbgetReport() #add id to argument later, {"reports":reports}
+	return render(request, 'system911/caseDetails.html', {'testcase':caseid})
 
 		
 def viewReport2(request):
@@ -135,10 +142,6 @@ def viewReport2(request):
 	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases})
 
 
-def viewCases(request):
-	reports = dbgetReport()
-	cases = dbgetCases()
-	return render(request, 'system911/viewCases.html', {'result' : reports,"cases" : cases})
 
 
 def updateCase(request):
