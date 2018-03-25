@@ -40,12 +40,9 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			return redirect('../menu.html');
 		else :
-			return render(request,'system911/home.html',{'fail' : "fail"})
+			return redirect('../home.html');
 		
-
-def server_config(request):
-	return render(request, 'system911/server_config.html',s_config)
-			
+		
 def createReport(request):
 	return render(request, 'system911/createReport.html')
 
@@ -103,20 +100,21 @@ def updateReport(request):
 		dbupdateReport(caseId,severity)
 	return render(request, 'system911/viewReports.html')
 
-def createCases(request):
-	result = dbgetNreports()
-	return render(request, 'system911/createCases.html', {'result' : result})
+	#=======????======
 
 def data(request):
 
 	return render(request, 'system911/data.html')
 
 	#=============================CASES==========================
+def createCases(request):
+	result = dbgetNreports()
+	return render(request, 'system911/createCases.html', {'result' : result})	
+	
 #@csrf_exempt
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			string=""
 			data = json.loads(request.body)
 			print(data)
 			dbcreateCase()
@@ -124,12 +122,6 @@ def makecase(request):
 			for d in data["selectedItems"] : 
 				 if d["reportId"] :
 				 	dbupdateAddToCase(d["reportId"], createdCaseId)
-				# 	reportid = ""+d["reportId"]
-				# else :
-				# 	reportid = reportid+","+d["reportId"]
-					
-			
-			#dbcreateCase(reportid)
 			response_data = {}
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")

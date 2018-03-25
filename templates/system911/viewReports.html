@@ -47,6 +47,7 @@
 var reportArr = [
 	{% for row in result %}
 		["{{row.reportId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+		["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
 	{% endfor %}
 	];
 {% endif %}

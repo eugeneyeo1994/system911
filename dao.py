@@ -37,7 +37,7 @@ def dbupdateReport(caseId,severity):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql ="update report set severity='"+severity+"' where reportId='"+ caseId +"'"
+	sql ="update report set severity='"+severity+"' where reportid='"+ caseId +"'"
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
@@ -51,12 +51,11 @@ def dbgetNreports():
 	connection.close()
 	return result
 
-def dbupdateAddToCase(reportid, createdCaseId):
+def dbupdateAddToCase(reportid,caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	query = "update report set caseId != 0, caseid='"+createdCaseId+"' where reportId='"+reportid+"';"
-	print("query::::::::::::: "+query)
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
@@ -69,6 +68,8 @@ def dbcreateCase():
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
+	
+	return str(result[0]['caseid'])
 
 def dbgetCases():
 	s_config = load_s_config()
@@ -87,6 +88,7 @@ def dbupdatecase(cid,caseSum,caseName):
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
+
 
 def dbgetNewCaseId():
 	s_config = load_s_config()
@@ -114,3 +116,4 @@ def dbaddNewReportToCase(reportid,caseid):
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
+
