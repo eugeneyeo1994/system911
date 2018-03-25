@@ -5,260 +5,56 @@
 
 <script>
   function editCase(){
-    window.location = "http://127.0.0.1:8000/system911/editCase.html";
+    window.location = "http://127.0.0.1:8000/system911/modifyCase.html";
   }
 
 	function viewCase(){
-		leftincludeHTML("viewCases.html");
+    document.getElementById('test').src = "http://127.0.0.1:8000/system911/viewCases.html";
+		//leftincludeHTML("viewCases.html");
 	}
 
 	function createCase(){
-		allincludeHTML("createCases.html");
+    document.getElementById('test').src = "http://127.0.0.1:8000/system911/createCases.html";
+		//allincludeHTML("createCases.html");
 	}
 
 	function logOut(){
 		window.location = "http://127.0.0.1:8000/system911/logout";
 	}
 	function caseDetail(id) {
-		middleincludeHTML("caseDetails.html", id);
+		//middleincludeHTML("caseDetails.html", id);
+    document.getElementById('test').src = "http://127.0.0.1:8000/system911/caseDetails.html";
 	}
 	
 	function viewReport(id) {
-		rightincludeHTML("reportDetails.html", id);
+		//rightincludeHTML("reportDetails.html", id);
+    document.getElementById('test').src = "http://127.0.0.1:8000/system911/reportDetails.html";
 	}
 	
 	function createReport() {
-		allincludeHTML("createReport.html");
-		getDateTime();
-		initMap();
+    document.getElementById('test').src = "http://127.0.0.1:8000/system911/createReport.html";
 	}
 	function test() {
 		getDateTime();
 	}
-	
-function leftincludeHTML(file) {
-  var z, i, elmnt, file, xhttp;
-  document.getElementById("all-include-html").innerHTML ="";
-  elmnt = document.getElementById("left-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-	  if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-function middleincludeHTML(file, id) {
-  var z, i, elmnt, file, xhttp;
-  elmnt = document.getElementById("middle-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file+"?caseid="+id, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-function rightincludeHTML(file, id) {
-  var z, i, elmnt, file, xhttp;
-  elmnt = document.getElementById("right-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file+"?reportid="+id, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-function allincludeHTML(file) {
-  var z, i, elmnt, file, xhttp;
-  document.getElementById("left-include-html").innerHTML ="";
-  document.getElementById("middle-include-html").innerHTML ="";
-  document.getElementById("right-include-html").innerHTML ="";
-  
-  elmnt = document.getElementById("all-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-	  if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file, false);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-  
-};
-
 </script>
-
-<script>
-
-
-function getDateTime(){
-   var todaydate = new Date();
-   var day = todaydate.getDate();
-   var month = todaydate.getMonth() + 1;
-   var year = todaydate.getFullYear();
-   var datestring = year + "-" + month + "-" + day;
-   var mins = todaydate.getMinutes();
-   var hr = todaydate.getHours();
-   var minString ="";
-   var hrString ="";
-   if(mins <10)
-      minString = "0"+mins;
-    else
-      minString = mins;
-
-  if(hr <10)
-      hrString = "0"+hr;
-    else
-      hrString = hr;
-
-   var timestring = hrString+":"+minString;
-   document.getElementById("date").value = datestring;
-   document.getElementById("cTurrentTime").value = timestring
-  } 
-
-
-</script> 
-
-<script>
-
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 1.3521, lng: 103.8198},
-    zoom: 11,
-    mapTypeId: 'roadmap'
-  });
-
-        var input = document.getElementById('address');
-        var searchBox = new google.maps.places.SearchBox(input);
-        //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
-
-        var markers = [];
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
-
-          if (places.length == 0) {
-            return;
-          }
-
-          // Clear out the old markers.
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
-
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            if (!place.geometry) {
-              console.log("Returned place contains no geometry");
-              return;
-            }
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
-
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
-
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-            document.getElementById("coords").value = place.geometry.location.lat()+"," + place.geometry.location.lng();
-            alert(document.getElementById("coords").value);
-          });
-          map.fitBounds(bounds);
-        });
-        
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK_ADskZBc9NMuWK0aztW5TYFc-jOzWoQ&libraries=places&callback=initMap"
-    async defer></script>
 
 
 </head>
-<body >
+<body>
 
 <button onclick="viewCase()">View Cases</button>
-<<<<<<< HEAD
 <button onclick="editCase()">Edit Cases</button>
 <button onclick="viewCaseSummary()">View Cases Summary</button>
-=======
->>>>>>> 9944347866e1327d54efbf579c8e14a1ff7daa21
 <button onclick="createCase()">Create Case</button>
 <button onclick="createReport()">Create Report</button>
 <button onclick="test()">Test</button>
 <button onclick="logOut()">LogOut</button>
 
 <div id="container" style=" overflow:hidden">
-	<!-- tags need to have space so not NULL -->
-	<div id = "left-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 30%">left</div> 
-	<div id = "middle-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 34%">middle</div> 
-	<div id = "right-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 34%">right</div> 
-</div> 
-<div id = "all-include-html">all</div> 
+	
+<iframe id="test" width="100%" height="900px" src="http://127.0.0.1:8000/system911/modifyCase.html" frameborder="0"></iframe>
 
+</div>
 </body>
 </html>

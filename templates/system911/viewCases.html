@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>View Cases</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <style>
 
   #selectable .ui-selecting { background: #FECA40; }
@@ -26,8 +28,7 @@
 }
 
   </style>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+=
   <script>
 
 {% block content %}
@@ -35,7 +36,7 @@
 {% if result %}
 var reportArr = [
   {% for row in result %}
-    ["{{row.caseNumber}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+    ["{{row.reportId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
   {% endfor %}
   ];
 {% endif %}
@@ -44,7 +45,7 @@ var reportArr = [
 
 var caseArr = [
   {% for c in cases %}
-  ["{{c.caseId}}", "{{c.summary}}", "{{c.reportId}}", "{{c.caseName}}"],
+  ["{{c.caseId}}", "{{c.summary}}", "{{c.caseName}}"],
   {% endfor %}
 ];
 
@@ -204,7 +205,7 @@ $( function() {
 
   </script>
 </head>
-<body style=" background-image: url('{% static 'test/red.png' %}')">
+<body ><!-- style="background-image: url('{% static 'test/red.png' %}')"> -->
 
 <button onclick="back()">Exit to Menu</button>
 

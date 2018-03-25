@@ -128,7 +128,8 @@ def makecase(request):
 
 def viewCases(request):
 	cases = dbgetCases()
-	return render(request, 'system911/viewCases.html', {"cases" : cases})
+	reports = dbgetYreports()
+	return render(request, 'system911/viewCases.html', {"cases" : cases, "result" : reports})
 
 
 def	viewCaseDetails(request):
