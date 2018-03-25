@@ -40,12 +40,9 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			return redirect('../menu.html');
 		else :
-			return render(request,'system911/home.html',{'fail' : "fail"})
+			return redirect('../home.html');
 		
-
-def server_config(request):
-	return render(request, 'system911/server_config.html',s_config)
-			
+		
 def createReport(request):
 	return render(request, 'system911/createReport.html')
 
@@ -131,7 +128,7 @@ def makecase(request):
 			
 			response_data = {}
 			response_data['message'] = 'success'
-	return HttpResponse(json.dumps(response_data), content_type="application/json")
+	return HttpResponse(json.dumps(response_data), content_type="application/json") 
 
 def viewCases(request):
 	cases = dbgetCases()
