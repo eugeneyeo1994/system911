@@ -24,8 +24,11 @@ urlpatterns = [
 	url(r'system911/caseDetails.html', views.viewCaseDetails, name='viewCaseDetails'),
     url(r'system911/updateCase', views.updateCase, name='updateCase'),
     url(r'system911/rejectCases.html', views.rejectCase, name='rejectCase'),
+    url(r'system911/addReportsToCase', views.addReportsToCase, name='addReportsToCase'),
+    url(r'system911/editCase', views.editCase, name='editCase'),
+    url(r'system911/modifyCase.html', views.modifyCase, name='modifyCase'),
 	
-	url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing
+	url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing 
 	url(r'system911/data.html', views.data, name='data'),
     url(r'system911/makecase', views.makecase, name='makecase'),	
 

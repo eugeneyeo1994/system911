@@ -4,6 +4,10 @@
   <title>911 Officer Menu</title>
 
 <script>
+  function editCase(){
+    window.location = "http://127.0.0.1:8000/system911/editCase.html";
+  }
+
 	function viewCase(){
 		leftincludeHTML("viewCases.html");
 	}
@@ -111,6 +115,7 @@ function allincludeHTML(file) {
 <body >
 
 <button onclick="viewCase()">View Cases</button>
+<button onclick="editCase()">Edit Cases</button>
 <button onclick="viewCaseSummary()">View Cases Summary</button>
 <button onclick="createCase()">Create Case</button>
 <button onclick="createReport()">Create Report</button>

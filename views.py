@@ -147,17 +147,54 @@ def	viewCaseDetails(request):
 
 		
 def viewReport2(request):
-	reports = dbgetReport()
+	reports = dbgetYreports()
 	cases = dbgetCases()
-	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases})
+	nreports = dbgetNreports()
+	#print(nreports)
+	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases, "nreports" : nreports})
 
 
+def modifyCase(request):
+	reports = dbgetYreports()
+	cases = dbgetCases()
+	nreports = dbgetNreports()
+	#print(nreports)
+	return render(request, 'system911/modifyCase.html', {'result' : reports,"cases" : cases, "nreports" : nreports})
 
 
 def updateCase(request):
 	if request.method == 'POST' :
 		dbupdatecase(cid,caseSum,caseName)
 	return render(request, 'system911/home.html')
+
+
+
+def addReportsToCase(request):
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body)
+			#print(data["caseid"])
+			for d in data["selectedReports"] : 
+			 	if d :
+			 		dbaddNewReportToCase(d, data["caseid"])	
+
+	reports = dbgetYreports()
+	for r in reports :
+		r["date"] = str(r["date"])
+		r["time"] = str(r["time"])
+		
+	
+	nreports = dbgetNreports()	
+	response_data = {}
+	response_data['message'] = 'success'
+	response_data['reports'] = reports
+	for n in nreports :
+		n["date"] = str(n["date"])
+		n["time"] = str(n["time"])
+	response_data['nreports'] = nreports
+	print("JSONNNNN:::: "+json.dumps(response_data))
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 
 
@@ -169,3 +206,32 @@ def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
+
+def editCase(request):
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body)
+			#print(data)
+			dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
+			for d in data["reportId"] : 
+			 	if d :
+			 		print(d)
+			 		dbaddNewReportToCase(str(d), "0")
+			
+	reports = dbgetYreports()
+	for r in reports :
+		r["date"] = str(r["date"])
+		r["time"] = str(r["time"])
+		
+	cases = dbgetCases()
+	nreports = dbgetNreports()	
+	response_data = {}
+	response_data['message'] = 'success'
+	response_data['reports'] = reports
+	response_data['cases'] = cases
+	for n in nreports :
+		n["date"] = str(n["date"])
+		n["time"] = str(n["time"])
+	response_data['nreports'] = nreports
+	print("JSONNNNN:::: "+json.dumps(response_data))
+	return HttpResponse(json.dumps(response_data), content_type="application/json")

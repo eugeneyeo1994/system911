@@ -46,7 +46,7 @@ def dbgetNreports():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where addToCase ='n'")
+	cursor.execute("SELECT * from report where caseId =0")
 	result = cursor.fetchall()
 	connection.close()
 	return result
@@ -55,7 +55,7 @@ def dbupdateAddToCase(reportid, createdCaseId):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	query = "update report set addToCase='y', caseid='"+createdCaseId+"' where reportId='"+reportid+"';"
+	query = "update report set caseId != 0, caseid='"+createdCaseId+"' where reportId='"+reportid+"';"
 	print("query::::::::::::: "+query)
 	cursor.execute(query)
 	connection.commit()
@@ -65,7 +65,7 @@ def dbcreateCase():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql ="INSERT INTO casetable( `summary`) VALUES('');"	
+	sql ="INSERT INTO casetable(`summary`) VALUES('');"	
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
@@ -96,3 +96,21 @@ def dbgetNewCaseId():
 	caseid = cursor.fetchone()
 	connection.close()
 	return str(caseid["cid"])
+
+def dbgetYreports():
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * from report where caseId !=0")
+	result = cursor.fetchall()
+	connection.close()
+	return result
+
+def dbaddNewReportToCase(reportid,caseid):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	query="UPDATE report SET caseId = '"+caseid +"' WHERE reportId ='"+reportid+"'";
+	cursor.execute(query)
+	connection.commit()
+	connection.close()
