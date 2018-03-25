@@ -18,7 +18,7 @@ def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`,`coords`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+coords+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','"+emergencyType+"','0')"
+	sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`,`coords`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+coords+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','"+emergencyType+"','1')"
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
@@ -55,7 +55,8 @@ def dbupdateAddToCase(reportid,caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	query = "update report set caseid='"+ str(caseid)+"' where reportid='"+reportid+"';"
+	query = "update report set caseid='"+ caseid+"' where reportid='"+reportid+"';"
+
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
@@ -74,7 +75,7 @@ def dbcreateCase():
 	connection.commit()
 	connection.close()
 	
-	return result[0]['caseid']
+	return str(result[0]['caseid'])
 
 def dbgetCases():
 	s_config = load_s_config()
@@ -93,4 +94,3 @@ def dbupdatecase(cid,caseSum,caseName):
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
-

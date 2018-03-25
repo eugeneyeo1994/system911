@@ -1,8 +1,8 @@
 s_config= {
 
-"host" : '127.0.0.1',
+"host" : '155.69.160.74',
 "user" : 'root',
-"password" : 'password',
+"password" : 'P@ssw0rd',
 "database" : 'cnberdynedb',
 
 }
