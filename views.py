@@ -103,29 +103,32 @@ def updateReport(request):
 		dbupdateReport(caseId,severity)
 	return render(request, 'system911/viewReports.html')
 
-def createCases(request):
-	result = dbgetNreports()
-	return render(request, 'system911/createCases.html', {'result' : result})
+	#=======????======
 
 def data(request):
 
 	return render(request, 'system911/data.html')
 
 	#=============================CASES==========================
+def createCases(request):
+	result = dbgetNreports()
+	return render(request, 'system911/createCases.html', {'result' : result})	
+	
 #@csrf_exempt
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
+			caseid = dbcreateCase()
+		
 			reportid=""
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			for d in data["selectedItems"] : 
 				if reportid =="" :
-					reportid = ""+d["CaseNumber"]
+					reportid = ""+d["reportid"]
 				else :
-					reportid = reportid+","+d["CaseNumber"]
-				dbupdateAddToCase(d["CaseNumber"])
+					reportid = reportid+","+d["reportid"]
+				dbupdateAddToCase(d["reportid"],caseid)
 			
-			dbcreateCase(reportid)
 			response_data = {}
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")

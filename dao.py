@@ -37,7 +37,7 @@ def dbupdateReport(caseId,severity):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql ="update report set severity='"+severity+"' where caseNumber='"+ caseId +"'"
+	sql ="update report set severity='"+severity+"' where reportid='"+ caseId +"'"
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
@@ -46,28 +46,35 @@ def dbgetNreports():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where addToCase ='n'")
+	cursor.execute("SELECT * from report where caseid IS NULL")
 	result = cursor.fetchall()
 	connection.close()
 	return result
 
-def dbupdateAddToCase(caseNumber):
+def dbupdateAddToCase(reportid,caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	query = "update report set addToCase='y' where caseNumber='"+caseNumber+"';"
+	query = "update report set caseid='"+ str(caseid)+"' where reportid='"+reportid+"';"
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
 
-def dbcreateCase(reportid):
+def dbcreateCase():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql ="INSERT INTO casetable( `summary`, `reportId`) VALUES('','"+reportid+"');"	
+	
+	caseid_sql ="SELECT `AUTO_INCREMENT` AS caseid FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'cnberdynedb' AND   TABLE_NAME   = 'casetable';"
+	cursor.execute(caseid_sql)
+	result=cursor.fetchall()
+	
+	sql ="INSERT INTO casetable( `summary`) VALUES('');"	
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
+	
+	return result[0]['caseid']
 
 def dbgetCases():
 	s_config = load_s_config()
