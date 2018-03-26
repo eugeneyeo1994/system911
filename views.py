@@ -40,7 +40,7 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			return redirect('../menu.html');
 		else :
-			return redirect('../home.html');
+			return redirect('../../home.html');
 		
 		
 def createReport(request):
