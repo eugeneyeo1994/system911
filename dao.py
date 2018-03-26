@@ -67,9 +67,12 @@ def dbcreateCase():
 	sql ="INSERT INTO casetable(`summary`) VALUES('');"	
 	cursor.execute(sql)
 	connection.commit()
+	
+	cursor.execute("SELECT MAX(caseId) as cid from casetable")
+	caseid = cursor.fetchone()
 	connection.close()
 	
-	return str(result[0]['caseid'])
+	return str(caseid["cid"])
 
 def dbgetCases():
 	s_config = load_s_config()
@@ -90,14 +93,6 @@ def dbupdatecase(cid,caseSum,caseName):
 	connection.close()
 
 
-def dbgetNewCaseId():
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT MAX(caseId) as cid from casetable")
-	caseid = cursor.fetchone()
-	connection.close()
-	return str(caseid["cid"])
 
 def dbgetYreports():
 	s_config = load_s_config()

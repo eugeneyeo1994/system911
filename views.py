@@ -115,10 +115,9 @@ def createCases(request):
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			print(data)
-			dbcreateCase()
-			createdCaseId = dbgetNewCaseId()
+			createdCaseId = dbcreateCase()
 			for d in data["selectedItems"] : 
 				 if d["reportId"] :
 				 	dbupdateAddToCase(d["reportId"], createdCaseId)
@@ -203,7 +202,7 @@ def logout(request):
 def editCase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			#print(data)
 			dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
 			for d in data["reportId"] : 

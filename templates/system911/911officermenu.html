@@ -4,9 +4,13 @@
   <title>911 Officer Menu</title>
 
 <script>
-  function editCase(){
-    window.location = "http://127.0.0.1:8000/system911/modifyCase.html";
-  }
+	function editCase(){
+		document.getElementById("left-include-html").innerHTML=" ";
+		document.getElementById("middle-include-html").innerHTML=" ";
+		document.getElementById("right-include-html").innerHTML=" ";
+		document.getElementById('iframe').src = "modifyCase.html";
+		
+	}
 
 	function viewCase(){
 		leftincludeHTML("viewCases.html");
@@ -17,7 +21,6 @@
 		document.getElementById("middle-include-html").innerHTML=" ";
 		document.getElementById("right-include-html").innerHTML=" ";
 		document.getElementById('iframe').src = "createCases.html";
-		//leftincludeHTML("createCases.html");
 	}
 
 	function logOut(){
