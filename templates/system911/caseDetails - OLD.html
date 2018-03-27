@@ -46,8 +46,7 @@
 {% if result %}
 var reportArr = [
 	{% for row in result %}
-		["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
-		["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+		["{{row.caseNumber}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
 	{% endfor %}
 	];
 {% endif %}
@@ -180,15 +179,15 @@ var reportArr = [
 } );*/
 
 	function back(){
-		window.location = "/system911/menu.html";
+		window.location = "/system911/ctmenu.html";
 	}
 
   </script>
 </head>
-<body ><!-- style=" background-image: url('{% static 'test/red.png' %}')"> -->
+<body style=" background-image: url('{% static 'test/red.png' %}')">
 
 <button onclick="back()">Exit to Menu</button>
-
+<li>Case ID: {{testcase}} </li>
  
 <p id="feedback">
 </p>

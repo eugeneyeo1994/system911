@@ -9,7 +9,7 @@ from .dao import *
 
 
 def post_list(request):
-    return render(request, 'system911/post_list.html', {})
+    return render(request, 'system911/home_public.html', {})
 
 def home(request):
 	s_config = load_s_config()
@@ -40,12 +40,9 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			return redirect('../menu.html');
 		else :
-			return render(request,'system911/home.html',{'fail' : "fail"})
+			return redirect('../../home.html');
 		
-
-def server_config(request):
-	return render(request, 'system911/server_config.html',s_config)
-			
+		
 def createReport(request):
 	return render(request, 'system911/createReport.html')
 
@@ -85,10 +82,16 @@ def menu(request):
 	    return render(request, 'system911/home.html')
 	else :
 		return render(request, 'system911/home.html')
-	
+	#=============================REPORTS==========================
 def viewReports(request):
 	result = dbgetReport()
 	return render(request, 'system911/viewReports.html', {'result' : result})
+	
+def viewReportDetails(request):
+	if request.method == 'GET':
+		reportid = request.GET.get('reportid')
+		report = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
 
 def updateReport(request):
 	if request.method == 'POST':
@@ -97,58 +100,93 @@ def updateReport(request):
 		dbupdateReport(caseId,severity)
 	return render(request, 'system911/viewReports.html')
 
-def createCases(request):
-	result = dbgetNreports()
-	return render(request, 'system911/createCases.html', {'result' : result})
+	#=======????======
 
 def data(request):
 
 	return render(request, 'system911/data.html')
 
+	#=============================CASES==========================
+def createCases(request):
+	result = dbgetNreports()
+	return render(request, 'system911/createCases.html', {'result' : result})	
+	
 #@csrf_exempt
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			reportid=""
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
+			print(data)
+			createdCaseId = dbcreateCase()
 			for d in data["selectedItems"] : 
-				if reportid =="" :
-					reportid = ""+d["CaseNumber"]
-				else :
-					reportid = reportid+","+d["CaseNumber"]
-				dbupdateAddToCase(d["CaseNumber"])
-			
-			dbcreateCase(reportid)
+				 if d["reportId"] :
+				 	dbupdateAddToCase(d["reportId"], createdCaseId)
 			response_data = {}
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-
 def viewCases(request):
+	cases = dbgetCases()
+	reports = dbgetYreports()
+	return render(request, 'system911/viewCases.html', {"cases" : cases, "result" : reports})
 
-	return render(request, 'system911/viewCases.html')
 
-	
 def	viewCaseDetails(request):
-	return render(request, 'system911/caseDetails.html')
+	if request.method == 'GET':
+		caseid = request.GET.get('caseid')
+		reports = dbgetReport() #add id to argument later, 
+	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
 
 		
 def viewReport2(request):
-	reports = dbgetReport()
+	reports = dbgetYreports()
 	cases = dbgetCases()
-	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases})
+	nreports = dbgetNreports()
+	#print(nreports)
+	return render(request, 'system911/viewReport2.html', {'result' : reports,"cases" : cases, "nreports" : nreports})
 
 
-def viewCases(request):
-	reports = dbgetReport()
+def modifyCase(request):
+	reports = dbgetYreports()
 	cases = dbgetCases()
-	return render(request, 'system911/viewCases.html', {'result' : result,"cases" : cases})
+	nreports = dbgetNreports()
+	#print(nreports)
+	return render(request, 'system911/modifyCase.html', {'result' : reports,"cases" : cases, "nreports" : nreports})
 
 
 def updateCase(request):
 	if request.method == 'POST' :
 		dbupdatecase(cid,caseSum,caseName)
 	return render(request, 'system911/home.html')
+
+
+
+def addReportsToCase(request):
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body)
+			#print(data["caseid"])
+			for d in data["selectedReports"] : 
+			 	if d :
+			 		dbaddNewReportToCase(d, data["caseid"])	
+
+	reports = dbgetYreports()
+	for r in reports :
+		r["date"] = str(r["date"])
+		r["time"] = str(r["time"])
+		
+	
+	nreports = dbgetNreports()	
+	response_data = {}
+	response_data['message'] = 'success'
+	response_data['reports'] = reports
+	for n in nreports :
+		n["date"] = str(n["date"])
+		n["time"] = str(n["time"])
+	response_data['nreports'] = nreports
+	print("JSONNNNN:::: "+json.dumps(response_data))
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 
 
@@ -160,3 +198,32 @@ def logout(request):
 	del request.session['role']
 	request.session.modified = True
 	return render(request, 'system911/home.html')
+
+def editCase(request):
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body.decode('utf-8'))
+			#print(data)
+			dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
+			for d in data["reportId"] : 
+			 	if d :
+			 		print(d)
+			 		dbaddNewReportToCase(str(d), "0")
+			
+	reports = dbgetYreports()
+	for r in reports :
+		r["date"] = str(r["date"])
+		r["time"] = str(r["time"])
+		
+	cases = dbgetCases()
+	nreports = dbgetNreports()	
+	response_data = {}
+	response_data['message'] = 'success'
+	response_data['reports'] = reports
+	response_data['cases'] = cases
+	for n in nreports :
+		n["date"] = str(n["date"])
+		n["time"] = str(n["time"])
+	response_data['nreports'] = nreports
+	print("JSONNNNN:::: "+json.dumps(response_data))
+	return HttpResponse(json.dumps(response_data), content_type="application/json")

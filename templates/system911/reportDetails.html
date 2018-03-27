@@ -1,0 +1,88 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View Reports</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
+  <style>
+  #feedback { font-size: 1.4em; }
+  #selectable .ui-selecting { background: #FECA40; }
+  #selectable .ui-selected { background: #F39814; color: white; }
+  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+  input{width:99.2%;}
+  td{padding:0 0 0 0;}
+
+.ui-selectmenu-button.ui-button {
+    width: 6em;
+}
+
+  </style>
+<li>Report ID: {{test}} </li>
+
+<form id="csv_form" action="updateReport/" method="POST">
+  <div class="container">
+    
+   <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
+      <tr>
+      	<input id="caseId" type="hidden"  name="cid" readonly="readonly">
+        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
+      </tr>
+       <tr>
+        <td>Date Of Call: </td> <td><input style="width:98.5%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
+        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime"  readonly="readonly"></td></td>
+      </tr>
+
+      <tr><td colspan="4">Caller Information:</td></tr>
+
+      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      </tr>
+
+      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
+      </tr>
+
+    </table>
+
+      <fieldset>
+    <label for="people">Severity Level:</label>
+
+	    <select id="level" name="severity">
+	      <option value="1" >Level 1</option>
+	      <option value="2" ">Level 2</option>
+	      <option value="3">Level 3</option>
+	      <option value="4">Level 4</option>
+	      <option value="5">Level 5</option> 
+	    </select>
+
+  </fieldset>
+
+  </div>
+</form>
+
+</div>
+
+
+</body>
+</html>

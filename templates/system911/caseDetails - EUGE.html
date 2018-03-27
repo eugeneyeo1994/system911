@@ -45,11 +45,10 @@
 
 {% if result %}
 var reportArr = [
-	{% for row in result %}
-		["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
-		["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
-	{% endfor %}
-	];
+  {% for row in result %}
+    ["{{row.caseNumber}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+  {% endfor %}
+  ];
 {% endif %}
 
 {% endblock %}
@@ -132,7 +131,7 @@ var reportArr = [
           document.getElementById("danger").value = reportArr[index][9];
           document.getElementById("involve").value = reportArr[index][10];
           document.getElementById("eType").value = reportArr[index][11];
- 		  document.getElementById("level").value = reportArr[index][12];
+      document.getElementById("level").value = reportArr[index][12];
 
 
           //result.append( " #" + ( index + 1 ) );
@@ -179,16 +178,16 @@ var reportArr = [
         .addClass( "ui-menu-icons avatar" );
 } );*/
 
-	function back(){
-		window.location = "/system911/menu.html";
-	}
+  function back(){
+    window.location = "/system911/ctmenu.html";
+  }
 
   </script>
 </head>
-<body ><!-- style=" background-image: url('{% static 'test/red.png' %}')"> -->
+<body style=" background-image: url('{% static 'test/red.png' %}')">
 
 <button onclick="back()">Exit to Menu</button>
-
+<li>Case ID: {{testcase}} </li>
  
 <p id="feedback">
 </p>
@@ -197,10 +196,10 @@ var reportArr = [
 
 {% if result %}
 
-	{% for row in result %}
-		<li class="ui-widget-content">{{row.incident}}</li>
-	{% endfor %}
-	
+  {% for row in result %}
+    <li class="ui-widget-content">{{row.incident}}</li>
+  {% endfor %}
+  
 {% endif %}
 
 
@@ -238,7 +237,7 @@ var reportArr = [
     
    <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
       <tr>
-      	<input id="caseId" type="hidden"  name="cid" readonly="readonly">
+        <input id="caseId" type="hidden"  name="cid" readonly="readonly">
         <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
       </tr>
        <tr>
@@ -277,21 +276,21 @@ var reportArr = [
       <fieldset>
     <label for="people">Severity Level:</label>
 
-<!-- 	    <select id="level" name="severity">
-	      <option value="1" data-class="avatar" data-style="background-image: url('{% static 'test/test.png' %}');">Level 1</option>
-	      <option value="2" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/e42b1e5c7cfd2be0933e696e292a4d5f?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 2</option>
-	      <option value="3" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 3</option>
-	      <option value="4" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 4</option>
-	      <option value="5" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 5</option> 
-	    </select> -->
+<!--      <select id="level" name="severity">
+        <option value="1" data-class="avatar" data-style="background-image: url('{% static 'test/test.png' %}');">Level 1</option>
+        <option value="2" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/e42b1e5c7cfd2be0933e696e292a4d5f?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 2</option>
+        <option value="3" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 3</option>
+        <option value="4" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 4</option>
+        <option value="5" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 5</option> 
+      </select> -->
 
-	    <select id="level" name="severity">
-	      <option value="1" >Level 1</option>
-	      <option value="2" ">Level 2</option>
-	      <option value="3">Level 3</option>
-	      <option value="4">Level 4</option>
-	      <option value="5">Level 5</option> 
-	    </select>
+      <select id="level" name="severity">
+        <option value="1" >Level 1</option>
+        <option value="2" ">Level 2</option>
+        <option value="3">Level 3</option>
+        <option value="4">Level 4</option>
+        <option value="5">Level 5</option> 
+      </select>
 
   </fieldset>
 

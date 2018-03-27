@@ -102,16 +102,17 @@
     <script>
         $(document).ready(function () { 
             var customerTemplate = '<span class=" k-state-default" style="background-image: url(\'/static/test/#:data.Severity#.png\')"></span>' +
-                '<span class=" k-state-default"><h3>#: data.incident #</h3><p>#: data.Severity #</p></span><span style="float:right" class=" k-state-default"><button class="view k-primary" onclick="openDialog(\' #:data.CaseNumber#\')">view</button></span> ';
+                '<span class=" k-state-default"><h3>#: data.incident #</h3><p>#: data.Severity #</p></span><span style="float:right" class=" k-state-default"><button class="view k-primary" onclick="openDialog(\' #:data.reportid#\')">view</button></span> ';
             $("#optional").kendoListBox({
                 dataTextField: "incident",
-                dataValueField: "CaseNumber",
+                dataValueField: "reportid",
+
                 template: customerTemplate,
                 dataSource: [
                 {% block content %}
                   {% if result %}
                     {% for row in result %}
-                      {"CaseNumber":"{{row.caseNumber}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
+                      {"reportid":"{{row.reportid}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
                     {% endfor %}
                   {% endif %}
                 {% endblock %}
@@ -127,7 +128,7 @@
 
             $("#selected").kendoListBox({
                 dataTextField: "incident",
-                dataValueField: "CaseNumber",
+                dataValueField: "reportid",
                 template: customerTemplate,
                 draggable: { placeholder: customPlaceholder },
                 dropSources: ["optional"],
@@ -209,15 +210,6 @@
   '</fieldset>'
 
 
-
-
-
-
-
-
-
-
-
 ,
             actions: [
                   //{ text: 'Cancel'},
@@ -225,7 +217,7 @@
             ],
         });
 
-        $("#pickEmployeesButton").kendoButton({
+        $("#createCaseButton").kendoButton({
             click: makecase
         });
 
@@ -250,8 +242,6 @@
 
 
 
-
-
     function openDialog(e) {
         $("#dialog").data("kendoDialog").open();
     }
@@ -269,7 +259,7 @@
            type: "POST",
            url: "../system911/makecase",
            contentType: "application/json; charset=utf-8",
-           data:  JSON.stringify({ selectedItems: $('#selected').data('kendoListBox').dataItems() }),
+           data:  JSON.stringify({summary: $("#summary").val(), selectedItems: $('#selected').data('kendoListBox').dataItems()}),
            dataType: "json",
            success: function (result) {
             if(result.message == "success"){
@@ -303,8 +293,10 @@ function back(){
 
 
 <div id="example">
+	<li>Case summary: 
+	<textarea rows="4" cols="50" id="summary"> </textarea> <br>
     <div id="dialog"></div>
-        <button id="pickEmployeesButton" class="k-primary">Create Case</button>       
+        <button id="createCaseButton" class="k-primary">Create Case</button>       
 </div>
 
 <button onclick="back()">Exit to Menu</button>
