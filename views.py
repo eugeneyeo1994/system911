@@ -84,13 +84,13 @@ def menu(request):
 		return render(request, 'system911/home.html')
 	#=============================REPORTS==========================
 def viewReports(request):
-	result = dbgetReport()
+	result = dbgetReports()
 	return render(request, 'system911/viewReports.html', {'result' : result})
 	
 def viewReportDetails(request):
 	if request.method == 'GET':
 		reportid = request.GET.get('reportid')
-		report = dbgetReport() #add id to argument later, 
+		report = dbgetReports() #add id to argument later, 
 	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
 
 def updateReport(request):
@@ -127,19 +127,18 @@ def makecase(request):
 
 def viewCases(request):
 	cases = dbgetCases()
-	reports = dbgetYreports()
-	return render(request, 'system911/viewCases.html', {"cases" : cases, "result" : reports})
+	return render(request, 'system911/viewCases.html', {"cases" : cases})
 
 
 def	viewCaseDetails(request):
 	if request.method == 'GET':
 		caseid = request.GET.get('caseid')
-		reports = dbgetReport() #add id to argument later, 
+		reports = dbgetReports(caseid) #add id to argument later, 
 	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
 
 		
 def viewReport2(request):
-	reports = dbgetYreports()
+	reports = dbgetReports()
 	cases = dbgetCases()
 	nreports = dbgetNreports()
 	#print(nreports)
@@ -147,7 +146,7 @@ def viewReport2(request):
 
 
 def modifyCase(request):
-	reports = dbgetYreports()
+	reports = dbgetReports()
 	cases = dbgetCases()
 	nreports = dbgetNreports()
 	#print(nreports)
@@ -164,13 +163,13 @@ def updateCase(request):
 def addReportsToCase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			#print(data["caseid"])
 			for d in data["selectedReports"] : 
 			 	if d :
 			 		dbaddNewReportToCase(d, data["caseid"])	
 
-	reports = dbgetYreports()
+	reports = dbgetReports(str(data["caseid"]))
 	for r in reports :
 		r["date"] = str(r["date"])
 		r["time"] = str(r["time"])
@@ -210,7 +209,7 @@ def editCase(request):
 			 		print(d)
 			 		dbaddNewReportToCase(str(d), "0")
 			
-	reports = dbgetYreports()
+	reports = dbgetReports(str(data["caseId"]))
 	for r in reports :
 		r["date"] = str(r["date"])
 		r["time"] = str(r["time"])
@@ -227,3 +226,24 @@ def editCase(request):
 	response_data['nreports'] = nreports
 	print("JSONNNNN:::: "+json.dumps(response_data))
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+	
+def sendCase(request):
+	reports= dbgetReports() #use getReports(caseid) for final
+	for r in reports:
+		r['date']= r['date'].isoformat()
+		r['time']= r['time'].__str__()
+	case= dbgetCases() #use getCase(caseid) for final
+	
+	print(reports)
+	data={'case': case, 'reports' : reports}
+	file= json.dumps(data)
+	
+	return render(request, 'system911/sendCase.html', {'file':file})
+
+@csrf_exempt
+def receiveCase(request):
+	if request.method == 'POST':
+		data= request.POST.get('file')
+		file = json.loads(data)
+		print(file)
+	return HttpResponse("received")

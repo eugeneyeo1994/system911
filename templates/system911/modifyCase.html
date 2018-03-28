@@ -93,7 +93,7 @@
 {% block content %}
 
 
-{% if result %}
+{% if nreports %}
 var reportArrN = [
   {% for row in nreports %}
     ["{{row.reportId}}","{{row.caseId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
@@ -105,7 +105,9 @@ var reportArrN = [
 {% if result %}
 var reportArr = [
   {% for row in result %}
-    ["{{row.reportId}}","{{row.caseId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+	{% if result.caseId != 0 %}
+		["{{row.reportId}}","{{row.caseId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
+	{% endif %}
   {% endfor %}
   ];
 {% endif %}

@@ -30,8 +30,11 @@ urlpatterns = [
 	
 	url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing 
 	url(r'system911/data.html', views.data, name='data'),
-    url(r'system911/makecase', views.makecase, name='makecase'),	
-
+    url(r'system911/makecase', views.makecase, name='makecase'),
+	#Send case
+	url(r'system911/sendCase', views.sendCase, name='sendcase'),
+	#TEST-receive case
+	url(r'system911/receiveCase', views.receiveCase, name='receivecase'),
     #logout
          url(r'system911/logout', views.logout, name='logout'),
 ]

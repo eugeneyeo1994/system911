@@ -24,15 +24,21 @@ def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact
 	connection.close()
 	return 1
 
-def dbgetReport():
+def dbgetReports(caseid=None):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report")
-	result = cursor.fetchall()
-	connection.close()
+	
+	if (caseid is None): 
+		cursor.execute("SELECT * from report")
+	else: 
+		cursor.execute("SELECT * from report where caseId ="+caseid)
+	
+	result= cursor.fetchall()
+	connection.close
+	
 	return result
-
+	
 def dbupdateReport(caseId,severity):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
@@ -82,6 +88,15 @@ def dbgetCases():
 	cases = cursor.fetchall()
 	connection.close()
 	return cases
+	
+def dbgetCase(caseid):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * FROM caseTable where caseId ="+caseid)
+	cases = cursor.fetchall()
+	connection.close()
+	return cases
 
 def dbupdatecase(cid,caseSum,caseName):
 	s_config = load_s_config()
@@ -94,15 +109,6 @@ def dbupdatecase(cid,caseSum,caseName):
 
 
 
-def dbgetYreports():
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where caseId !=0")
-	result = cursor.fetchall()
-	connection.close()
-	return result
-
 def dbaddNewReportToCase(reportid,caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
@@ -111,4 +117,5 @@ def dbaddNewReportToCase(reportid,caseid):
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
+	
 
