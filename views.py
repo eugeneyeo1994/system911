@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .dao import *
+from .control import *
 # Create your views here.
 
 
@@ -131,10 +132,24 @@ def viewCases(request):
 
 
 def	viewCaseDetails(request):
+	#get case id
 	if request.method == 'GET':
 		caseid = request.GET.get('caseid')
-		reports = dbgetReports(caseid) #add id to argument later, 
-	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
+		reports = dbgetReports(caseid) 
+	#get file to send to CMO
+	reports= dbgetReports(caseid) 
+	for r in reports:
+		r['date']= r['date'].isoformat()
+		r['time']= r['time'].__str__()
+	case= dbgetCase(caseid) 
+	
+	data={'case': case, 'reports' : reports}
+	file= json.dumps(data)	
+	
+	#get CMO api using control.py
+	cmoAPI= load_CMO_sConfig()
+	
+	return render(request, 'system911/caseDetails.html', {'case':case, 'result': reports, 'file' : file, 'cmoAPI': cmoAPI})
 
 		
 def viewReport2(request):
@@ -234,7 +249,6 @@ def sendCase(request):
 		r['time']= r['time'].__str__()
 	case= dbgetCases() #use getCase(caseid) for final
 	
-	print(reports)
 	data={'case': case, 'reports' : reports}
 	file= json.dumps(data)
 	

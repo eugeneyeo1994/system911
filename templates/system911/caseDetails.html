@@ -27,8 +27,18 @@
 <body style=" background-image: url('{% static 'test/red.png' %}')">
 
 <button onclick="back()">Exit to Menu</button>
-<li>Case ID: {{testcase}} </li>
- 
+<li>Case ID: {{case.0.caseId}} </li>
+<li>Case Name: {{case.0.caseName}} </li>
+<li>Case Summary: {{case.0.summary}} </li>
+<form action="{{cmoAPI.cmoAPI}}" method='POST'>
+	<p><span>CMO API (go json file to edit):
+			</span> 
+		<span><input type="text" value="{{cmoAPI.cmoAPI}}" name="file" required> 
+			</span></p>
+	
+	<input type="text" value="{{file}}" name="file" required style="display:none"> 
+	<button>SendCase</button>
+ </form>
 <p id="feedback">
 </p>
  

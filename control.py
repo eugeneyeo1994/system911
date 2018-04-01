@@ -32,3 +32,7 @@ def update_server_settings(request):
 				
 	return go_server_config(request)
 	
+def load_CMO_sConfig():
+	with open("system911/CMO_server_config.json", "r") as file:
+		data = file.read()
+		return json.loads(data)
