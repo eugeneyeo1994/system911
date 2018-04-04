@@ -34,20 +34,27 @@
 		rightincludeHTML("reportDetails.html", id);
 	}
 	
+	function viewReport2(id) {
+		middleincludeHTML("reportDetails.html", id);
+	}
+	
 	function createReport() {
 		document.getElementById("left-include-html").innerHTML=" ";
 		document.getElementById("middle-include-html").innerHTML=" ";
 		document.getElementById("right-include-html").innerHTML=" ";
 		document.getElementById('iframe').src = "createReport.html";
 	}
-	function test() {
-		getDateTime();
+	function viewAllReports() {
+		leftincludeHTML("viewReports.html")
 	}
 	
 function leftincludeHTML(file) {
   var z, i, elmnt, file, xhttp;
   document.getElementById("iframe").src =" ";
   elmnt = document.getElementById("left-include-html");
+  
+  document.getElementById("middle-include-html").innerHTML=" ";
+  document.getElementById("right-include-html").innerHTML=" ";
   
   /*make an HTTP request using the attribute value as the file name:*/
   xhttp = new XMLHttpRequest();
@@ -75,7 +82,7 @@ function middleincludeHTML(file, id) {
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
-  xhttp.open("GET", file+"?caseid="+id, true);
+  xhttp.open("GET", file+"?id="+id, true);
   xhttp.send();
   /*exit the function:*/
   return;
@@ -93,7 +100,7 @@ function rightincludeHTML(file, id) {
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
-  xhttp.open("GET", file+"?reportid="+id, true);
+  xhttp.open("GET", file+"?id="+id, true);
   xhttp.send();
   /*exit the function:*/
   return;
@@ -109,7 +116,7 @@ function rightincludeHTML(file, id) {
 <button onclick="editCase()">Edit Cases</button>
 <button onclick="createCase()">Create Case</button>
 <button onclick="createReport()">Create Report</button>
-<button onclick="test()">Test</button>
+<button onclick="viewAllReports()">View All Reports</button>
 <button onclick="logOut()">LogOut</button>
 
 <div id="container" style=" overflow:hidden">

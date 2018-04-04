@@ -90,9 +90,9 @@ def viewReports(request):
 	
 def viewReportDetails(request):
 	if request.method == 'GET':
-		reportid = request.GET.get('reportid')
-		report = dbgetReports() #add id to argument later, 
-	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
+		reportid = request.GET.get('id')
+		report = dbgetReport(reportid)
+	return render(request, 'system911/reportDetails.html', {'result': report})
 
 def updateReport(request):
 	if request.method == 'POST':
@@ -134,7 +134,7 @@ def viewCases(request):
 def	viewCaseDetails(request):
 	#get case id
 	if request.method == 'GET':
-		caseid = request.GET.get('caseid')
+		caseid = request.GET.get('id')
 		reports = dbgetReports(caseid) 
 	#get file to send to CMO
 	reports= dbgetReports(caseid) 

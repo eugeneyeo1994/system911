@@ -22,7 +22,7 @@
 }
 
   </style>
-<li>Report ID: {{test}} </li>
+<li>Report ID: {{result.reportId}} </li>
 
 <form id="csv_form" action="updateReport/" method="POST">
   <div class="container">
@@ -39,28 +39,28 @@
 
       <tr><td colspan="4">Caller Information:</td></tr>
 
-      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
+      <tr><td>Caller's Name:</td><td colspan="3"><input value={{result.callerName}} id="cname" type="text" name="callerName" readonly="readonly" ></td>
       </tr>
 
-      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
+      <tr><td>Caller's Contact:</td><td colspan="3"><input value={{result.callerContact}} id="cContact" type="text" name="callerContact" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
+      <tr><td>Location/Address:</td><td colspan="3"><input  value={{result.location}} id="address" type="text" name="location" readonly="readonly"></td>
       </tr>
 
-      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      <tr><td>What Happened:</td><td colspan="3"><textarea  value={{result.whathappen}} id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
       </tr>
 
-      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
+      <tr><td>Casualties:</td><td colspan="3"><input  value={{result.casualties}} id="cas" type="text" name="casualties" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
+      <tr><td>Hazards/Dangers:</td><td colspan="3"><input  value={{result.dangers}} id="danger" type="text" name="danger" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
+      <tr><td>Caller’s involvement:</td><td colspan="3"><input value={{result.involvement}}  id="involve" type="text" name="involve" readonly="readonly"></td>
       </tr>
 
-      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
+      <tr><td>Type of Emergency:</td><td colspan="3"><input  value={{result.typeOfEmergency}} id="eType" type="text" name="emergencyType" readonly="readonly"></td>
       </tr>
 
     </table>
@@ -69,8 +69,8 @@
     <label for="people">Severity Level:</label>
 
 	    <select id="level" name="severity">
-	      <option value="1" >Level 1</option>
-	      <option value="2" ">Level 2</option>
+	      <option value="1">Level 1</option>
+	      <option value="2">Level 2</option>
 	      <option value="3">Level 3</option>
 	      <option value="4">Level 4</option>
 	      <option value="5">Level 5</option> 

@@ -24,6 +24,15 @@ def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact
 	connection.close()
 	return 1
 
+def dbgetReport(reportid):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * FROM report where reportId ="+reportid)
+	report = cursor.fetchall()[0]
+	connection.close()
+	return report
+	
 def dbgetReports(caseid=None):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
@@ -52,7 +61,7 @@ def dbgetNreports():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where caseId =0")
+	cursor.execute("SELECT * from report where severity>2 AND caseId =0")
 	result = cursor.fetchall()
 	connection.close()
 	return result

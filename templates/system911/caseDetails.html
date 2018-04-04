@@ -33,7 +33,7 @@
 <form action="{{cmoAPI.cmoAPI}}" method='POST'>
 	<p><span>CMO API (go json file to edit):
 			</span> 
-		<span><input type="text" value="{{cmoAPI.cmoAPI}}" name="file" required> 
+		<span><input type="text" value="{{cmoAPI.cmoAPI}}" name="file" required readonly> 
 			</span></p>
 	
 	<input type="text" value="{{file}}" name="file" required style="display:none"> 
@@ -57,7 +57,7 @@
       <td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
     </tr>
   </table>
-  <button onclick="viewReport({{row.caseId}})">View Report</button>
+  <button onclick="viewReport({{row.reportId}})">View Report</button>
   
 	{% endfor %}
 {% endif %}

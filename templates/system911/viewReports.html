@@ -185,121 +185,25 @@ var reportArr = [
 
   </script>
 </head>
-<body ><!-- style=" background-image: url('{% static 'test/red.png' %}')"> -->
-
-<button onclick="back()">Exit to Menu</button>
-
- 
-<p id="feedback">
-</p>
- 
-<ol id="selectable">
+<body >
 
 {% if result %}
-
 	{% for row in result %}
-		<li class="ui-widget-content">{{row.incident}}</li>
-	{% endfor %}
 	
+	<table  border="1" style="border-collapse: collapse; width: 100%" cellspacing="0"> 
+    <tr>
+      <td style="width: 20%">Report Id: {% csrf_token %}</td><td style="width: 20%">{{row.reportId}}</td>
+      <td style="width: 20%">Caller's Name</td><td style="width: 40%" colspan="2">{{row.callerName}}</textarea></td>
+    </tr>
+
+     <tr>
+      <td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
+    </tr>
+  </table>
+  <button onclick="viewReport2({{row.reportId}})">View Report</button>
+  
+	{% endfor %}
 {% endif %}
 
-
-  
-</ol>
- 
- 
-
-
-
-
- <div id="dialog-form" title="Set Severity">
- 
-<!--   <form>
-    <fieldset>
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
-      <label for="email">Email</label>
-      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
- 
-      <!-- Allow form submission with keyboard without duplicating the dialog button
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
-  </form> -->
-
-
-
-
-
-
-<form id="csv_form" action="updateReport/" method="POST">
-  <div class="container">
-    
-   <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
-      <tr>
-      	<input id="caseId" type="hidden"  name="cid" readonly="readonly">
-        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
-      </tr>
-       <tr>
-        <td>Date Of Call: </td> <td><input style="width:98.5%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime"  readonly="readonly"></td></td>
-      </tr>
-
-      <tr><td colspan="4">Caller Information:</td></tr>
-
-      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
-      </tr>
-
-      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
-      </tr>
-
-    </table>
-
-      <fieldset>
-    <label for="people">Severity Level:</label>
-
-<!-- 	    <select id="level" name="severity">
-	      <option value="1" data-class="avatar" data-style="background-image: url('{% static 'test/test.png' %}');">Level 1</option>
-	      <option value="2" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/e42b1e5c7cfd2be0933e696e292a4d5f?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 2</option>
-	      <option value="3" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 3</option>
-	      <option value="4" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 4</option>
-	      <option value="5" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 5</option> 
-	    </select> -->
-
-	    <select id="level" name="severity">
-	      <option value="1" >Level 1</option>
-	      <option value="2" ">Level 2</option>
-	      <option value="3">Level 3</option>
-	      <option value="4">Level 4</option>
-	      <option value="5">Level 5</option> 
-	    </select>
-
-  </fieldset>
-
-  </div>
-</form>
-
-</div>
-
-
-</body>
+</body> 
 </html>
