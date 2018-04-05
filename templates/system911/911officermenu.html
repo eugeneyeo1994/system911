@@ -84,7 +84,6 @@ li a:hover:not(.active) {
 
 </style>
 
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -146,7 +145,7 @@ function updateSeverity(id){
   
   function viewReport(id) {
     rightincludeHTML("reportDetails.html", id);
-   
+
   }
   
   function viewReport2(id) {
@@ -211,18 +210,19 @@ function rightincludeHTML(file, id) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4) {
+
           if (this.status == 200) {
             elmnt.innerHTML = this.responseText;
             var severity= document.getElementById("slevel").value;
              document.getElementById("level").value = severity;
 
           }
+
           if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
         }
       }      
   xhttp.open("GET", file+"?id="+id, true);
   xhttp.send();
-
   /*exit the function:*/
   return;
 };
