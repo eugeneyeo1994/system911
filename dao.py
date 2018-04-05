@@ -18,21 +18,36 @@ def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`,`coords`, `whathappen`, `casualities`, `dangers`, `involvement`, `typeOfEmergency`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+coords+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','"+emergencyType+"','1')"
+	sql = "INSERT INTO report(`incident`, `date`, `time`, `callerName`, `callerContact`, `location`,`coords`, `whathappen`, `casualities`, `dangers`, `involvement`, `severity`) values('"+incident+"','"+rdate+"','"+rtime+"','"+callerName+"','"+callerContact+"','"+location+"','"+coords+"','"+happened+"','"+casualties+"','"+danger+"','"+involve+"','0')"
 	cursor.execute(sql)
 	connection.commit()
 	connection.close()
 	return 1
 
-def dbgetReport():
+def dbgetReport(reportid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report")
-	result = cursor.fetchall()
+	cursor.execute("SELECT * FROM report where reportId ="+reportid)
+	report = cursor.fetchall()[0]
 	connection.close()
+	return report
+	
+def dbgetReports(caseid=None):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	
+	if (caseid is None): 
+		cursor.execute("SELECT * from report")
+	else: 
+		cursor.execute("SELECT * from report where caseId ="+caseid)
+	
+	result= cursor.fetchall()
+	connection.close
+	
 	return result
-
+	
 def dbupdateReport(caseId,severity):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
@@ -46,7 +61,7 @@ def dbgetNreports():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where caseId =0")
+	cursor.execute("SELECT * from report where severity>2 AND caseId =0")
 	result = cursor.fetchall()
 	connection.close()
 	return result
@@ -67,15 +82,27 @@ def dbcreateCase():
 	sql ="INSERT INTO casetable(`summary`) VALUES('');"	
 	cursor.execute(sql)
 	connection.commit()
+	
+	cursor.execute("SELECT MAX(caseId) as cid from casetable")
+	caseid = cursor.fetchone()
 	connection.close()
 	
-	return str(result[0]['caseid'])
+	return str(caseid["cid"])
 
 def dbgetCases():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * FROM caseTable")
+	cases = cursor.fetchall()
+	connection.close()
+	return cases
+	
+def dbgetCase(caseid):
+	s_config = load_s_config()
+	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
+	cursor = connection.cursor(pymysql.cursors.DictCursor)
+	cursor.execute("SELECT * FROM caseTable where caseId ="+caseid)
 	cases = cursor.fetchall()
 	connection.close()
 	return cases
@@ -90,23 +117,6 @@ def dbupdatecase(cid,caseSum,caseName):
 	connection.close()
 
 
-def dbgetNewCaseId():
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT MAX(caseId) as cid from casetable")
-	caseid = cursor.fetchone()
-	connection.close()
-	return str(caseid["cid"])
-
-def dbgetYreports():
-	s_config = load_s_config()
-	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
-	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * from report where caseId !=0")
-	result = cursor.fetchall()
-	connection.close()
-	return result
 
 def dbaddNewReportToCase(reportid,caseid):
 	s_config = load_s_config()
@@ -116,4 +126,5 @@ def dbaddNewReportToCase(reportid,caseid):
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
+	
 

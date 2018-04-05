@@ -210,15 +210,6 @@
   '</fieldset>'
 
 
-
-
-
-
-
-
-
-
-
 ,
             actions: [
                   //{ text: 'Cancel'},
@@ -226,7 +217,7 @@
             ],
         });
 
-        $("#pickEmployeesButton").kendoButton({
+        $("#createCaseButton").kendoButton({
             click: makecase
         });
 
@@ -251,8 +242,6 @@
 
 
 
-
-
     function openDialog(e) {
         $("#dialog").data("kendoDialog").open();
     }
@@ -270,7 +259,7 @@
            type: "POST",
            url: "../system911/makecase",
            contentType: "application/json; charset=utf-8",
-           data:  JSON.stringify({ selectedItems: $('#selected').data('kendoListBox').dataItems() }),
+           data:  JSON.stringify({summary: $("#summary").val(), selectedItems: $('#selected').data('kendoListBox').dataItems()}),
            dataType: "json",
            success: function (result) {
             if(result.message == "success"){
@@ -304,8 +293,10 @@ function back(){
 
 
 <div id="example">
+	<li>Case summary: 
+	<textarea rows="4" cols="50" id="summary"> </textarea> <br>
     <div id="dialog"></div>
-        <button id="pickEmployeesButton" class="k-primary">Create Case</button>       
+        <button id="createCaseButton" class="k-primary">Create Case</button>       
 </div>
 
 <button onclick="back()">Exit to Menu</button>

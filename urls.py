@@ -18,6 +18,7 @@ urlpatterns = [
 	url(r'system911/reportDetails.html', views.viewReportDetails, name='viewReportDetails'),
     url(r'system911/viewReports.html', views.viewReports, name='viewReports'),
     url(r'system911/updateReport/', views.updateReport, name='updateReport'),
+    url(r'system911/updateReportByAjax/', views.updateReportByAjax, name='updateReportByAjax'),
 
     url(r'system911/createCases.html', views.createCases, name='createCases'),
 	url(r'system911/viewCases.html', views.viewCases, name='viewCases'),
@@ -30,8 +31,11 @@ urlpatterns = [
 	
 	url(r'system911/viewReport2.html', views.viewReport2, name='viewReport2'), #testing 
 	url(r'system911/data.html', views.data, name='data'),
-    url(r'system911/makecase', views.makecase, name='makecase'),	
-
+    url(r'system911/makecase', views.makecase, name='makecase'),
+	#Send case
+	url(r'system911/sendCase', views.sendCase, name='sendcase'),
+	#TEST-receive case
+	url(r'system911/receiveCase', views.receiveCase, name='receivecase'),
     #logout
          url(r'system911/logout', views.logout, name='logout'),
 ]

@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .dao import *
+from .control import *
 # Create your views here.
 
 
@@ -40,7 +41,7 @@ def login(request):
 				request.session['role'] = "CMOofficer"
 			return redirect('../menu.html');
 		else :
-			return redirect('../home.html');
+			return redirect('../../home.html');
 		
 		
 def createReport(request):
@@ -84,21 +85,35 @@ def menu(request):
 		return render(request, 'system911/home.html')
 	#=============================REPORTS==========================
 def viewReports(request):
-	result = dbgetReport()
+	result = dbgetReports()
 	return render(request, 'system911/viewReports.html', {'result' : result})
 	
 def viewReportDetails(request):
 	if request.method == 'GET':
-		reportid = request.GET.get('reportid')
-		report = dbgetReport() #add id to argument later, 
-	return render(request, 'system911/reportDetails.html', {'test':reportid, 'result': report})
+		reportid = request.GET.get('id')
+		report = dbgetReport(reportid)
+	return render(request, 'system911/reportDetails.html', {'result': report})
 
 def updateReport(request):
 	if request.method == 'POST':
 		caseId = request.POST.get('cid')
 		severity = request.POST.get('severity')
 		dbupdateReport(caseId,severity)
+
 	return render(request, 'system911/viewReports.html')
+
+
+def updateReportByAjax(request):
+
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body.decode('utf-8'))
+			print(data)
+			#dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
+			dbupdateReport(str(data["reportId"]),str(data["slevel"]))
+		response_data = {}
+		response_data['message'] = 'success'
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 	#=======????======
 
@@ -115,10 +130,9 @@ def createCases(request):
 def makecase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			print(data)
-			dbcreateCase()
-			createdCaseId = dbgetNewCaseId()
+			createdCaseId = dbcreateCase()
 			for d in data["selectedItems"] : 
 				 if d["reportId"] :
 				 	dbupdateAddToCase(d["reportId"], createdCaseId)
@@ -128,19 +142,32 @@ def makecase(request):
 
 def viewCases(request):
 	cases = dbgetCases()
-	reports = dbgetYreports()
-	return render(request, 'system911/viewCases.html', {"cases" : cases, "result" : reports})
+	return render(request, 'system911/viewCases.html', {"cases" : cases})
 
 
 def	viewCaseDetails(request):
+	#get case id
 	if request.method == 'GET':
-		caseid = request.GET.get('caseid')
-		reports = dbgetReport() #add id to argument later, 
-	return render(request, 'system911/caseDetails.html', {'testcase':caseid, 'result': reports})
+		caseid = request.GET.get('id')
+		reports = dbgetReports(caseid) 
+	#get file to send to CMO
+	reports= dbgetReports(caseid) 
+	for r in reports:
+		r['date']= r['date'].isoformat()
+		r['time']= r['time'].__str__()
+	case= dbgetCase(caseid) 
+	
+	data={'case': case, 'reports' : reports}
+	file= json.dumps(data)	
+	
+	#get CMO api using control.py
+	cmoAPI= load_CMO_sConfig()
+	
+	return render(request, 'system911/caseDetails.html', {'case':case, 'result': reports, 'file' : file, 'cmoAPI': cmoAPI})
 
 		
 def viewReport2(request):
-	reports = dbgetYreports()
+	reports = dbgetReports()
 	cases = dbgetCases()
 	nreports = dbgetNreports()
 	#print(nreports)
@@ -148,7 +175,7 @@ def viewReport2(request):
 
 
 def modifyCase(request):
-	reports = dbgetYreports()
+	reports = dbgetReports()
 	cases = dbgetCases()
 	nreports = dbgetNreports()
 	#print(nreports)
@@ -165,13 +192,13 @@ def updateCase(request):
 def addReportsToCase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			#print(data["caseid"])
 			for d in data["selectedReports"] : 
 			 	if d :
 			 		dbaddNewReportToCase(d, data["caseid"])	
 
-	reports = dbgetYreports()
+	reports = dbgetReports(str(data["caseid"]))
 	for r in reports :
 		r["date"] = str(r["date"])
 		r["time"] = str(r["time"])
@@ -203,7 +230,7 @@ def logout(request):
 def editCase(request):
 	if request.is_ajax() : 
 		if request.method == 'POST':
-			data = json.loads(request.body)
+			data = json.loads(request.body.decode('utf-8'))
 			#print(data)
 			dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
 			for d in data["reportId"] : 
@@ -211,7 +238,7 @@ def editCase(request):
 			 		print(d)
 			 		dbaddNewReportToCase(str(d), "0")
 			
-	reports = dbgetYreports()
+	reports = dbgetReports(str(data["caseId"]))
 	for r in reports :
 		r["date"] = str(r["date"])
 		r["time"] = str(r["time"])
@@ -228,3 +255,23 @@ def editCase(request):
 	response_data['nreports'] = nreports
 	print("JSONNNNN:::: "+json.dumps(response_data))
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+	
+def sendCase(request):
+	reports= dbgetReports() #use getReports(caseid) for final
+	for r in reports:
+		r['date']= r['date'].isoformat()
+		r['time']= r['time'].__str__()
+	case= dbgetCases() #use getCase(caseid) for final
+	
+	data={'case': case, 'reports' : reports}
+	file= json.dumps(data)
+	
+	return render(request, 'system911/sendCase.html', {'file':file})
+
+@csrf_exempt
+def receiveCase(request):
+	if request.method == 'POST':
+		data= request.POST.get('file')
+		file = json.loads(data)
+		print(file)
+	return HttpResponse("received")

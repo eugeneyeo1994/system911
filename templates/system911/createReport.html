@@ -1,30 +1,33 @@
+{% load static %} 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Create Report</title>
-
-
-
-
+<title>Create Report</title>
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}"> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style>
 
-input{
-width:99%;
-}
+h3,h4{color:white}
+p{color:grey}
+body  {
+    background: url("/static/css/background1.jpg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+    }
 
-td{
-  padding:0 0 0 0;
-}
-
-#map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+#map {height: 100%;}
+.container{width:50%;
+	font-family:"Bahnschrift Light";
+	
+	color:white;
+	margin: left;}
+.text{color:black}
+input{opacity:0.85;
+color:black}
+textarea{opacity:0.85;
+color:black}
 
 </style>
 
@@ -77,25 +80,26 @@ function getDateTime(){
 
 
 
-<div class="container" style="padding-left:30%">
+<div class="container">
 <form id="csv_form" action="http://127.0.0.1:8000/system911/createReport/" method="POST"> 
- <table  border="1" style="border-collapse: collapse;width:70%;" cellspacing="0">
-  <caption>Report</caption>
+ <table >
+  <h3>Create Report</h3>
     <tr>
       <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input type="text"  placeholder="Type of Incident" name="incident" required></td>
     </tr>
      <tr>
-      <td>Date Of Call: </td> <td><input style="width:98%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-      <td>Time of Call: </td><td> <input style="width:94%" type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
+      <td>Date Of Call: </td> <td><input id="date" type="text"  name="rdate"  readonly="readonly"></td>
+      <td>Time of Call: </td> <td><input type="time" id="cTurrentTime" name="rtime"  readonly="readonly"></td></td>
     </tr>
 
-    <tr><td colspan="4">Caller Information:</td></tr>
+    <tr><td colspan="4"><h4>Caller Information:</h4></td></tr>
 
-    <tr><td>Caller's Name:</td><td colspan="3"><input type="text" name="callerName" required></td>
+    <tr><td>Caller's Name:</td><td colspan="1"><input  type="text" name="callerName" required></td>
+	<td>Caller's Contact:</td><td colspan="1"><input  type="text" name="callerContact" required></td>
     </tr>
 
-    <tr><td>Caller's Contact:</td><td colspan="3"><input type="text" name="callerContact" required></td>
-    </tr>
+    
+    
 
     <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" required></td>
     </tr>
@@ -103,7 +107,7 @@ function getDateTime(){
     <tr><td>Map:</td><td colspan="3" style=" height: 300px;"> <div id="map"></div></td>
     </tr>
     <input id="coords" type="hidden" name="coords" value=""></input>
-    <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="84"></textarea></td>
+    <tr><td>What Happened:</td><td colspan="3"><textarea rows="9" name="happened" cols="84"></textarea></td>
     </tr>
 
     <tr><td>Casualties:</td><td colspan="3"><input type="text" name="casualties" required></td>
@@ -117,23 +121,11 @@ function getDateTime(){
 
     <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" required></td>
     </tr>
-
      <tr>
-      <td><button type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button style="float:right;">Submit</button></td>
+      <td><button class="btn btn-primary" type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button class="btn btn-primary" style="float:right;">Submit</button></td>
     </tr>
 
   </table>
-<!--     <label for="uname"><b>Username {% csrf_token %}</b></label>
-  <input type="text" placeholder="Enter Username" name="username" required>
-
-  <label for="psw"><b>Password</b></label>
-  <input type="password" placeholder="Enter Password" name="password" required>
-
-  <button type="submit">Login</button>
-
-  {% if fail %}
-    <h2> Incorrect password or username {{result}}</h2>
-  {% endif %} -->
   </form>
 </div>
 

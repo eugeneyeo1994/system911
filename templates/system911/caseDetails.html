@@ -22,184 +22,44 @@
 }
 
   </style>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-/*
-  $( function() {
-    $( "#selectable" ).selectable({
-      stop: function() {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-          dialog.dialog("open");
-          var index = $( "#selectable li" ).index( this );
-          result.append( " #" + ( index + 1 ) );
-          alert("selected: "+ index);
-        });
-      }
-    });
-  });
-*/
 
-{% block content %}
-
-{% if result %}
-var reportArr = [
-  {% for row in result %}
-    ["{{row.caseNumber}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
-  {% endfor %}
-  ];
-{% endif %}
-
-{% endblock %}
-
-
-
- $( function() {
-    var dialog, form,
- 
-      // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
-      email = $( "#email" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
-      tips = $( ".validateTips" );
-
-    function addUser() {
-/*      var valid = true;
-      allFields.removeClass( "ui-state-error" );
- 
-      valid = valid && checkLength( name, "username", 3, 16 );
-      valid = valid && checkLength( email, "email", 6, 80 );
-      valid = valid && checkLength( password, "password", 5, 16 );
- 
-      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-      valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-      valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
- */
-      /*if ( valid ) {
-        $( "#users tbody" ).append( "<tr>" +
-          "<td>" + name.val() + "</td>" +
-          "<td>" + email.val() + "</td>" +
-          "<td>" + password.val() + "</td>" +
-        "</tr>" );
-        dialog.dialog( "close" );
-      }*/
-      document.getElementById("csv_form").submit();
-    }
-
-    dialog = $( "#dialog-form" ).dialog({
-      autoOpen: false,
-      height: 700,
-      width:600,
-      modal: true,
-      buttons: {
-        "Update": addUser,
-        Cancel: function() {
-          dialog.dialog( "close" );
-        }
-      },
-      close: function() {
-        //form[ 0 ].reset();
-        allFields.removeClass( "ui-state-error" );
-      }
-    });
- 
-/*    form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      addUser();
-    });*/
-
-
-     $( function() {
-    $( "#selectable" ).selectable({
-      stop: function() {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-          dialog.dialog("open");
-          var index = $( "#selectable li" ).index( this );
-          document.getElementById("caseId").value = reportArr[index][0];
-          document.getElementById("inc").value = reportArr[index][1];
-          document.getElementById("date").value = reportArr[index][2];
-          document.getElementById("currentTime").value = reportArr[index][3];
-          document.getElementById("cname").value = reportArr[index][4];
-          document.getElementById("cContact").value = reportArr[index][5];
-          document.getElementById("address").value = reportArr[index][6];
-          document.getElementById("happen").value = reportArr[index][7];
-          document.getElementById("cas").value = reportArr[index][8];
-          document.getElementById("danger").value = reportArr[index][9];
-          document.getElementById("involve").value = reportArr[index][10];
-          document.getElementById("eType").value = reportArr[index][11];
-      document.getElementById("level").value = reportArr[index][12];
-
-
-          //result.append( " #" + ( index + 1 ) );
-        });
-      }
-    });
-  });
-
- 
-/*    $( "#create-user" ).button().on( "click", function() {
-      dialog.dialog( "open" );
-       var index = $( "#selectable li" ).index( this );
-          result.append( " #" + ( index + 1 ) );
-          alert("selected: "+ index);
-    });*/
-  });
-
-
-/*$( function() {
-    $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
-      _renderItem: function( ul, item ) {
-        var li = $( "<li>" ),
-          wrapper = $( "<div>", { text: item.label } );
- 
-        if ( item.disabled ) {
-          li.addClass( "ui-state-disabled" );
-        }
- 
-        $( "<span>", {
-          style: item.element.attr( "data-style" ),
-          "class": "ui-icon " + item.element.attr( "data-class" )
-        })
-          .appendTo( wrapper );
- 
-        return li.append( wrapper ).appendTo( ul );
-      }
-    });
-
-
-
-    $( "#level" )
-      .iconselectmenu()
-      .iconselectmenu( "menuWidget")
-        .addClass( "ui-menu-icons avatar" );
-} );*/
-
-  function back(){
-    window.location = "/system911/ctmenu.html";
-  }
-
-  </script>
 </head>
 <body style=" background-image: url('{% static 'test/red.png' %}')">
 
 <button onclick="back()">Exit to Menu</button>
-<li>Case ID: {{testcase}} </li>
- 
+<li>Case ID: {{case.0.caseId}} </li>
+<li>Case Name: {{case.0.caseName}} </li>
+<li>Case Summary: {{case.0.summary}} </li>
+<form action="{{cmoAPI.cmoAPI}}" method='POST'>
+	<p><span>CMO API (go json file to edit):
+			</span> 
+		<span><input type="text" value="{{cmoAPI.cmoAPI}}" name="file" required readonly> 
+			</span></p>
+	
+	<input type="text" value="{{file}}" name="file" required style="display:none"> 
+	<button>SendCase</button>
+ </form>
 <p id="feedback">
 </p>
  
 <ol id="selectable">
 
 {% if result %}
+	{% for row in result %}
+	
+	<table  border="1" style="border-collapse: collapse; width: 100%" cellspacing="0"> 
+    <tr>
+      <td style="width: 20%">Report Id: {% csrf_token %}</td><td style="width: 20%">{{row.reportId}}</td>
+      <td style="width: 20%">Caller's Name</td><td style="width: 40%" colspan="2">{{row.callerName}}</textarea></td>
+    </tr>
 
-  {% for row in result %}
-    <li class="ui-widget-content">{{row.incident}}</li>
-  {% endfor %}
+     <tr>
+      <td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
+    </tr>
+  </table>
+  <button onclick="viewReport({{row.reportId}})">View Report</button>
   
+	{% endfor %}
 {% endif %}
 
 
@@ -207,96 +67,6 @@ var reportArr = [
 </ol>
  
  
-
-
-
-
- <div id="dialog-form" title="Set Severity">
- 
-<!--   <form>
-    <fieldset>
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
-      <label for="email">Email</label>
-      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
- 
-      <!-- Allow form submission with keyboard without duplicating the dialog button
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
-  </form> -->
-
-
-
-
-
-
-<form id="csv_form" action="updateReport/" method="POST">
-  <div class="container">
-    
-   <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
-      <tr>
-        <input id="caseId" type="hidden"  name="cid" readonly="readonly">
-        <td>Incident:{% csrf_token %} </td> <td colspan="3"> <input id="inc" type="text"  placeholder="Type of Incident" name="incident" readonly="readonly"></td>
-      </tr>
-       <tr>
-        <td>Date Of Call: </td> <td><input style="width:98.5%" id="date" type="text"  name="rdate"  readonly="readonly"></td>
-        <td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime"  readonly="readonly"></td></td>
-      </tr>
-
-      <tr><td colspan="4">Caller Information:</td></tr>
-
-      <tr><td>Caller's Name:</td><td colspan="3"><input id="cname" type="text" name="callerName" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller's Contact:</td><td colspan="3"><input id="cContact" type="text" name="callerContact" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>What Happened:</td><td colspan="3"><textarea id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
-      </tr>
-
-      <tr><td>Casualties:</td><td colspan="3"><input id="cas" type="text" name="casualties" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td>
-      </tr>
-
-      <tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td>
-      </tr>
-
-    </table>
-
-      <fieldset>
-    <label for="people">Severity Level:</label>
-
-<!--      <select id="level" name="severity">
-        <option value="1" data-class="avatar" data-style="background-image: url('{% static 'test/test.png' %}');">Level 1</option>
-        <option value="2" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/e42b1e5c7cfd2be0933e696e292a4d5f?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 2</option>
-        <option value="3" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 3</option>
-        <option value="4" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 4</option>
-        <option value="5" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Level 5</option> 
-      </select> -->
-
-      <select id="level" name="severity">
-        <option value="1" >Level 1</option>
-        <option value="2" ">Level 2</option>
-        <option value="3">Level 3</option>
-        <option value="4">Level 4</option>
-        <option value="5">Level 5</option> 
-      </select>
-
-  </fieldset>
-
-  </div>
-</form>
-
 </div>
 
 
