@@ -158,8 +158,35 @@ function w3_close() {
   document.getElementById("openNav").style.display = "inline-block";
 }
 
+function updateSeverity(id){
+    var level = document.getElementById("levelSelect").value;
+    var token =  document.getElementsByName("csrfmiddlewaretoken")[0].value;
+    //alert(level+" "+token);
+    $.ajaxSetup({
+      beforeSend: function(xhr) {
+          xhr.setRequestHeader('X-CSRFToken', token);
+      }
+    });
+    $.ajax({
+       type: "POST",
+       url: "../system911/updateReportByAjax/",
+       contentType: "application/json; charset=utf-8",
+       data:  JSON.stringify({ reportId: id, slevel: level}),
+       dataType: "json",
+       success: function (result) {
+          if(result.message == "success"){
+            alert("Successfully updated report");
+          }
+       },
+       error: function(){
+            alert('Error updating reports');
+        }
+    });
+}
+
 function display(id){
           selectedCaseId = id;
+          var select1,select2,select3,select4,select5;
           document.getElementById("left").style.display = "block";
           var reportList = [];
           for(i=0;i<reportArr.length;i++){
@@ -186,10 +213,21 @@ function display(id){
             var t1 = document.createElement("div");
             t1.id = "tabs-"+(j+1);
             
+            if(reportArr[j][13]==1)
+              select1="selected";
+            else if(reportArr[j][13]==2)
+              select2="selected";
+            else if(reportArr[j][13]==3)
+              select3="selected";
+            else if(reportArr[j][13]==4)
+              select4="selected";
+            else if(reportArr[j][13]==5)
+              select5="selected";
+
 
             t1.innerHTML ='<table border="1" style="border-collapse: collapse;" cellspacing="0">'+
     '<tr><input id="caseId" type="hidden"  name="cid" readonly="readonly">'+
-      '<td>Incident:</td> <td colspan="3"> '+ reportArr[j][2]+'</td></tr>'+
+      '<td>Incident: </td> <td colspan="3"> '+ reportArr[j][2]+'</td></tr>'+
 
      '<tr><td>Date Of Call: </td> <td>'+ reportArr[j][3]+' </td>'+
       '<td>Time of Call: </td><td> <input style="width:94.4%" type="time" id="currentTime" name="rtime" value='+ reportArr[j][4]+'  readonly="readonly"></td></td></tr>'+
@@ -209,9 +247,19 @@ function display(id){
     '<tr><td>Caller’s involvement:</td><td colspan="3">'+ reportArr[j][11]+'</td></tr>'+
 
     '<tr><td>Type of Emergency:</td><td colspan="3">'+ reportArr[j][12]+'</td></tr>'+
-    '<tr><td>Severity Level:</td><td colspan="3">' + reportArr[j][13]+
-      '</td></tr></table>';
+    '<tr><td>Severity Level:</td><td id="level" colspan="3">'+
+      '<fieldset><label for="people">Severity Level:</label>'+
 
+      '<select id="levelSelect" onload=" test()" name="severity">'+
+        '<option value="1"'+select1+'>Level 1</option>'+
+        '<option value="2"'+select2+'>Level 2</option>'+
+        '<option value="3"'+select3+'>Level 3</option>'+
+        '<option value="4"'+select4+'>Level 4</option>'+
+        '<option value="5"'+select5+'>Level 5</option> '+
+      '</select>'+
+      '<input id="slevel" type="hidden" value="'+reportArr[j][13]+'">'+
+'<button style="position:relative;float:right;" onclick="updateSeverity('+reportArr[j][0]+')" >Update</button>'+
+ '</fieldset></td><td>';
             tabsContainer.appendChild(t1);
 }
           }
@@ -228,7 +276,9 @@ function display(id){
       $("#tabs").tabs().tabs("destroy");
        $tabs  = $( "#tabs" ).tabs();
       document.getElementById("caseDetail").style.display = "block";
-
+      document.getElementById("levelSelect").value = reportArr[j][13];
+      alert("ok");
+      //alert(document.getElementById("levelSelect").value);
 
 
 
