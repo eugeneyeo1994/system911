@@ -21,6 +21,61 @@
     width: 6em;
 }
 
+
+
+body  {
+    background: url("/static/css/background1.jpg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+    }
+
+.rep {
+	width: 800px;
+	height: 500px;
+	padding: 20px;
+	border: 10px ridge black;
+	background-color: white;
+	position: absolute;
+	text-align:center;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	overflow: auto;
+}
+
+
+.logo{
+	padding: 10px;
+	width:150px; 
+	height:150px;
+}
+
+
+.vertical-menu {
+    width: 100%;
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -182,29 +237,46 @@ var reportArr = [
   function back(){
     window.location = "/system911/menu.html";
   }
-
+  function direct(){
+  window.location = "http://127.0.0.1:8000/system911/menu.html";
+	}
   </script>
 </head>
 <body >
+<div class=rep>
+<img src="/static/test/911.png"  alt="logo" align="middle"  class=logo> 
 
-{% if result %}
+	{% if result %}
+		{% for row in result %}
 
-	{% for row in result %}
+		<table  border="1" style="border-collapse: collapse; width: 100%;" cellspacing="0"> 
+			<tr>
+				<td style="width: 20%">Report Id: {% csrf_token %}</td><td style="width: 20%">{{row.reportId}}</td>
+				<td style="width: 20%">Caller's Name</td><td style="width: 40%" colspan="2">{{row.callerName}}</textarea></td>
+			</tr>
+
+			<tr>
+				<td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
+			</tr>
+		</table>
+		
+		<div class="vertical-menu">
+		  <a href="#" onclick="viewReport2({{row.reportId}})">View Report ID = {{row.reportId}}</a>
+		</div>
+
+		{% endfor %}
+	{% endif %}
 	
-	<table  border="1" style="border-collapse: collapse; width: 100%" cellspacing="0"> 
-    <tr>
-      <td style="width: 20%">Report Id: {% csrf_token %}</td><td style="width: 20%">{{row.reportId}}</td>
-      <td style="width: 20%">Caller's Name</td><td style="width: 40%" colspan="2">{{row.callerName}}</textarea></td>
-    </tr>
+	
+	<div class="vertical-menu">
+	<a href="#" onclick="direct()">Return to menu</a>
+	</div>
+	
+	
+</div>
 
-     <tr>
-      <td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
-    </tr>
-  </table>
-  <button onclick="viewReport2({{row.reportId}})">View Report</button>
-  
-	{% endfor %}
-{% endif %}
+
+
 
 </body> 
 </html>
