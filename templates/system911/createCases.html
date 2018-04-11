@@ -11,6 +11,60 @@
     <script src="https://kendo.cdn.telerik.com/2018.1.221/js/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2018.1.221/js/kendo.all.min.js"></script>
     <style>
+	
+	
+body  {
+    background: url("/static/css/background1.jpg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+    }
+
+.opmenu {
+	width: 800px;
+	height: 650px;
+	padding: 20px;
+	border: 10px ridge black;
+	background-color: white;
+	position: absolute;
+	text-align:center;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+
+.logo{
+	padding: 10px;
+	width:150px; 
+	height:150px;
+}
+
+.vertical-menu {
+    width: 100%;
+}
+
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+	
+	
     #example .demo-section {
         max-width: none;
         width: 695px;
@@ -88,6 +142,14 @@
 
 </head>
 <body>
+
+<div class=opmenu>
+
+<img src="/static/test/911.png"  alt="logo" align="middle"  class=logo> 
+
+
+
+
   {% csrf_token %}
 <div id="example" role="application">
     <div id="test" class="demo-section k-content wide">
@@ -298,8 +360,9 @@ function back(){
     <div id="dialog"></div>
         <button id="createCaseButton" class="k-primary">Create Case</button>       
 </div>
-
-<button onclick="back()">Exit to Menu</button>
-
+<div class="vertical-menu">
+  <a href="#" onclick="back()">Return to Menu </a>
+</div>
+</div>
 </body>
 </html>
