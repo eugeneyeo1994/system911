@@ -1,280 +1,100 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>911 Officer Menu</title>
-  <style>
-body {
-      margin: 0;
-      padding: 0;
-      font:Quickstand;
-}
- 
-nav {
-      position: sticky; /* Safari */
-      top:0;
-      left:0;
-      width: 100%;
-      height:100px;
-      padding:10px 100px;
-      box-sizing: border-box;
-      transition: .3s;
-}
+<header>
+<style>
 
-nav.black{
-  background: rgba(0,0,0,0,8);
-  height: 100px;
-  padding: 10px 100px;
-}
-
-nav .logo{
-  padding: 5px 10px;
-  height: 50px;
-  float: left;
-  font-size: 24px;
-  transition: .3s;
-
-
-}
-
-nav.black.logo{
-  color: #fff;
-}
- 
-nav ul {
-      list-style: none;
-      float:right;
-      margin: 0;
-      padding: 0;
-      display: flex;;
-
-}
- 
-nav ul li {
-  list-style: none;
-}
- 
-nav ul li a {
-      line-height: 80px;
-      color:#151515;
-      padding: 12px 30px;
-      text-decoration:none;
-      text-transform: uppercase;
+body  {
+    background: url("/static/css/background1.jpg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
     }
 
-nav.black ul li a{
-    color: #fff;
-
+.opmenu {
+	width: 200px;
+	height: 420px;
+	padding: 20px;
+	border: 10px ridge black;
+	background-color: white;
+	position: absolute;
+	text-align:center;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
 }
 
-nav ul li a:focus{
-  outline: none;
 
+.logo{
+	padding: 10px;
+	width:150px; 
+	height:150px;
 }
 
-nav ul li a.active{
-  background: #E2472F;
-  color:#fff;
-  border-radius: 6px;
+.vertical-menu {
+    width: 200px;
 }
 
-li a:hover:not(.active) {
-    background-color: #555;
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
     color: white;
 }
-
 </style>
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
 <script>
-
-function updateSeverity(id){
-    var level = document.getElementById("level").value;
-    var token =  document.getElementsByName("csrfmiddlewaretoken")[0].value;
-    $.ajaxSetup({
-      beforeSend: function(xhr) {
-          xhr.setRequestHeader('X-CSRFToken', token);
-      }
-    });
-    $.ajax({
-       type: "POST",
-       url: "../system911/updateReportByAjax/",
-       contentType: "application/json; charset=utf-8",
-       data:  JSON.stringify({ reportId: id, slevel: level}),
-       dataType: "json",
-       success: function (result) {
-          if(result.message == "success"){
-            alert("Successfully updated report");
-          }
-       },
-       error: function(){
-            alert('Error updating reports');
-        }
-    });
+function ViewReport(){
+	window.location = "http://127.0.0.1:8000/system911/viewReports.html";
 }
-
-
-
-  function editCase(){
-    document.getElementById("left-include-html").innerHTML=" ";
-    document.getElementById("middle-include-html").innerHTML=" ";
-    document.getElementById("right-include-html").innerHTML=" ";
-    document.getElementById('iframe').src = "modifyCase.html";
-    
-  }
-
-  function viewCase(){
-    leftincludeHTML("viewCases.html");
-  }
-
-  function createCase(){
-    document.getElementById("left-include-html").innerHTML=" ";
-    document.getElementById("middle-include-html").innerHTML=" ";
-    document.getElementById("right-include-html").innerHTML=" ";
-    document.getElementById('iframe').src = "createCases.html";
-  }
-
-  function logOut(){
-    window.location = "http://127.0.0.1:8000/system911/logout";
-  }
-  function caseDetail(id) {
-    middleincludeHTML("caseDetails.html", id);
-  }
-  
-  function viewReport(id) {
-    rightincludeHTML("reportDetails.html", id);
-
-  }
-  
-  function viewReport2(id) {
-    middleincludeHTML("reportDetails.html", id);
-  }
-  
-  function createReport() {
-    document.getElementById("left-include-html").innerHTML=" ";
-    document.getElementById("middle-include-html").innerHTML=" ";
-    document.getElementById("right-include-html").innerHTML=" ";
-    document.getElementById('iframe').src = "createReport.html";
-  }
-  function viewAllReports() {
-    leftincludeHTML("viewReports.html")
-  }
-  
-function leftincludeHTML(file) {
-  var z, i, elmnt, file, xhttp;
-  document.getElementById("iframe").src =" ";
-  elmnt = document.getElementById("left-include-html");
-  
-  document.getElementById("middle-include-html").innerHTML=" ";
-  document.getElementById("right-include-html").innerHTML=" ";
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-function middleincludeHTML(file, id) {
-  var z, i, elmnt, file, xhttp;
-  elmnt = document.getElementById("middle-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4) {
-          if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file+"?id="+id, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-function rightincludeHTML(file, id) {
-  var z, i, elmnt, file, xhttp;
-  elmnt = document.getElementById("right-include-html");
-  
-  /*make an HTTP request using the attribute value as the file name:*/
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4) {
-
-          if (this.status == 200) {
-            elmnt.innerHTML = this.responseText;
-            var severity= document.getElementById("slevel").value;
-             document.getElementById("level").value = severity;
-
-          }
-
-          if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-        }
-      }      
-  xhttp.open("GET", file+"?id="+id, true);
-  xhttp.send();
-  /*exit the function:*/
-  return;
-};
-
-
+function CreateReport(){
+	window.location = "http://127.0.0.1:8000/system911/createReport.html";
+}
+function ViewCases(){
+	window.location = "http://127.0.0.1:8000/system911/viewCases.html";
+}
+function CreateCase(){
+	window.location = "http://127.0.0.1:8000/system911/createCases.html";
+}
+function EditCases(){
+	window.location = "http://127.0.0.1:8000/system911/modifyCase.html";
+}
+function logOut(){
+	window.location = "http://127.0.0.1:8000/system911/logout";
+}
 </script>
 
+</header>
 
+<body>
+<div class=opmenu>
 
-</head>
-<body >
-<nav>
-	<div class="logo">
-                             <img src="/static/test/911.png"  alt="logo"  style="width:80px; height:80px;" > 
-                        </div>
-<div class="menu">
-	<ul>
-   	<li><a  onclick="viewCase()" >View Cases </a></li>
-   	<li><a  onclick="editCase()">Edit Cases </a></li>
-	<li><a onclick="createCase()">Create Case </a></li>
-	<li><a onclick="createReport()">Create Report</a></li>
-	<li><a onclick="test()">Test</a></li>
-	<li><a onclick="logOut()">LogOut</a></li>
-</ul>
-</div>
-</nav>
-
-<div id="container" style=" overflow:hidden">
-	<!-- tags need to have space so not NULL -->
-	<div id = "left-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 30%">left</div> 
-	<div id = "middle-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 34%">middle</div> 
-	<div id = "right-include-html"  
-		style="
-		overflow:auto;
-		display: inline-block;
-		vertical-align:top;
-		width: 34%">right</div> 
-</div> 
-<div style=" overflow:hidden">
+<img src="/static/test/911.png"  alt="logo" align="middle"  class=logo> 
+<div class="vertical-menu">
+	<a href="#" onclick="ViewReport()">View Report</a>
+	<a href="#" onclick="CreateReport()">Create Report</a>
+	<a href="#" onclick="ViewCases ()">View Cases </a>
+	<a href="#" onclick="CreateCase()">Create Case</a>
+	<a href="#" onclick="EditCases()">Edit Cases </a>
 	
-<iframe id="iframe" width="100%" height="900px" frameborder="0" src=" "></iframe>
+  
+  <a href="#" onclick="logOut()">LogOut</a>
+</div>
 
 </div>
+
 </body>
+
+
 </html>
