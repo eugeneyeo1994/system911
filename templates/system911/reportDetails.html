@@ -7,6 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>View Reports</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<<<<<<< HEAD
+ </head>
+
+ <body onload="getDateTime()">
+<li>Report ID: {{result.reportId}} </li>
+
+
+=======
+ 
   <style>
   #feedback { font-size: 1.4em; }
   #selectable .ui-selecting { background: #FECA40; }
@@ -21,12 +30,10 @@
 }
 
   </style>
- </head>
-
- <body onload="getDateTime()">
 <li>Report ID: {{result.reportId}} </li>
 
 <form id="csv_form" action="updateReport/" method="POST">
+>>>>>>> 239035f089ae5da6dde9e54b3ada10345eba268f
   <div class="container">
     
    <table  border="1" style="border-collapse: collapse;" cellspacing="0"> 
@@ -41,6 +48,7 @@
 
       <tr><td colspan="4">Caller Information:</td></tr>
 
+<<<<<<< HEAD
       <tr><td>Caller's Name:</td><td colspan="3"><input value='{{result.callerName}}' id="cname" type="text" name="callerName" readonly="readonly" ></td>
       </tr>
 
@@ -60,7 +68,30 @@
       </tr>
 
       <tr><td>Caller’s involvement:</td><td colspan="3"><input value='{{result.involvement}}' id="involve" type="text" name="involve" readonly="readonly"></td>
+=======
+      <tr><td>Caller's Name:</td><td colspan="3"><input value={{result.callerName}} id="cname" type="text" name="callerName" readonly="readonly" ></td>
+      </tr>
 
+      <tr><td>Caller's Contact:</td><td colspan="3"><input value={{result.callerContact}} id="cContact" type="text" name="callerContact" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Location/Address:</td><td colspan="3"><input  value={{result.location}} id="address" type="text" name="location" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>What Happened:</td><td colspan="3"><textarea  value={{result.whathappen}} id="happen" rows="9" name="happened" readonly="readonly" style="resize: none;padding:0 0 0 0; margin:0 0 0 0;" cols="50"></textarea></td>
+      </tr>
+
+      <tr><td>Casualties:</td><td colspan="3"><input  value={{result.casualties}} id="cas" type="text" name="casualties" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Hazards/Dangers:</td><td colspan="3"><input  value={{result.dangers}} id="danger" type="text" name="danger" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Caller’s involvement:</td><td colspan="3"><input value={{result.involvement}}  id="involve" type="text" name="involve" readonly="readonly"></td>
+      </tr>
+
+      <tr><td>Type of Emergency:</td><td colspan="3"><input  value={{result.typeOfEmergency}} id="eType" type="text" name="emergencyType" readonly="readonly"></td>
+>>>>>>> 239035f089ae5da6dde9e54b3ada10345eba268f
       </tr>
 
     </table>
