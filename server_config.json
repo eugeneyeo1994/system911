@@ -1,2 +1,1 @@
-{"database": "cnberdynedb", "host": "127.0.0.1", "port": "3306", "csrfmiddlewaretoken": "4Fk8fyZYYESJrv67nI7bOJlYdFlmqUytdLYeKisJTsof5ocO5YHXtGTvrhpVVy2A", "password": "password", "user": "root"}
-
+{"database": "cnberdynedb", "host": "35.224.24.23", "port": "3306", "csrfmiddlewaretoken": "kcGg8fWX8NGP4D1qXhHLIb2NKO1lUxLssCDcim4D8mAqsRUFChC7cRqY3N2BBBj0", "password": "P@ssw0rd", "user": "root"}

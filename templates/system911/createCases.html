@@ -112,7 +112,7 @@
                 {% block content %}
                   {% if result %}
                     {% for row in result %}
-                      {"reportid":"{{row.reportid}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
+                      {"reportid":"{{row.reportId}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
                     {% endfor %}
                   {% endif %}
                 {% endblock %}
@@ -269,7 +269,7 @@
            },
            error: function(){
                 //console.log(data);
-                alert('There was an error in register form');
+                alert('Error creating case');
             }
        });
  }

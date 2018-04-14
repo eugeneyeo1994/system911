@@ -93,6 +93,7 @@ li a:hover:not(.active) {
 function updateSeverity(id){
     var level = document.getElementById("level").value;
     var token =  document.getElementsByName("csrfmiddlewaretoken")[0].value;
+    //alert(level+" "+token);
     $.ajaxSetup({
       beforeSend: function(xhr) {
           xhr.setRequestHeader('X-CSRFToken', token);
@@ -100,7 +101,7 @@ function updateSeverity(id){
     });
     $.ajax({
        type: "POST",
-       url: "../system911/updateReportByAjax/",
+       url: "../system911/updateReportByAjax2/",
        contentType: "application/json; charset=utf-8",
        data:  JSON.stringify({ reportId: id, slevel: level}),
        dataType: "json",
