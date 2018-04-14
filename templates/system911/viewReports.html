@@ -47,7 +47,6 @@
 var reportArr = [
   {% for row in result %}
     ["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
-    ["{{row.reportid}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.typeOfEmergency}}", "{{row.severity}}"],
   {% endfor %}
   ];
 {% endif %}
@@ -183,9 +182,51 @@ var reportArr = [
     window.location = "/system911/menu.html";
   }
 
+  function viewReport(id){
+    var index-0;
+    alert(id);
+    for(var i=0;i<reportArr.length;i++){
+      if(reportArr[i][0]==id){
+        index =i;
+        break;
+      }
+    }
+    alert(index);
+    document.getElementById("caseId").value = reportArr[index][0];
+          document.getElementById("inc").value = reportArr[index][1];
+          document.getElementById("date").value = reportArr[index][2];
+          document.getElementById("currentTime").value = reportArr[index][3];
+          document.getElementById("cname").value = reportArr[index][4];
+          document.getElementById("cContact").value = reportArr[index][5];
+          document.getElementById("address").value = reportArr[index][6];
+          document.getElementById("happen").value = reportArr[index][7];
+          document.getElementById("cas").value = reportArr[index][8];
+          document.getElementById("danger").value = reportArr[index][9];
+          document.getElementById("involve").value = reportArr[index][10];
+          document.getElementById("eType").value = reportArr[index][11];
+      document.getElementById("level").value = reportArr[index][12];
+
+  }
+
   </script>
 </head>
 <body >
+ <div id="dialog-form" title="Set Severity">
+ 
+<!--   <form>
+    <fieldset>
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form> -->
+
 
 {% if result %}
 
@@ -201,7 +242,7 @@ var reportArr = [
       <td style="width: 20%">Report Name </td><td colspan="3">{{row.incident}}</td>
     </tr>
   </table>
-  <button onclick="viewReport2({{row.reportId}})">View Report</button>
+  <button onclick="viewReport({{row.reportId}})">View Report</button>
   
 	{% endfor %}
 {% endif %}

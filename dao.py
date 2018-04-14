@@ -62,6 +62,7 @@ def dbgetNreports():
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
 	cursor.execute("SELECT * from report where severity>2 AND caseId =0")
+		
 	result = cursor.fetchall()
 	connection.close()
 	return result
