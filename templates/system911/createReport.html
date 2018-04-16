@@ -72,6 +72,10 @@ function getDateTime(){
     window.location = "http://127.0.0.1:8000/system911/menu.html";
 
   }
+  
+  function createdReportAlert() {
+    alert("Report Created");
+}
 
 </script> 
 
@@ -101,7 +105,7 @@ function getDateTime(){
     
     
 
-    <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" required></td>
+    <tr><td>Location/Address:</td><td colspan="3"><input id="address" type="text" name="location" size="85" required></td>
     </tr>
 
     <tr><td>Map:</td><td colspan="3" style=" height: 300px;"> <div id="map"></div></td>
@@ -119,10 +123,8 @@ function getDateTime(){
     <tr><td>Caller involvement:</td><td colspan="3"><input type="text" name="involve" required></td>
     </tr>
 
-    <tr><td>Type of Emergency:</td><td colspan="3"><input type="text" name="emergencyType" required></td>
-    </tr>
      <tr>
-      <td><button class="btn btn-primary" type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button class="btn btn-primary" style="float:right;">Submit</button></td>
+      <td><button class="btn btn-primary" type="button" onclick=" back()">Cancel</button></td><td colspan="3"><button class="btn btn-primary" style="float:right;" onclick="createdReportAlert()">Submit</button></td>
     </tr>
 
   </table>

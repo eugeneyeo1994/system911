@@ -100,6 +100,18 @@
       
     </div>
     <script>
+        {% block content %}
+        {% if result %}
+        var reportArr = [
+          {% for row in result %}
+            {% if result.caseId != 0 %}
+                ["{{row.reportId}}","{{row.caseId}}","{{row.incident}}","{{row.date}}","{{row.time}}","{{row.callerName}}","{{row.callerContact}}","{{row.location}}","{{row.whathappen}}","{{row.casualities}}", "{{row.dangers}}", "{{row.involvement}}", "{{row.severity}}"],
+            {% endif %}
+          {% endfor %}
+          ];
+        {% endif %}
+
+
         $(document).ready(function () { 
             var customerTemplate = '<span class=" k-state-default" style="background-image: url(\'/static/test/#:data.Severity#.png\')"></span>' +
                 '<span class=" k-state-default"><h3>#: data.incident #</h3><p>#: data.Severity #</p></span><span style="float:right" class=" k-state-default"><button class="view k-primary" onclick="openDialog(\' #:data.reportid#\')">view</button></span> ';
@@ -109,10 +121,10 @@
 
                 template: customerTemplate,
                 dataSource: [
-                {% block content %}
+                
                   {% if result %}
                     {% for row in result %}
-                      {"reportid":"{{row.reportid}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
+                      {"reportid":"{{row.reportId}}","incident":"{{row.incident}}","Severity":"{{row.severity}}"},
                     {% endfor %}
                   {% endif %}
                 {% endblock %}
@@ -155,9 +167,6 @@
 
 
 
-/////////////////////////////////
-
-
  $(document).ready(function () {
         var tempSelectList = [];
         var dialog = $("#dialog").kendoDialog({
@@ -190,9 +199,6 @@
       '<tr><td>Hazards/Dangers:</td><td colspan="3"><input id="danger" type="text" name="danger" readonly="readonly"></td></tr>'+
 
       '<tr><td>Caller’s involvement:</td><td colspan="3"><input id="involve" type="text" name="involve" readonly="readonly"></td></tr>'+
-
-      '<tr><td>Type of Emergency:</td><td colspan="3"><input id="eType" type="text" name="emergencyType" readonly="readonly"></td></tr>'+
-
     '</table>'+
 
 '<fieldset>'+
@@ -200,11 +206,11 @@
 
       '<select id="level" name="severity">'+
       '<option value="0" >------</option>'+
-        '<option value="1" >Level 1</option>'+
-        '<option value="2" >Level 2</option>'+
-        '<option value="3">Level 3</option>'+
-       ' <option value="4">Level 4</option>'+
-       ' <option value="5">Level 5</option>'+
+        '<option id="selected1" value="1" >Level 1</option>'+
+        '<option id="selected2" value="2" >Level 2</option>'+
+        '<option id="selected3" value="3">Level 3</option>'+
+       ' <option id="selected4" value="4">Level 4</option>'+
+       ' <option id="selected5" value="5">Level 5</option>'+
       '</select>'+
 
   '</fieldset>'
@@ -242,7 +248,44 @@
 
 
 
-    function openDialog(e) {
+    function openDialog(id) {
+        //alert(id);
+        var index =0;
+        for(i=0;i<reportArr.length;i++){
+            //alert(reportArr[i][1]+" == "+id);
+            if(reportArr[i][1] ==id){
+              index = i;
+              break;
+            }
+        }
+        document.getElementById("inc").value = reportArr[index][2];
+        document.getElementById("date").value = reportArr[index][3];
+        document.getElementById("currentTime").value = reportArr[index][4];
+        document.getElementById("cname").value = reportArr[index][5];
+        document.getElementById("cContact").value = reportArr[index][6];
+        document.getElementById("address").value = reportArr[index][7];
+        document.getElementById("happen").value = reportArr[index][8];
+        document.getElementById("cas").value = reportArr[index][9];
+        document.getElementById("danger").value = reportArr[index][10];
+        document.getElementById("involve").value = reportArr[index][11];
+        alert(reportArr[index][12]);
+        if(reportArr[index][12] ==1){
+            document.getElementById("selected1").selected = 'selected';
+        }
+        else if(reportArr[index][12] ==2){
+            document.getElementById("selected2").selected = 'selected';
+        }
+        else if(reportArr[index][12] ==3){
+            document.getElementById("selected3").selected = 'selected';
+        }
+        else if(reportArr[index][12] ==4){
+            document.getElementById("selected4").selected = 'selected';
+        }
+        else if(reportArr[index][12] ==5){
+            document.getElementById("selected5").selected = 'selected';
+        }
+        //reportArr[index][12];
+
         $("#dialog").data("kendoDialog").open();
     }
 
@@ -269,7 +312,7 @@
            },
            error: function(){
                 //console.log(data);
-                alert('There was an error in register form');
+                alert('Error creating case');
             }
        });
  }
@@ -293,7 +336,7 @@ function back(){
 
 
 <div id="example">
-	<li>Case summary: 
+	Case summary: 
 	<textarea rows="4" cols="50" id="summary"> </textarea> <br>
     <div id="dialog"></div>
         <button id="createCaseButton" class="k-primary">Create Case</button>       

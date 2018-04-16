@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'system911/viewReports.html', views.viewReports, name='viewReports'),
     url(r'system911/updateReport/', views.updateReport, name='updateReport'),
     url(r'system911/updateReportByAjax/', views.updateReportByAjax, name='updateReportByAjax'),
+    url(r'system911/updateReportByAjax2/', views.updateReportByAjax2, name='updateReportByAjax2'),
 
     url(r'system911/createCases.html', views.createCases, name='createCases'),
 	url(r'system911/viewCases.html', views.viewCases, name='viewCases'),

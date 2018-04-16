@@ -1,115 +1,82 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>Create Report</title>
-
 <style>
 
-body {
-      margin: 0;
-      padding: 0;
-      font:Quickstand;
-}
- 
-nav {
-      position: sticky; /* Safari */
-      top:0;
-      left:0;
-      width: 100%;
-      height:100px;
-      padding:10px 100px;
-      box-sizing: border-box;
-      transition: .3s;
-}
-
-nav.black{
-  background: rgba(0,0,0,0,8);
-  height: 100px;
-  padding: 10px 100px;
-}
-
-nav .logo{
-  padding: 5px 10px;
-  height: 50px;
-  float: left;
-  font-size: 24px;
-  transition: .3s;
-
-
-}
-
-nav.black.logo{
-  color: #fff;
-}
- 
-nav ul {
-      list-style: none;
-      float:right;
-      margin: 0;
-      padding: 0;
-      display: flex;;
-
-}
- 
-nav ul li {
-  list-style: none;
-}
- 
-nav ul li a {
-      line-height: 80px;
-      color:#151515;
-      padding: 12px 30px;
-      text-decoration:none;
-      text-transform: uppercase;
+body  {
+    background: url("/static/css/background1.jpg");
+	background-position: center center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
     }
 
-nav.black ul li a{
-    color: #fff;
-
+.opmenu {
+	width: 200px;
+	height: 300px;
+	padding: 20px;
+	border: 10px ridge black;
+	background-color: white;
+	position: absolute;
+	text-align:center;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
 }
 
-nav ul li a:focus{
-  outline: none;
 
+.logo{
+	padding: 10px;
+	width:150px; 
+	height:150px;
 }
 
-nav ul li a.active{
-  background: #E2472F;
-  color:#fff;
-  border-radius: 6px;
+.vertical-menu {
+    width: 200px;
 }
 
-li a:hover:not(.active) {
-    background-color: #555;
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc;
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50;
     color: white;
 }
-
 </style>
 
-
 <script>
-	function direct(){
-		window.location = "http://127.0.0.1:8000/system911/viewReports.html";
-	}
+function direct(){
+	window.location = "http://127.0.0.1:8000/system911/viewReports.html";
+}
 
-	function logOut(){
-		window.location = "http://127.0.0.1:8000/system911/logout";
-	}
+function logOut(){
+	window.location = "http://127.0.0.1:8000/system911/logout";
+}
 </script>
+<header>
+</header>
 
-</head>
-<body >
-<nav>
-	<div class="logo">
-        <img src="/static/test/911.png"  alt="logo"  style="width:80px; height:80px;" > 
-    </div>
-<div class="menu">
-  <ul>
-	<li><a onclick="direct()">View Reports</a></li>
-	<li><a onclick="logOut()">LogOut</a></li>
-</ul>
+<body>
+<div class=opmenu>
+
+<img src="/static/test/911.png"  alt="logo" align="middle"  class=logo> 
+<div class="vertical-menu">
+  <a href="#" onclick="direct()">View Report</a>
+  <a href="#" onclick="logOut()">LogOut</a>
 </div>
-</nav>
+
+</div>
 
 </body>
+
+
 </html>

@@ -62,8 +62,7 @@ def insertReport(request):
 		casualties = request.POST.get('casualties')	
 		danger = request.POST.get('danger')
 		involve = request.POST.get('involve')
-		emergencyType = request.POST.get('emergencyType')
-		test = dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact, location, happened, casualties, danger, involve, emergencyType)
+		test = dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact, location, happened, casualties, danger, involve)
 	return render(request, 'system911/createReport.html')
 
 def menu(request):
@@ -109,19 +108,30 @@ def updateReportByAjax(request):
 		if request.method == 'POST':
 			data = json.loads(request.body.decode('utf-8'))
 			print(data)
-			#dbupdatecase(str(data["caseId"]), data["summary"], data["cName"])
 			dbupdateReport(str(data["reportId"]),str(data["slevel"]))
 		response_data = {}
 		response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-	#=======????======
+	
+
+def updateReportByAjax2(request):
+
+	if request.is_ajax() : 
+		if request.method == 'POST':
+			data = json.loads(request.body.decode('utf-8'))
+
+			dbupdateReport(str(data["reportId"]),str(data["slevel"]))
+		response_data = {}
+		response_data['message'] = 'success'
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 def data(request):
 
 	return render(request, 'system911/data.html')
 
-	#=============================CASES==========================
+
 def createCases(request):
 	result = dbgetNreports()
 	return render(request, 'system911/createCases.html', {'result' : result})	
@@ -132,10 +142,11 @@ def makecase(request):
 		if request.method == 'POST':
 			data = json.loads(request.body.decode('utf-8'))
 			print(data)
-			createdCaseId = dbcreateCase()
+			createdCaseId = dbcreateCase(str(data["summary"]))
+			print(createdCaseId)
 			for d in data["selectedItems"] : 
-				 if d["reportId"] :
-				 	dbupdateAddToCase(d["reportId"], createdCaseId)
+				 if d["reportid"] :
+				 	dbupdateAddToCase(d["reportid"], createdCaseId)
 			response_data = {}
 			response_data['message'] = 'success'
 	return HttpResponse(json.dumps(response_data), content_type="application/json")

@@ -14,7 +14,7 @@ def dbauthenticate(username,password):
 		return result_set
 
 
-def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact, location, happened, casualties, danger, involve, emergencyType):
+def dbcreateReport(incident,cno, rdate, rtime, coords, callerName, callerContact, location, happened, casualties, danger, involve):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -71,16 +71,17 @@ def dbupdateAddToCase(reportid,caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	query = "update report set caseId != 0, caseid='"+createdCaseId+"' where reportId='"+reportid+"';"
+	query = "update report set caseid='"+caseid+"' where reportId='"+reportid+"';"
+	print(query)
 	cursor.execute(query)
 	connection.commit()
 	connection.close()
 
-def dbcreateCase():
+def dbcreateCase(summary):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	sql ="INSERT INTO casetable(`summary`) VALUES('');"	
+	sql ="INSERT INTO casetable(`summary`) VALUES('"+summary+"');"	
 	cursor.execute(sql)
 	connection.commit()
 	
@@ -94,7 +95,7 @@ def dbgetCases():
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * FROM caseTable")
+	cursor.execute("SELECT * FROM casetable")
 	cases = cursor.fetchall()
 	connection.close()
 	return cases
@@ -103,7 +104,7 @@ def dbgetCase(caseid):
 	s_config = load_s_config()
 	connection= pymysql.connect(s_config["host"], s_config["user"], s_config["password"], s_config["database"], int(s_config["port"]))
 	cursor = connection.cursor(pymysql.cursors.DictCursor)
-	cursor.execute("SELECT * FROM caseTable where caseId ="+caseid)
+	cursor.execute("SELECT * FROM casetable where caseId ="+caseid)
 	cases = cursor.fetchall()
 	connection.close()
 	return cases
